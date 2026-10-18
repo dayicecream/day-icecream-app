@@ -1,0 +1,22 @@
+[server]
+maxUploadSize = 4000
+maxMessageSize = 1000
+runOnSave = true
+headless = true
+enableCORS = false
+enableXsrfProtection = false
+
+[browser]
+gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+showErrorDetails = false
+
+[theme]
+base = "light"
+primaryColor = "#C62828"
+backgroundColor = "#FFFDF9"
+secondaryBackgroundColor = "#FFF8EE"
+textColor = "#2B1810"
+font = "sans serif"

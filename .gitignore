@@ -1,0 +1,28 @@
+# Python & OS cache
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+
+# Runtime tunnel logs & heavy binaries
+tools/cloudflared.exe
+tools/tunnel.log
+tools/active_tunnel.json
+
+# Heavy raw video archives & raw source folders (keep web-optimized promo_gallery/*.mp4)
+vdo/
+ดาวโหลดแอป/
+แบรนเนอร์/
+banners_4k_source/
+banners_4k_main_web_qr/
+ข้อมูล ถ้วยไอศครีม*/
+รสชาติทั้งหมด/
+โลโก้ app 002.jpg
+โลโก้ app 003.jpg
+
+# Keep only the active production 4K banner in banners_4k_real_qr/
+banners_4k_real_qr/*
+!banners_4k_real_qr/Web_banner_4K_011_REAL_QR.jpg
+!banners_4k_real_qr/Web_banner_4K_008_REAL_QR.jpg

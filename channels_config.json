@@ -1,0 +1,41 @@
+{
+  "updated_at": "2026-10-18 13:02:58",
+  "channels": [
+    {
+      "id": "day_story",
+      "icon": "🪙",
+      "name": "DAY STORY",
+      "subtitle": "ชีวประวัติบุคคลระดับโลก & เรื่องเล่าพลิกชีวิต",
+      "description": "เจาะลึกเรื่องจริงของผู้ไม่ยอมแพ้ ชีวประวัติบุคคลสำคัญระดับโลก และเรื่องเล่าเติมพลังชีวิต มาตรฐานภาพยนตร์สารคดี 35mm",
+      "url": "https://www.youtube.com/@DAYSTORY_TH",
+      "button_text": "▶️ เข้าชมและกดติดตามช่อง DAY STORY (@DAYSTORY_TH)",
+      "badge_coming_soon": "⏳ เร็วๆ นี้ (Coming Soon)",
+      "accent_color": "#ef4444",
+      "logo_key": "day_story"
+    },
+    {
+      "id": "day_science",
+      "icon": "🚀",
+      "name": "DAY SCIENCE",
+      "subtitle": "ไขความลับจักรวาล ทะยานสู่อนาคต",
+      "description": "สำรวจอวกาศ ฟิสิกส์ควอนตัม เทคโนโลยีล้ำยุค และความลับของจักรวาล ถ่ายทอดด้วยภาพระดับ IMAX Sci-Fi",
+      "url": "",
+      "button_text": "▶️ เข้าชมและกดติดตามช่อง DAY SCIENCE",
+      "badge_coming_soon": "⏳ เร็วๆ นี้ (Coming Soon)",
+      "accent_color": "#38bdf8",
+      "logo_key": "day_science"
+    },
+    {
+      "id": "day_home_theater",
+      "icon": "🎭",
+      "name": "DAY HOME THEATER",
+      "subtitle": "ละครสั้นคุณธรรมสะท้อนสังคม",
+      "description": "ภาพยนตร์สั้นดราม่าสะท้อนสังคมและชีวิตจริง ถ่ายทอดอารมณ์ลึกซึ้งกินใจด้วยมาตรฐานโรงภาพยนตร์",
+      "url": "",
+      "button_text": "▶️ เข้าชมและกดติดตามช่อง DAY HOME THEATER",
+      "badge_coming_soon": "⏳ เร็วๆ นี้ (Coming Soon)",
+      "accent_color": "#f59e0b",
+      "logo_key": "day_home_theater"
+    }
+  ]
+}
