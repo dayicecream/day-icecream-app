@@ -2116,88 +2116,6 @@ def inject_pwa_head_metadata(pwa_assets: dict[str, str]) -> None:
                     topWin.deferredPrompt = e;
                 }});
             }}
-
-            function getActiveProductionUrl() {{
-                var fallbackUrl = "https://app.dayicecream.com";
-                try {{
-                    if (topWin && topWin.location && topWin.location.href && topWin.location.href.indexOf("about:") !== 0) {{
-                        var h = topWin.location.href.split("#")[0];
-                        if (h.indexOf("trycloudflare.com") === -1) {{
-                            return h;
-                        }}
-                    }}
-                }} catch (err) {{}}
-                return fallbackUrl;
-            }}
-
-            function buildChromeIntentUrl(targetHttpsUrl) {{
-                var clean = (targetHttpsUrl || "https://app.dayicecream.com").replace(/^https?:\\/\\//i, "");
-                var fallbackEnc = encodeURIComponent(targetHttpsUrl || "https://app.dayicecream.com");
-                return "intent://" + clean + "#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=" + fallbackEnc + ";end";
-            }}
-
-            // อัปเดตลิงก์ปุ่มเปิด Chrome ใน Modal ให้ตรงกับ URL ปัจจุบัน (app.dayicecream.com หรือ day-icecream-app.onrender.com)
-            try {{
-                if (topDoc) {{
-                    var activeUrl = getActiveProductionUrl();
-                    var sep = activeUrl.indexOf("?") === -1 ? "?" : "&";
-                    var extUrl = activeUrl.indexOf("openExternalBrowser=1") === -1 ? (activeUrl + sep + "openExternalBrowser=1") : activeUrl;
-                    var intentHref = buildChromeIntentUrl(extUrl);
-                    var intentLinks = topDoc.querySelectorAll(".day-pwa-chrome-intent-link");
-                    for (var idx = 0; idx < intentLinks.length; idx++) {{
-                        intentLinks[idx].setAttribute("href", intentHref);
-                    }}
-                }}
-            }} catch (e) {{}}
-
-            if (topDoc && !topWin.__dayPwaDelegatedClickAttached) {{
-                topWin.__dayPwaDelegatedClickAttached = true;
-                topDoc.addEventListener("click", function(ev) {{
-                    var closeX = ev.target.closest ? ev.target.closest(".day-pizza-close-x") : null;
-                    if (closeX) {{
-                        return;
-                    }}
-                    var modalBox = ev.target.closest ? ev.target.closest(".day-pwa-popup-overlay") : null;
-                    if (modalBox) {{
-                        return;
-                    }}
-                    var directCard = ev.target.closest ? ev.target.closest(".day-pwa-direct-card, .day-pizza-install-btn") : null;
-                    if (directCard) {{
-                        // 1) ถ้ามี deferredPrompt บน Chrome แท้ ให้เด้งหน้าต่างติดตั้งแอป 1 คลิกทันที!
-                        var dp = topWin.deferredPrompt || topWin.__dayDeferredPrompt;
-                        if (dp && typeof dp.prompt === "function") {{
-                            ev.preventDefault();
-                            ev.stopPropagation();
-                            try {{
-                                var chks = topDoc.querySelectorAll(".day-pwa-modal-chk");
-                                for (var c = 0; c < chks.length; c++) {{ chks[c].checked = false; }}
-                                dp.prompt();
-                                dp.userChoice.then(function() {{
-                                    topWin.deferredPrompt = null;
-                                    topWin.__dayDeferredPrompt = null;
-                                }});
-                                return;
-                            }} catch (err) {{}}
-                        }}
-
-                        // 2) ถ้าเปิดผ่าน LINE, Facebook หรือ TikTok บน Android -> สั่ง Redirect ไปเปิดใน Google Chrome แท้อัตโนมัติทันที!
-                        var ua = (topWin.navigator && topWin.navigator.userAgent) ? topWin.navigator.userAgent : "";
-                        var isAndroid = /Android/i.test(ua);
-                        var isInApp = /\\bLine\\/|BytedanceWebview|musical_ly|TikTok|FBAN|FBAV|Instagram|Messenger/i.test(ua);
-                        var curUrl = getActiveProductionUrl();
-                        var sep = curUrl.indexOf("?") === -1 ? "?" : "&";
-                        var extUrl = curUrl.indexOf("openExternalBrowser=1") === -1 ? (curUrl + sep + "openExternalBrowser=1") : curUrl;
-                        var chromeIntent = buildChromeIntentUrl(extUrl);
-
-                        if (isAndroid && isInApp) {{
-                            try {{
-                                topWin.location.href = chromeIntent;
-                            }} catch (err) {{}}
-                        }}
-                        // หมายเหตุ: ไม่ใส่ ev.preventDefault() เพื่อให้ Checkbox Modal เปิดป๊อปอัปคำแนะนำสวยๆ ขึ้นมาพร้อมกันทันที (ไม่นิ่งสนิท 100%)
-                    }}
-                }});
-            }}
         }} catch (e) {{}}
     }})();
     </script>
@@ -2209,76 +2127,352 @@ def inject_pwa_head_metadata(pwa_assets: dict[str, str]) -> None:
 def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> None:
     """
     แสดงแบนเนอร์ 4K ใบชนะเลิศ Web_banner_4K_011_REAL_QR.jpg คู่กับปุ่มกดสีเหลืองทอง
-    พร้อมระบบ Dual-Action:
-    1) ใน Chrome แท้: เด้งหน้าต่างติดตั้งแอป (beforeinstallprompt) ทันที
-    2) ใน LINE / Facebook / TikTok (Android): สั่ง Redirect เข้า Google Chrome แท้ด้วย intent:// อัตโนมัติ
-    3) บน iPhone (iOS) หรือเบราว์เซอร์ที่ยังไม่เด้งอัตโนมัติ: เด้งหน้าต่าง Pop-up สวยๆ ทันที 100% (ไม่มีทางกดแล้วนิ่งสนิท!)
+    พร้อมระบบทำงานในหน้าหลักโดยตรงด้วย st.html(..., unsafe_allow_javascript=True):
+    1) ใน Chrome แท้ที่มี beforeinstallprompt: เด้งหน้าต่างติดตั้งแอป 1 คลิกทันที
+    2) ใน In-App Browser (LINE, Facebook, Messenger, TikTok) บน Android:
+       สั่ง Redirect เด้งออกไปเปิดใน Google Chrome อัตโนมัติทันทีด้วย
+       intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;end
+    3) Fallback สำหรับ iPhone (iOS) หรือกรณีไม่เด้งอัตโนมัติ:
+       ห้ามปล่อยให้กดแล้วนิ่งเด็ดขาด! เด้ง Pop-up Modal สวยๆ กลางจอแจ้งลูกค้าชัดเจนทันที
     """
     _ = pwa_assets
     safe_key = re.sub(r"[^a-zA-Z0-9_]", "_", location_key)
     hero_banner_b64 = get_real_qr_banner_web_b64("011")
-    default_intent_url = (
-        "intent://app.dayicecream.com/?openExternalBrowser=1"
-        "#Intent;scheme=https;package=com.android.chrome;"
-        "S.browser_fallback_url=https%3A%2F%2Fday-icecream-app.onrender.com%2F%3FopenExternalBrowser%3D1;end"
-    )
 
-    render_html(
-        f'<style>'
-        f'.day-pizza-banner-wrap {{ display: block !important; width: 100% !important; height: auto !important; margin-top: 8px !important; margin-bottom: 18px !important; position: relative !important; clear: both !important; z-index: 2 !important; }}'
-        f'.day-pwa-hide-chk:checked ~ .day-pizza-banner-wrap {{ display: none !important; }}'
-        f'.day-pwa-direct-card {{ width: 100% !important; height: auto !important; display: flex !important; flex-direction: column !important; background: linear-gradient(135deg, #7f1017 0%, #b91c1c 48%, #991b1b 100%) !important; color: #ffffff !important; border: 3.5px solid #FFD700 !important; border-radius: 22px !important; padding: 0 !important; cursor: pointer !important; text-align: left !important; box-shadow: 0 12px 30px rgba(185, 28, 28, 0.34) !important; transition: transform 0.16s ease, box-shadow 0.16s ease !important; box-sizing: border-box !important; position: relative !important; overflow: hidden !important; text-decoration: none !important; margin: 0 !important; }}'
-        f'.day-pwa-direct-card:hover {{ transform: translateY(-1px) !important; box-shadow: 0 14px 34px rgba(185, 28, 28, 0.45), 0 0 20px rgba(255, 215, 0, 0.5) !important; }}'
-        f'.day-pizza-close-x {{ position: absolute !important; top: 12px !important; right: 12px !important; width: 32px !important; height: 32px !important; border-radius: 50% !important; background: rgba(0, 0, 0, 0.62) !important; color: #ffffff !important; border: 2px solid #fde047 !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 15px !important; font-weight: 900 !important; line-height: 1 !important; cursor: pointer !important; z-index: 15 !important; transition: all 0.15s ease !important; box-shadow: 0 3px 10px rgba(0,0,0,0.4) !important; }}'
-        f'.day-pizza-close-x:hover {{ background: #ffffff !important; color: #b91c1c !important; transform: scale(1.1) !important; }}'
-        f'.day-4k-img-container {{ width: 100% !important; position: relative !important; display: block !important; line-height: 0 !important; background: #450a0a !important; }}'
-        f'.day-4k-realqr-hero-img {{ width: 100% !important; height: auto !important; display: block !important; object-fit: contain !important; }}'
-        f'.day-4k-bottom-cta-strip {{ width: 100% !important; background: linear-gradient(90deg, #65090e 0%, #991b1b 50%, #65090e 100%) !important; border-top: 2.5px solid #fde047 !important; padding: 10px 16px !important; display: flex !important; align-items: center !important; justify-content: center !important; box-sizing: border-box !important; }}'
-        f'.day-pizza-install-btn {{ display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 8px !important; width: 100% !important; background: linear-gradient(135deg, #fef08a 0%, #facc15 100%) !important; color: #7f1d1d !important; font-size: 15.5px !important; font-weight: 900 !important; padding: 10px 20px !important; border-radius: 999px !important; border: 2px solid #ffffff !important; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important; cursor: pointer !important; text-align: center !important; }}'
-        f'.day-pizza-install-btn:active {{ transform: scale(0.98) !important; }}'
-        f'.day-pwa-popup-overlay {{ display: none !important; position: fixed !important; inset: 0 !important; background: rgba(0, 0, 0, 0.72) !important; z-index: 999999 !important; align-items: center !important; justify-content: center !important; padding: 16px !important; box-sizing: border-box !important; backdrop-filter: blur(3px) !important; }}'
-        f'#day-pwa-chk-{safe_key}:checked ~ .day-pwa-popup-overlay {{ display: flex !important; }}'
-        f'.day-pwa-popup-card {{ background: linear-gradient(145deg, #7f1017 0%, #b91c1c 55%, #991b1b 100%) !important; color: #ffffff !important; border: 3.5px solid #FFD700 !important; border-radius: 24px !important; padding: 20px 18px !important; max-width: 420px !important; width: 100% !important; box-shadow: 0 20px 50px rgba(0,0,0,0.65) !important; text-align: left !important; position: relative !important; box-sizing: border-box !important; }}'
-        f'.day-pwa-chrome-btn {{ display: block !important; width: 100% !important; text-align: center !important; background: linear-gradient(135deg, #fef08a 0%, #facc15 100%) !important; color: #7f1d1d !important; font-weight: 900 !important; font-size: 14.5px !important; padding: 12px 14px !important; border-radius: 999px !important; border: 2px solid #ffffff !important; text-decoration: none !important; box-shadow: 0 6px 16px rgba(0,0,0,0.35) !important; margin-bottom: 12px !important; box-sizing: border-box !important; }}'
-        f'.day-pwa-step-box {{ background: rgba(0, 0, 0, 0.28) !important; border: 1.5px solid rgba(254, 240, 138, 0.55) !important; border-radius: 14px !important; padding: 11px 13px !important; margin-bottom: 10px !important; font-size: 13.2px !important; line-height: 1.5 !important; color: #ffffff !important; }}'
-        f'.day-pwa-close-modal-btn {{ display: block !important; width: 100% !important; text-align: center !important; background: rgba(255,255,255,0.16) !important; color: #fef08a !important; font-weight: 800 !important; font-size: 13.5px !important; padding: 9px 14px !important; border-radius: 999px !important; border: 1.5px solid #fde047 !important; cursor: pointer !important; margin-top: 6px !important; box-sizing: border-box !important; }}'
-        f'@media (max-width: 768px) {{'
-        f'  .day-pizza-banner-wrap {{ margin-top: 6px !important; margin-bottom: 18px !important; height: auto !important; }}'
-        f'  .day-4k-bottom-cta-strip {{ padding: 8px 10px !important; }}'
-        f'  .day-pizza-install-btn {{ font-size: 12.5px !important; padding: 8px 12px !important; width: 100% !important; }}'
-        f'}}'
-        f'</style>'
-        f'<div>'
-        f'<input type="checkbox" id="day-pwa-hide-{safe_key}" class="day-pwa-hide-chk" style="display:none !important;" />'
-        f'<input type="checkbox" id="day-pwa-chk-{safe_key}" class="day-pwa-modal-chk" style="display:none !important;" />'
-        f'<div class="day-pizza-banner-wrap" id="day-pizza-wrap-{safe_key}">'
-        f'<label for="day-pwa-hide-{safe_key}" class="day-pizza-close-x" title="ปิดแถบแบนเนอร์นี้">✕</label>'
-        f'<label for="day-pwa-chk-{safe_key}" class="day-pwa-direct-card" id="day-pwa-card-{safe_key}">'
-        f'<div class="day-4k-img-container">'
-        f'<img class="day-4k-realqr-hero-img" src="data:image/jpeg;base64,{hero_banner_b64}" alt="Day Ice Cream App Banner" />'
-        f'</div>'
-        f'<div class="day-4k-bottom-cta-strip">'
-        f'<span class="day-pizza-install-btn">📲 กดปุ่มนี้เพื่อติดตั้งแอป Day Ice Cream ลงมือถือของคุณลูกค้า (คลิกที่นี่ ❯)</span>'
-        f'</div>'
-        f'</label>'
-        f'</div>'
-        f'<div class="day-pwa-popup-overlay" id="day-pwa-modal-{safe_key}">'
-        f'<div class="day-pwa-popup-card">'
-        f'<div style="font-size:17.5px;font-weight:900;color:#fef08a;text-align:center;margin-bottom:10px;">📲 ติดตั้งแอป Day Ice Cream ลงมือถือ</div>'
-        f'<a href="{default_intent_url}" target="_top" class="day-pwa-chrome-btn day-pwa-chrome-intent-link">🚀 กดปุ่มนี้เพื่อเปิดใน Google Chrome แท้ (Android) ❯</a>'
-        f'<div class="day-pwa-step-box">'
-        f'<div style="color:#fde047;font-weight:800;font-size:13.8px;margin-bottom:3px;">🤖 สำหรับมือถือ Android (เมื่อเปิดผ่าน LINE / Facebook / TikTok):</div>'
-        f'กดปุ่มสีเหลืองด้านบน หรือกด <b>จุด 3 จุดมุมขวาบน (⋮)</b> / มุมขวาล่าง แล้วเลือก <b>&ldquo;เปิดในเบราว์เซอร์เริ่มต้น / Chrome&rdquo;</b> จากนั้นกด <b>&ldquo;เพิ่มลงในหน้าจอหลัก (Install App)&rdquo;</b> ได้เลยครับ!'
-        f'</div>'
-        f'<div class="day-pwa-step-box">'
-        f'<div style="color:#fde047;font-weight:800;font-size:13.8px;margin-bottom:3px;">🍎 สำหรับ iPhone / iPad (Safari):</div>'
-        f'กดปุ่มแชร์ <b>(Share ⬆️)</b> ด้านล่างหน้าจอ แล้วเลือก <b>&ldquo;เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)&rdquo;</b> ได้เลยครับ!'
-        f'</div>'
-        f'<label for="day-pwa-chk-{safe_key}" class="day-pwa-close-modal-btn">✕ ปิดหน้าต่างนี้</label>'
-        f'</div>'
-        f'</div>'
-        f'</div>'
-    )
+    banner_html = f"""
+    <style>
+        .day-pizza-banner-wrap {{
+            display: block !important;
+            width: 100% !important;
+            height: auto !important;
+            margin-top: 8px !important;
+            margin-bottom: 18px !important;
+            position: relative !important;
+            clear: both !important;
+            z-index: 2 !important;
+            font-family: 'Kanit', 'Prompt', sans-serif !important;
+        }}
+        .day-pwa-direct-card {{
+            width: 100% !important;
+            height: auto !important;
+            display: flex !important;
+            flex-direction: column !important;
+            background: linear-gradient(135deg, #7f1017 0%, #b91c1c 48%, #991b1b 100%) !important;
+            color: #ffffff !important;
+            border: 3.5px solid #FFD700 !important;
+            border-radius: 22px !important;
+            padding: 0 !important;
+            cursor: pointer !important;
+            text-align: left !important;
+            box-shadow: 0 12px 30px rgba(185, 28, 28, 0.34) !important;
+            transition: transform 0.16s ease, box-shadow 0.16s ease !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+            overflow: hidden !important;
+            text-decoration: none !important;
+            margin: 0 !important;
+            user-select: none !important;
+        }}
+        .day-pwa-direct-card:hover {{
+            transform: translateY(-1px) !important;
+            box-shadow: 0 14px 34px rgba(185, 28, 28, 0.45), 0 0 20px rgba(255, 215, 0, 0.5) !important;
+        }}
+        .day-pizza-close-x {{
+            position: absolute !important;
+            top: 12px !important;
+            right: 12px !important;
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 50% !important;
+            background: rgba(0, 0, 0, 0.62) !important;
+            color: #ffffff !important;
+            border: 2px solid #fde047 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 15px !important;
+            font-weight: 900 !important;
+            line-height: 1 !important;
+            cursor: pointer !important;
+            z-index: 15 !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.4) !important;
+        }}
+        .day-pizza-close-x:hover {{
+            background: #ffffff !important;
+            color: #b91c1c !important;
+            transform: scale(1.1) !important;
+        }}
+        .day-4k-img-container {{
+            width: 100% !important;
+            position: relative !important;
+            display: block !important;
+            line-height: 0 !important;
+            background: #450a0a !important;
+        }}
+        .day-4k-realqr-hero-img {{
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            object-fit: contain !important;
+        }}
+        .day-4k-bottom-cta-strip {{
+            width: 100% !important;
+            background: linear-gradient(90deg, #65090e 0%, #991b1b 50%, #65090e 100%) !important;
+            border-top: 2.5px solid #fde047 !important;
+            padding: 10px 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }}
+        .day-pizza-install-btn {{
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            background: linear-gradient(135deg, #fef08a 0%, #facc15 100%) !important;
+            color: #7f1d1d !important;
+            font-size: 15.5px !important;
+            font-weight: 900 !important;
+            padding: 10px 20px !important;
+            border-radius: 999px !important;
+            border: 2px solid #ffffff !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28) !important;
+            cursor: pointer !important;
+            text-align: center !important;
+        }}
+        .day-pizza-install-btn:active {{
+            transform: scale(0.98) !important;
+        }}
+        .day-pwa-popup-overlay {{
+            display: none;
+            position: fixed !important;
+            inset: 0 !important;
+            background: rgba(0, 0, 0, 0.78) !important;
+            z-index: 999999 !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 16px !important;
+            box-sizing: border-box !important;
+            backdrop-filter: blur(4px) !important;
+            font-family: 'Kanit', 'Prompt', sans-serif !important;
+        }}
+        .day-pwa-popup-card {{
+            background: linear-gradient(145deg, #7f1017 0%, #b91c1c 55%, #991b1b 100%) !important;
+            color: #ffffff !important;
+            border: 3.5px solid #FFD700 !important;
+            border-radius: 24px !important;
+            padding: 22px 18px !important;
+            max-width: 440px !important;
+            width: 100% !important;
+            box-shadow: 0 22px 55px rgba(0,0,0,0.75) !important;
+            text-align: left !important;
+            position: relative !important;
+            box-sizing: border-box !important;
+        }}
+        .day-pwa-alert-highlight {{
+            background: #fffbeb !important;
+            color: #7f1d1d !important;
+            border: 2.5px solid #f59e0b !important;
+            border-radius: 16px !important;
+            padding: 14px 14px !important;
+            margin-bottom: 12px !important;
+            font-size: 14.5px !important;
+            font-weight: 800 !important;
+            line-height: 1.55 !important;
+            text-align: center !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.25) !important;
+        }}
+        .day-pwa-chrome-btn {{
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            background: linear-gradient(135deg, #fef08a 0%, #facc15 100%) !important;
+            color: #7f1d1d !important;
+            font-weight: 900 !important;
+            font-size: 14.5px !important;
+            padding: 12px 14px !important;
+            border-radius: 999px !important;
+            border: 2px solid #ffffff !important;
+            text-decoration: none !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.35) !important;
+            margin-bottom: 12px !important;
+            box-sizing: border-box !important;
+            cursor: pointer !important;
+        }}
+        .day-pwa-step-box {{
+            background: rgba(0, 0, 0, 0.30) !important;
+            border: 1.5px solid rgba(254, 240, 138, 0.55) !important;
+            border-radius: 14px !important;
+            padding: 11px 13px !important;
+            margin-bottom: 10px !important;
+            font-size: 13.2px !important;
+            line-height: 1.5 !important;
+            color: #ffffff !important;
+        }}
+        .day-pwa-close-modal-btn {{
+            display: block !important;
+            width: 100% !important;
+            text-align: center !important;
+            background: rgba(255,255,255,0.18) !important;
+            color: #fef08a !important;
+            font-weight: 800 !important;
+            font-size: 14px !important;
+            padding: 10px 14px !important;
+            border-radius: 999px !important;
+            border: 1.5px solid #fde047 !important;
+            cursor: pointer !important;
+            margin-top: 6px !important;
+            box-sizing: border-box !important;
+        }}
+        @media (max-width: 768px) {{
+            .day-pizza-banner-wrap {{ margin-top: 6px !important; margin-bottom: 18px !important; height: auto !important; }}
+            .day-4k-bottom-cta-strip {{ padding: 8px 10px !important; }}
+            .day-pizza-install-btn {{ font-size: 12.5px !important; padding: 8px 12px !important; width: 100% !important; }}
+        }}
+    </style>
+
+    <div class="day-pizza-banner-wrap" id="day-pizza-wrap-{safe_key}">
+        <button type="button" class="day-pizza-close-x" id="day-pwa-hide-btn-{safe_key}" title="ปิดแถบแบนเนอร์นี้">✕</button>
+        <div class="day-pwa-direct-card" id="day-pwa-card-{safe_key}" role="button" tabindex="0">
+            <div class="day-4k-img-container">
+                <img class="day-4k-realqr-hero-img" src="data:image/jpeg;base64,{hero_banner_b64}" alt="Day Ice Cream App Banner" />
+            </div>
+            <div class="day-4k-bottom-cta-strip">
+                <span class="day-pizza-install-btn" id="day-pwa-btn-{safe_key}">📲 กดปุ่มนี้เพื่อติดตั้งแอป Day Ice Cream ลงมือถือของคุณลูกค้า (คลิกที่นี่ ❯)</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="day-pwa-popup-overlay" id="day-pwa-modal-{safe_key}">
+        <div class="day-pwa-popup-card" id="day-pwa-modal-card-{safe_key}">
+            <div style="font-size:18px;font-weight:900;color:#fef08a;text-align:center;margin-bottom:10px;">
+                📲 ติดตั้งแอป Day Ice Cream ลงมือถือ
+            </div>
+            <div class="day-pwa-alert-highlight">
+                กรุณากดปุ่ม จุด 3 จุด (⋮) มุมขวาล่าง แล้วเลือก 'เปิดในเบราว์เซอร์เริ่มต้น (Open in default browser)' เพื่อติดตั้งแอปลงหน้าจอมือถือครับ
+            </div>
+            <a href="https://app.dayicecream.com" id="day-pwa-chrome-link-{safe_key}" class="day-pwa-chrome-btn">
+                🚀 กดปุ่มนี้เพื่อเปิดในแอป Google Chrome ทันที (Android) ❯
+            </a>
+            <div class="day-pwa-step-box">
+                <div style="color:#fde047;font-weight:800;font-size:13.8px;margin-bottom:3px;">🍎 สำหรับ iPhone / iPad (iOS):</div>
+                เมื่อเปิดใน Safari แล้ว ให้กดปุ่มแชร์ <b>(Share ⬆️)</b> ด้านล่างหน้าจอ แล้วเลือก <b>&ldquo;เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)&rdquo;</b> ได้เลยครับ!
+            </div>
+            <button type="button" class="day-pwa-close-modal-btn" id="day-pwa-close-modal-{safe_key}">✕ ปิดหน้าต่างนี้</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {{
+            var wrapEl = document.getElementById("day-pizza-wrap-{safe_key}");
+            var cardEl = document.getElementById("day-pwa-card-{safe_key}");
+            var hideBtnEl = document.getElementById("day-pwa-hide-btn-{safe_key}");
+            var modalEl = document.getElementById("day-pwa-modal-{safe_key}");
+            var modalCardEl = document.getElementById("day-pwa-modal-card-{safe_key}");
+            var closeModalBtnEl = document.getElementById("day-pwa-close-modal-{safe_key}");
+            var chromeLinkEl = document.getElementById("day-pwa-chrome-link-{safe_key}");
+
+            if (!window.__dayPwaPromptListenerAttached) {{
+                window.__dayPwaPromptListenerAttached = true;
+                window.addEventListener("beforeinstallprompt", function(e) {{
+                    e.preventDefault();
+                    window.__dayDeferredPrompt = e;
+                    window.deferredPrompt = e;
+                }});
+            }}
+
+            var hostAndPath = (window.location.host || "app.dayicecream.com") + (window.location.pathname || "/");
+            var chromeIntentUrl = "intent://" + hostAndPath + "#Intent;scheme=https;package=com.android.chrome;end";
+
+            if (chromeLinkEl) {{
+                chromeLinkEl.setAttribute("href", chromeIntentUrl);
+            }}
+
+            if (hideBtnEl && wrapEl) {{
+                hideBtnEl.addEventListener("click", function(ev) {{
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    wrapEl.style.display = "none";
+                }});
+            }}
+
+            function openFallbackModal() {{
+                var fallbackMsg = "กรุณากดปุ่ม จุด 3 จุด (⋮) มุมขวาล่าง แล้วเลือก 'เปิดในเบราว์เซอร์เริ่มต้น (Open in default browser)' เพื่อติดตั้งแอปลงหน้าจอมือถือครับ";
+                if (modalEl) {{
+                    modalEl.style.display = "flex";
+                }} else {{
+                    window.alert(fallbackMsg);
+                }}
+            }}
+
+            if (closeModalBtnEl && modalEl) {{
+                closeModalBtnEl.addEventListener("click", function(ev) {{
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    modalEl.style.display = "none";
+                }});
+            }}
+
+            if (modalEl) {{
+                modalEl.addEventListener("click", function(ev) {{
+                    if (ev.target === modalEl) {{
+                        modalEl.style.display = "none";
+                    }}
+                }});
+            }}
+
+            if (modalCardEl) {{
+                modalCardEl.addEventListener("click", function(ev) {{
+                    ev.stopPropagation();
+                }});
+            }}
+
+            if (cardEl) {{
+                cardEl.addEventListener("click", function(ev) {{
+                    ev.preventDefault();
+                    ev.stopPropagation();
+
+                    // 1) ถ้าเปิดใน Chrome แท้และมี beforeinstallprompt ให้เด้งหน้าต่างติดตั้งแอปทันที
+                    var dp = window.deferredPrompt || window.__dayDeferredPrompt;
+                    if (dp && typeof dp.prompt === "function") {{
+                        try {{
+                            dp.prompt();
+                            dp.userChoice.then(function() {{
+                                window.deferredPrompt = null;
+                                window.__dayDeferredPrompt = null;
+                            }});
+                            return;
+                        }} catch (err) {{}}
+                    }}
+
+                    // 2) ตรวจจับ In-App Browser (LINE, Facebook, Messenger, TikTok) บน Android
+                    var ua = navigator.userAgent || "";
+                    var isAndroid = (new RegExp("Android", "i")).test(ua);
+                    var isInApp = (new RegExp("Line/|FBAN|FBAV|FB_IAB|Messenger|Instagram|TikTok|BytedanceWebview|musical_ly", "i")).test(ua);
+                    var targetIntent = "intent://" + window.location.host + window.location.pathname + "#Intent;scheme=https;package=com.android.chrome;end";
+
+                    if (isAndroid && isInApp) {{
+                        try {{
+                            window.location.href = targetIntent;
+                        }} catch (err) {{}}
+                        setTimeout(function() {{
+                            openFallbackModal();
+                        }}, 450);
+                        return;
+                    }}
+
+                    // 3) Fallback สำหรับ iPhone (iOS) หรือกรณีไม่เด้งอัตโนมัติ: ห้ามปล่อยให้นิ่งสนิท!
+                    openFallbackModal();
+                }});
+            }}
+        }})();
+    </script>
+    """
+    st.html(banner_html, unsafe_allow_javascript=True)
+
 
 
 # ==============================================================================
