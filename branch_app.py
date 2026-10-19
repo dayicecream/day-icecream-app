@@ -6592,9 +6592,6 @@ elif current_page == "order_home":
         vip_payload=vip_js_payload,
     )
 
-    # 📲 จุดที่ 2 (ก): ด้านล่างสุดของหน้าสั่งซื้อไอศกรีม (ใกล้ปุ่มสมาชิก VIP)
-    render_pwa_install_banner("order_vip_bottom", PWA_ASSETS)
-
 
 # ==============================================================================
 # PAGE 3: 💰 3. สมัครแฟรนไชส์กำไร 100% (เครื่องคิดเลขคำนวณกำไร & คืนค่ามัดจำ 100%)
@@ -7208,10 +7205,9 @@ elif current_page == "michelin_studio":
 
 
 # ==============================================================================
-# CLEAN BRAND FOOTER + PWA INSTALL BANNER (จุดที่ 2: ส่วนท้ายเว็บไซต์)
+# CLEAN BRAND FOOTER
 # ==============================================================================
 st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
-render_pwa_install_banner("footer_bottom", PWA_ASSETS)
 
 render_html(
     """
