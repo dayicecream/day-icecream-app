@@ -488,31 +488,6 @@ def ensure_pwa_app_icons(icon_version: str = "v005_direct") -> dict[str, str]:
     manifest_json_bytes = json.dumps(manifest_obj, ensure_ascii=False).encode("utf-8")
     manifest_b64 = base64.b64encode(manifest_json_bytes).decode("utf-8")
 
-    iphone_mockup_path = ASSETS_DIR / "iphone_day_app_mockup.png"
-    qr_004_path = ASSETS_DIR / "qr_app_004.png"
-    makewebeasy_banner_path = APP_DIR / "MAKEWEBEASY_APP_BANNER.png"
-    if not iphone_mockup_path.exists() or not qr_004_path.exists() or not makewebeasy_banner_path.exists():
-        try:
-            from generate_makewebeasy_banner import build_makewebeasy_pizza_style_banner
-
-            build_makewebeasy_pizza_style_banner(
-                target_url="https://app.dayicecream.com",
-                save_path=makewebeasy_banner_path,
-            )
-        except Exception:
-            pass
-
-    iphone_mockup_b64 = (
-        base64.b64encode(iphone_mockup_path.read_bytes()).decode("utf-8")
-        if iphone_mockup_path.exists()
-        else (icon_512_b64 or square_192_b64)
-    )
-    qr_app_004_b64 = (
-        base64.b64encode(qr_004_path.read_bytes()).decode("utf-8")
-        if qr_004_path.exists()
-        else ""
-    )
-
     return {
         "logo_png_b64": icon_512_b64 or square_192_b64,
         "icon_512_b64": icon_512_b64 or square_192_b64,
@@ -520,8 +495,8 @@ def ensure_pwa_app_icons(icon_version: str = "v005_direct") -> dict[str, str]:
         "icon_ico_b64": icon_ico_b64,
         "square_192_b64": square_192_b64,
         "manifest_b64": manifest_b64,
-        "iphone_mockup_b64": iphone_mockup_b64,
-        "qr_app_004_b64": qr_app_004_b64,
+        "iphone_mockup_b64": icon_512_b64 or square_192_b64,
+        "qr_app_004_b64": "",
     }
 
 
@@ -532,22 +507,41 @@ REAL_QR_4K_WWW_DIR = REAL_QR_4K_DIR / "www"
 REAL_QR_WEB_1080P_DIR = REAL_QR_4K_DIR / "web_1080p"
 
 
-@st.cache_data(show_spinner=False)
-def get_real_qr_banner_web_b64(banner_num: str = "011", ver: str = "v2_real_qr") -> str:
+@st.cache_data(max_entries=4, show_spinner=False)
+def get_real_qr_banner_web_b64(banner_num: str = "011", ver: str = "v3_web_fast") -> str:
     """
-    โหลดภาพแบนเนอร์ 4K ที่แปะ QR Code จริงสแกนติด 100% (รุ่นย่อ 1920x1072 สำหรับแสดงผลบนหน้าเว็บอย่างรวดเร็ว)
+    โหลดภาพแบนเนอร์ 4K ที่แปะ QR Code จริงสแกนติด 100% (ย่อขนาด Web HD 1280x714 ~160 KB
+    เพื่อให้โหลดผ่านมือถือ 4G/5G และ TikTok/Facebook เร็วภายในเสี้ยววินาที และไม่กิน RAM เซิร์ฟเวอร์)
     """
     _ = ver
     b_num = banner_num.strip().zfill(3)
+    REAL_QR_WEB_1080P_DIR.mkdir(parents=True, exist_ok=True)
+    fast_web_p = REAL_QR_WEB_1080P_DIR / f"Web_banner_fast_{b_num}_REAL_QR.jpg"
+    if fast_web_p.exists():
+        return base64.b64encode(fast_web_p.read_bytes()).decode("utf-8")
+
     web_p = REAL_QR_WEB_1080P_DIR / f"Web_banner_4K_{b_num}_REAL_QR.jpg"
     full_p = REAL_QR_4K_DIR / f"Web_banner_4K_{b_num}_REAL_QR.jpg"
     target_p = web_p if web_p.exists() else full_p
     if target_p.exists():
-        return base64.b64encode(target_p.read_bytes()).decode("utf-8")
+        try:
+            with Image.open(target_p) as im:
+                rgb = im.convert("RGB")
+                rgb.thumbnail((1280, 714), Image.Resampling.LANCZOS)
+                buf = io.BytesIO()
+                rgb.save(buf, format="JPEG", quality=84, optimize=True)
+                raw_jpg = buf.getvalue()
+            try:
+                fast_web_p.write_bytes(raw_jpg)
+            except Exception:
+                pass
+            return base64.b64encode(raw_jpg).decode("utf-8")
+        except Exception:
+            return base64.b64encode(target_p.read_bytes()).decode("utf-8")
     return ""
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(max_entries=2, show_spinner=False)
 def get_real_qr_banner_4k_bytes(banner_num: str = "011", domain_mode: str = "app") -> bytes:
     """
     โหลดไฟล์ภาพแบนเนอร์ 4K ต้นฉบับความละเอียดสูง (5504 x 3072 px) ที่แปะ QR Code จริงแล้ว
@@ -571,7 +565,7 @@ def get_real_qr_banner_4k_bytes(banner_num: str = "011", domain_mode: str = "app
     return b""
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(max_entries=1, show_spinner=False)
 def get_makewebeasy_banner_bytes(banner_ver: str = "v004_pizza") -> bytes:
     """
     โหลดหรือสร้างไฟล์แบนเนอร์แนวยาว MAKEWEBEASY_APP_BANNER.png (1920 x 450 px)
@@ -592,7 +586,7 @@ def get_makewebeasy_banner_bytes(banner_ver: str = "v004_pizza") -> bytes:
         return b""
 
 
-@st.cache_data(show_spinner=False)
+@st.cache_data(max_entries=2, show_spinner=False)
 def get_printable_a4_poster_bytes(
     target_url: str = "https://app.dayicecream.com",
     force_regenerate: bool = False,
@@ -1367,15 +1361,27 @@ def parse_kml_bytes(raw_bytes: bytes) -> list[dict]:
     return branches
 
 
-@st.cache_data(ttl=900, show_spinner=False)
-def load_branches_live() -> tuple[list[dict], str]:
+@st.cache_data(ttl=1800, max_entries=2, show_spinner=False)
+def load_branches_live(force_refresh: bool = False) -> tuple[list[dict], str]:
     APP_DIR.mkdir(parents=True, exist_ok=True)
+    if not force_refresh and BRANCHES_CACHE_PATH.exists():
+        try:
+            cached = json.loads(BRANCHES_CACHE_PATH.read_text(encoding="utf-8"))
+            cached_branches = cached.get("branches", [])
+            if cached_branches:
+                return (
+                    cached_branches,
+                    f"ข้อมูลล่าสุด ({cached.get('synced_at', '-')})",
+                )
+        except Exception:
+            pass
+
     try:
         req = urllib.request.Request(
             GOOGLE_MY_MAPS_KML_URL,
             headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"},
         )
-        with urllib.request.urlopen(req, timeout=12) as resp:
+        with urllib.request.urlopen(req, timeout=10) as resp:
             raw_bytes = resp.read()
         branches = parse_kml_bytes(raw_bytes)
         if branches:
@@ -1443,6 +1449,7 @@ def detect_approx_location_ip() -> tuple[float, float, str]:
 # ==============================================================================
 # THAILAND BRANCH MAP BUILDER (FOCUSED ON THAILAND: [13.75, 100.52], zoom_start=6)
 # ==============================================================================
+@st.cache_data(ttl=900, max_entries=6, show_spinner=False)
 def build_thailand_branch_map(
     branches: list[dict],
     ref_lat: float,
@@ -1472,6 +1479,12 @@ def build_thailand_branch_map(
         control_scale=True,
     )
 
+    fmap.get_root().header.add_child(
+        folium.Element(
+            f"<script>window.DAY_PIN_URI_JS = {json.dumps(pin_public_uri)}; window.DAY_PIN_INT_URI_JS = {json.dumps(pin_internal_uri or pin_public_uri)};</script>"
+        )
+    )
+
     for b in branches:
         is_int = b.get("is_internal", False)
         status_badge = (
@@ -1494,10 +1507,11 @@ def build_thailand_branch_map(
         if len(desc_text) > 220:
             desc_text = desc_text[:220] + "..."
 
+        pin_cls = "day-pin-int" if is_int else "day-pin-pub"
         popup_html = f"""
         <div style="font-family:'Prompt','Kanit',sans-serif;min-width:250px;max-width:310px;padding:6px;color:#2B1810;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
-                <img src="{pin_internal_uri if is_int else pin_public_uri}" style="width:34px;height:34px;flex-shrink:0;" />
+                <span class="day-map-pin-badge {pin_cls}"></span>
                 <div>{status_badge}</div>
             </div>
             <div style="font-size:15px;font-weight:800;color:#b71c1c;line-height:1.35;">{b['name']}</div>
@@ -1515,7 +1529,11 @@ def build_thailand_branch_map(
         icon_uri = pin_internal_uri if is_int else pin_public_uri
         if icon_uri:
             marker_icon = folium.CustomIcon(
-                icon_image=icon_uri,
+                icon_image=(
+                    "data:image/png;base64,__DAY_PIN_INT__"
+                    if is_int
+                    else "data:image/png;base64,__DAY_PIN_PUB__"
+                ),
                 icon_size=(40, 40),
                 icon_anchor=(20, 20),
                 popup_anchor=(0, -18),
@@ -1548,6 +1566,21 @@ def build_thailand_branch_map(
     header_and_gps_overlay = f"""
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Prompt:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        .day-map-pin-badge {{
+            display: inline-block;
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }}
+        .day-pin-pub {{
+            background-image: url("{pin_public_uri}");
+        }}
+        .day-pin-int {{
+            background-image: url("{pin_internal_uri or pin_public_uri}");
+        }}
         .day-map-topbar {{
             font-family: 'Prompt', 'Kanit', sans-serif;
             background: linear-gradient(135deg, #d32f2f 0%, #e53935 55%, #ff5252 100%);
@@ -1626,7 +1659,7 @@ def build_thailand_branch_map(
 
     <script>
         const ALL_BRANCHES_JS = {branches_js_data};
-        const DAY_PIN_URI_JS = "{pin_public_uri}";
+        const DAY_PIN_URI_JS = window.DAY_PIN_URI_JS;
         let userMarkerLayer = null;
         let lineLayer = null;
         let nearestCircleLayer = null;
@@ -1738,7 +1771,14 @@ def build_thailand_branch_map(
     </script>
     """
     fmap.get_root().html.add_child(folium.Element(header_and_gps_overlay))
-    return fmap.get_root().render()
+    rendered_html = fmap.get_root().render()
+    rendered_html = rendered_html.replace(
+        '"data:image/png;base64,__DAY_PIN_PUB__"', "window.DAY_PIN_URI_JS"
+    )
+    rendered_html = rendered_html.replace(
+        '"data:image/png;base64,__DAY_PIN_INT__"', "window.DAY_PIN_INT_URI_JS"
+    )
+    return rendered_html
 
 
 VIP_CSV_HEADERS = [
@@ -3141,81 +3181,88 @@ with st.sidebar:
         on_change=_on_sb_change_4k_banner,
     )
 
-    sb_4k_app_bytes = get_real_qr_banner_4k_bytes(chosen_sb_bnum, "app")
-    sb_4k_www_bytes = get_real_qr_banner_4k_bytes(chosen_sb_bnum, "www")
-    if sb_4k_app_bytes:
-        st.image(
-            sb_4k_app_bytes,
-            caption=f"🎯 แบนเนอร์ 4K ปัจจุบัน: Web_banner_4K_{chosen_sb_bnum}_REAL_QR.jpg (5504x3072 px)",
-            use_container_width=True,
-        )
-        st.download_button(
-            label=f"📥 ดาวน์โหลด 4K #{chosen_sb_bnum} (ชี้ไป app.dayicecream.com)",
-            data=sb_4k_app_bytes,
-            file_name=f"Web_banner_4K_{chosen_sb_bnum}_REAL_QR.jpg",
-            mime="image/jpeg",
-            use_container_width=True,
-            type="primary",
-            key=f"sb_dl_4k_app_{chosen_sb_bnum}",
-        )
-    if sb_4k_www_bytes:
-        st.download_button(
-            label=f"📥 ดาวน์โหลด 4K #{chosen_sb_bnum} (ชี้ไป www.dayicecream.com)",
-            data=sb_4k_www_bytes,
-            file_name=f"Web_banner_4K_{chosen_sb_bnum}_MAIN_WEB_QR.jpg",
-            mime="image/jpeg",
-            use_container_width=True,
-            key=f"sb_dl_4k_www_{chosen_sb_bnum}",
-        )
-
-    st.markdown("---")
-
-    # 0.25 ป้ายโปสเตอร์ QR Code ขนาด A4 (2480x3508 px, 300 DPI) สำหรับปริ้นท์ตั้งที่โรงงาน/หน้าร้าน
-    st.markdown("### 🖨️ ป้าย QR Code สำหรับปริ้นท์ตั้งหน้าร้าน (A4 300 DPI)")
-    poster_app_bytes = get_printable_a4_poster_bytes("https://app.dayicecream.com")
-    poster_www_bytes = get_printable_a4_poster_bytes("https://www.dayicecream.com")
-    if poster_app_bytes:
-        st.download_button(
-            label="📥 ดาวน์โหลดป้าย A4 300 DPI (app.dayicecream.com)",
-            data=poster_app_bytes,
-            file_name="QR_CODE_POSTER_FOR_PRINT.png",
-            mime="image/png",
-            use_container_width=True,
-            type="primary",
-            key="sb_dl_poster_app",
-        )
-    if poster_www_bytes:
-        st.download_button(
-            label="📥 ดาวน์โหลดป้าย A4 300 DPI (www.dayicecream.com)",
-            data=poster_www_bytes,
-            file_name="QR_CODE_POSTER_WWW_FOR_PRINT.png",
-            mime="image/png",
-            use_container_width=True,
-            key="sb_dl_poster_www",
-        )
-    with st.expander("🖼️ ดูตัวอย่างป้ายโปสเตอร์ A4 / กำหนดลิงก์ QR Code เอง", expanded=False):
-        custom_poster_url = st.text_input(
-            "🔗 ลิงก์ที่ต้องการฝังใน QR Code บนโปสเตอร์ A4:",
-            value=active_public_url if active_public_url else "https://app.dayicecream.com",
-            key="sb_custom_poster_url",
-        )
-        custom_poster_bytes = get_printable_a4_poster_bytes(
-            custom_poster_url.strip() or "https://app.dayicecream.com"
-        )
-        if custom_poster_bytes:
+    enable_heavy_print_dl = st.toggle(
+        "🖨️ เปิดโหลดไฟล์ต้นฉบับ 4K & โปสเตอร์ A4 300 DPI (สำหรับพี่เดย์)",
+        value=False,
+        key="sb_enable_heavy_print_dl",
+        help="ปิดไว้เป็นค่าเริ่มต้นเพื่อให้เว็บลูกค้าโหลดเร็วภายใน 1 วินาทีและประหยัด RAM เซิร์ฟเวอร์ เมื่อพี่เดย์ต้องการโหลดไฟล์ไปปริ้นท์ให้เปิดสวิตช์นี้ครับ",
+    )
+    if enable_heavy_print_dl:
+        sb_4k_app_bytes = get_real_qr_banner_4k_bytes(chosen_sb_bnum, "app")
+        sb_4k_www_bytes = get_real_qr_banner_4k_bytes(chosen_sb_bnum, "www")
+        if sb_4k_app_bytes:
             st.image(
-                custom_poster_bytes,
-                caption="🖨️ ตัวอย่างป้ายโปสเตอร์ขนาด A4 แนวตั้ง (2480 x 3508 px • 300 DPI)",
+                sb_4k_app_bytes,
+                caption=f"🎯 แบนเนอร์ 4K ปัจจุบัน: Web_banner_4K_{chosen_sb_bnum}_REAL_QR.jpg (5504x3072 px)",
                 use_container_width=True,
             )
             st.download_button(
-                label="📥 ดาวน์โหลดป้าย A4 ตามลิงก์ด้านบน (.png)",
-                data=custom_poster_bytes,
-                file_name="DAY_ICECREAM_A4_STANDEE_POSTER.png",
+                label=f"📥 ดาวน์โหลด 4K #{chosen_sb_bnum} (ชี้ไป app.dayicecream.com)",
+                data=sb_4k_app_bytes,
+                file_name=f"Web_banner_4K_{chosen_sb_bnum}_REAL_QR.jpg",
+                mime="image/jpeg",
+                use_container_width=True,
+                type="primary",
+                key=f"sb_dl_4k_app_{chosen_sb_bnum}",
+            )
+        if sb_4k_www_bytes:
+            st.download_button(
+                label=f"📥 ดาวน์โหลด 4K #{chosen_sb_bnum} (ชี้ไป www.dayicecream.com)",
+                data=sb_4k_www_bytes,
+                file_name=f"Web_banner_4K_{chosen_sb_bnum}_MAIN_WEB_QR.jpg",
+                mime="image/jpeg",
+                use_container_width=True,
+                key=f"sb_dl_4k_www_{chosen_sb_bnum}",
+            )
+
+        st.markdown("---")
+
+        # 0.25 ป้ายโปสเตอร์ QR Code ขนาด A4 (2480x3508 px, 300 DPI) สำหรับปริ้นท์ตั้งที่โรงงาน/หน้าร้าน
+        st.markdown("### 🖨️ ป้าย QR Code สำหรับปริ้นท์ตั้งหน้าร้าน (A4 300 DPI)")
+        poster_app_bytes = get_printable_a4_poster_bytes("https://app.dayicecream.com")
+        poster_www_bytes = get_printable_a4_poster_bytes("https://www.dayicecream.com")
+        if poster_app_bytes:
+            st.download_button(
+                label="📥 ดาวน์โหลดป้าย A4 300 DPI (app.dayicecream.com)",
+                data=poster_app_bytes,
+                file_name="QR_CODE_POSTER_FOR_PRINT.png",
                 mime="image/png",
                 use_container_width=True,
-                key="sb_dl_poster_custom",
+                type="primary",
+                key="sb_dl_poster_app",
             )
+        if poster_www_bytes:
+            st.download_button(
+                label="📥 ดาวน์โหลดป้าย A4 300 DPI (www.dayicecream.com)",
+                data=poster_www_bytes,
+                file_name="QR_CODE_POSTER_WWW_FOR_PRINT.png",
+                mime="image/png",
+                use_container_width=True,
+                key="sb_dl_poster_www",
+            )
+        with st.expander("🖼️ ดูตัวอย่างป้ายโปสเตอร์ A4 / กำหนดลิงก์ QR Code เอง", expanded=False):
+            custom_poster_url = st.text_input(
+                "🔗 ลิงก์ที่ต้องการฝังใน QR Code บนโปสเตอร์ A4:",
+                value=active_public_url if active_public_url else "https://app.dayicecream.com",
+                key="sb_custom_poster_url",
+            )
+            custom_poster_bytes = get_printable_a4_poster_bytes(
+                custom_poster_url.strip() or "https://app.dayicecream.com"
+            )
+            if custom_poster_bytes:
+                st.image(
+                    custom_poster_bytes,
+                    caption="🖨️ ตัวอย่างป้ายโปสเตอร์ขนาด A4 แนวตั้ง (2480 x 3508 px • 300 DPI)",
+                    use_container_width=True,
+                )
+                st.download_button(
+                    label="📥 ดาวน์โหลดป้าย A4 ตามลิงก์ด้านบน (.png)",
+                    data=custom_poster_bytes,
+                    file_name="DAY_ICECREAM_A4_STANDEE_POSTER.png",
+                    mime="image/png",
+                    use_container_width=True,
+                    key="sb_dl_poster_custom",
+                )
 
     st.markdown("---")
 
@@ -3481,6 +3528,8 @@ with st.sidebar:
     with col_sync2:
         if st.button("🔄 อัปเดตสาขา", use_container_width=True):
             load_branches_live.clear()
+            all_branches, branches_sync_status = load_branches_live(force_refresh=True)
+            build_thailand_branch_map.clear()
             st.toast("✅ อัปเดตข้อมูลสาขาล่าสุดเรียบร้อย!", icon="📍")
             st.rerun()
 
@@ -4212,12 +4261,12 @@ else:
 # ==============================================================================
 # 🎠 1. AUTO-SLIDING HERO CAROUSEL (SWENSEN'S STYLE • 3 ภาพคมชัดเต็มจอ ไร้ตัวหนังสือบังรูป!)
 # ==============================================================================
-@st.cache_data(show_spinner=False)
+@st.cache_data(max_entries=1, show_spinner=False)
 def prepare_and_load_hero_slides_3cups() -> list[dict]:
     """
     นำไฟล์ภาพ 3 ถ้วยซิกเนเจอร์ที่คมชัดที่สุด 3 ภาพ (150.jpg, 200.jpg, 100.jpg)
-    ครอปขอบซ้าย-ขวาที่ว่างเปล่าออกเล็กน้อยให้ได้สัดส่วน 16:10 (1280x800) เพื่อให้ถ้วยไอศกรีมทั้ง 3 ถ้วย
-    ขยายใหญ่เต็มจอมือถือ ดูน่ากินสุดๆ และลบสไลด์ใบที่ 4 (250.jpg / slide_4.jpg) ออกถาวร
+    ครอปขอบซ้าย-ขวาที่ว่างเปล่าออกเล็กน้อยให้ได้สัดส่วน 16:10 (1120x700) เพื่อให้ถ้วยไอศกรีมทั้ง 3 ถ้วย
+    ขยายใหญ่เต็มจอมือถือ ดูน่ากินสุดๆ โหลดไวภายในเสี้ยววินาที และลบสไลด์ใบที่ 4 ออกถาวร
     """
     PROMO_GALLERY_DIR.mkdir(parents=True, exist_ok=True)
     old_slide_4 = PROMO_GALLERY_DIR / "slide_4.jpg"
@@ -4236,19 +4285,24 @@ def prepare_and_load_hero_slides_3cups() -> list[dict]:
     for sp in slide_specs:
         src_path = APP_DIR / sp["src_name"]
         dst_path = PROMO_GALLERY_DIR / sp["dst_name"]
-        if src_path.exists():
+        need_crop = (
+            src_path.exists()
+            and (not dst_path.exists() or dst_path.stat().st_size > 165 * 1024)
+        )
+        if need_crop:
             try:
                 from PIL import Image
 
-                img = Image.open(src_path).convert("RGB")
+                with Image.open(src_path) as raw_im:
+                    img = raw_im.convert("RGB")
                 w, h = img.size
                 target_ratio = 16.0 / 10.0
                 new_w = int(h * target_ratio)
                 if new_w < w:
                     left = (w - new_w) // 2
                     img = img.crop((left, 0, left + new_w, h))
-                img.resize((1280, 800), Image.Resampling.LANCZOS).save(
-                    dst_path, "JPEG", quality=92, optimize=True
+                img.resize((1120, 700), Image.Resampling.LANCZOS).save(
+                    dst_path, "JPEG", quality=82, optimize=True
                 )
             except Exception:
                 if not dst_path.exists():
