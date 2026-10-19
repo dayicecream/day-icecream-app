@@ -1,5 +1,5 @@
 {
-  "synced_at": "2026-10-19 05:23:28",
+  "synced_at": "2026-10-19 13:31:21",
   "branches": [
     {
       "id": 1,
@@ -12,7 +12,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8246901,100.0570871"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8246901,100.0570871&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8246901,100.0570871"
     },
     {
       "id": 2,
@@ -26,7 +27,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8011112,100.1860565"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8011112,100.1860565&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8011112,100.1860565"
     },
     {
       "id": 3,
@@ -40,7 +42,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8222875,100.0595616"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8222875,100.0595616&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8222875,100.0595616"
     },
     {
       "id": 4,
@@ -54,7 +57,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7987186,99.9825094"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7987186,99.9825094&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7987186,99.9825094"
     },
     {
       "id": 5,
@@ -70,7 +74,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5981143,99.8006103"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5981143,99.8006103&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5981143,99.8006103"
     },
     {
       "id": 6,
@@ -87,7 +92,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.8344312,99.928648"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.8344312,99.928648&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.8344312,99.928648"
     },
     {
       "id": 7,
@@ -102,7 +108,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6334494,100.0935957"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6334494,100.0935957&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6334494,100.0935957"
     },
     {
       "id": 8,
@@ -116,7 +123,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1396413,99.3450474"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1396413,99.3450474&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.1396413,99.3450474"
     },
     {
       "id": 9,
@@ -130,7 +138,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1285006,99.3450711"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1285006,99.3450711&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.1285006,99.3450711"
     },
     {
       "id": 10,
@@ -147,7 +156,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.9130928,98.3640814"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.9130928,98.3640814&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.9130928,98.3640814"
     },
     {
       "id": 11,
@@ -160,7 +170,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.0658012,98.908152"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.0658012,98.908152&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.0658012,98.908152"
     },
     {
       "id": 12,
@@ -174,7 +185,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.4315542,101.8228144"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.4315542,101.8228144&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.4315542,101.8228144"
     },
     {
       "id": 13,
@@ -188,7 +200,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=5.7719499,101.0716396"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=5.7719499,101.0716396&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=5.7719499,101.0716396"
     },
     {
       "id": 14,
@@ -202,7 +215,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.5519671,101.2850219"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.5519671,101.2850219&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.5519671,101.2850219"
     },
     {
       "id": 15,
@@ -216,7 +230,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.1096751,102.2304747"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.1096751,102.2304747&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.1096751,102.2304747"
     },
     {
       "id": 16,
@@ -230,7 +245,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.8850952,98.3824538"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.8850952,98.3824538&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.8850952,98.3824538"
     },
     {
       "id": 17,
@@ -246,7 +262,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.5391474,100.9577355"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.5391474,100.9577355&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.5391474,100.9577355"
     },
     {
       "id": 18,
@@ -260,7 +277,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8072257,100.4969538"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8072257,100.4969538&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8072257,100.4969538"
     },
     {
       "id": 19,
@@ -275,7 +293,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8686941,100.4644684"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8686941,100.4644684&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8686941,100.4644684"
     },
     {
       "id": 20,
@@ -289,7 +308,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.7875049,103.9580961"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.7875049,103.9580961&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.7875049,103.9580961"
     },
     {
       "id": 21,
@@ -305,7 +325,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.721083,100.7874952"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.721083,100.7874952&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.721083,100.7874952"
     },
     {
       "id": 22,
@@ -321,7 +342,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.8255789,100.2676079"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.8255789,100.2676079&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.8255789,100.2676079"
     },
     {
       "id": 23,
@@ -337,7 +359,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.5930869,100.444517"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.5930869,100.444517&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.5930869,100.444517"
     },
     {
       "id": 24,
@@ -351,7 +374,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.1633896,100.8057749"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.1633896,100.8057749&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.1633896,100.8057749"
     },
     {
       "id": 25,
@@ -365,7 +389,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5445662,100.9936329"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5445662,100.9936329&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5445662,100.9936329"
     },
     {
       "id": 26,
@@ -379,7 +404,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8970209,100.5615571"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8970209,100.5615571&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8970209,100.5615571"
     },
     {
       "id": 27,
@@ -393,7 +419,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7437221,100.5275849"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7437221,100.5275849&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7437221,100.5275849"
     },
     {
       "id": 28,
@@ -407,7 +434,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7035872,100.529681"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7035872,100.529681&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7035872,100.529681"
     },
     {
       "id": 29,
@@ -423,7 +451,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6277511,100.4993049"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6277511,100.4993049&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6277511,100.4993049"
     },
     {
       "id": 30,
@@ -439,7 +468,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.346415,99.5589089"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.346415,99.5589089&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.346415,99.5589089"
     },
     {
       "id": 31,
@@ -453,7 +483,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.5535128,99.0385981"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.5535128,99.0385981&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.5535128,99.0385981"
     },
     {
       "id": 32,
@@ -467,7 +498,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6624115,100.6020052"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6624115,100.6020052&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6624115,100.6020052"
     },
     {
       "id": 33,
@@ -482,7 +514,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.2758476,101.0659939"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.2758476,101.0659939&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.2758476,101.0659939"
     },
     {
       "id": 34,
@@ -495,7 +528,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0021727,103.108825"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0021727,103.108825&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0021727,103.108825"
     },
     {
       "id": 35,
@@ -509,7 +543,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9917099,103.1130076"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9917099,103.1130076&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9917099,103.1130076"
     },
     {
       "id": 36,
@@ -523,7 +558,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9950151,103.1189171"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9950151,103.1189171&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9950151,103.1189171"
     },
     {
       "id": 37,
@@ -536,7 +572,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9926541,103.0952381"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9926541,103.0952381&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9926541,103.0952381"
     },
     {
       "id": 38,
@@ -550,7 +587,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0070744,103.0941038"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0070744,103.0941038&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0070744,103.0941038"
     },
     {
       "id": 39,
@@ -563,7 +601,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9973334,103.1056975"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9973334,103.1056975&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9973334,103.1056975"
     },
     {
       "id": 40,
@@ -576,7 +615,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.3078355,103.3035855"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.3078355,103.3035855&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.3078355,103.3035855"
     },
     {
       "id": 41,
@@ -589,7 +629,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0885745,103.3900675"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0885745,103.3900675&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0885745,103.3900675"
     },
     {
       "id": 42,
@@ -603,7 +644,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9551386,103.0716488"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9551386,103.0716488&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9551386,103.0716488"
     },
     {
       "id": 43,
@@ -616,7 +658,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.494405,102.9773903"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.494405,102.9773903&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.494405,102.9773903"
     },
     {
       "id": 44,
@@ -630,7 +673,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.5060374,102.8545217"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.5060374,102.8545217&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.5060374,102.8545217"
     },
     {
       "id": 45,
@@ -645,7 +689,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8263619,100.0441211"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8263619,100.0441211&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8263619,100.0441211"
     },
     {
       "id": 46,
@@ -662,7 +707,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.7774424,101.2451687"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.7774424,101.2451687&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.7774424,101.2451687"
     },
     {
       "id": 47,
@@ -678,7 +724,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.9213892,100.874796"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.9213892,100.874796&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.9213892,100.874796"
     },
     {
       "id": 48,
@@ -692,7 +739,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9491915,103.0881584"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9491915,103.0881584&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9491915,103.0881584"
     },
     {
       "id": 49,
@@ -706,7 +754,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.7870518,101.2447552"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.7870518,101.2447552&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.7870518,101.2447552"
     },
     {
       "id": 50,
@@ -721,7 +770,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.4525817,99.8863283"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.4525817,99.8863283&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.4525817,99.8863283"
     },
     {
       "id": 51,
@@ -738,7 +788,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.315272,101.2980275"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.315272,101.2980275&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.315272,101.2980275"
     },
     {
       "id": 52,
@@ -752,7 +803,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4070819,102.8529571"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4070819,102.8529571&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.4070819,102.8529571"
     },
     {
       "id": 53,
@@ -770,7 +822,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.9172227,98.9661431"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.9172227,98.9661431&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.9172227,98.9661431"
     },
     {
       "id": 54,
@@ -784,7 +837,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.7446362,98.7781018"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.7446362,98.7781018&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.7446362,98.7781018"
     },
     {
       "id": 55,
@@ -798,7 +852,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.5156501,98.2865332"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.5156501,98.2865332&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.5156501,98.2865332"
     },
     {
       "id": 56,
@@ -812,7 +867,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8230666,100.0439903"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8230666,100.0439903&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8230666,100.0439903"
     },
     {
       "id": 57,
@@ -826,7 +882,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.906169,100.5141814"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.906169,100.5141814&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.906169,100.5141814"
     },
     {
       "id": 58,
@@ -842,7 +899,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7491955,100.5519409"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7491955,100.5519409&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7491955,100.5519409"
     },
     {
       "id": 59,
@@ -857,7 +915,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8092668,100.056907"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8092668,100.056907&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8092668,100.056907"
     },
     {
       "id": 60,
@@ -871,7 +930,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8952536,98.3644012"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8952536,98.3644012&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.8952536,98.3644012"
     },
     {
       "id": 61,
@@ -885,7 +945,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.659969,98.2541246"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.659969,98.2541246&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.659969,98.2541246"
     },
     {
       "id": 62,
@@ -899,7 +960,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1466737,99.351416"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1466737,99.351416&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.1466737,99.351416"
     },
     {
       "id": 63,
@@ -913,7 +975,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.7410167,98.7738584"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.7410167,98.7738584&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.7410167,98.7738584"
     },
     {
       "id": 64,
@@ -927,7 +990,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6939776,100.4037837"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6939776,100.4037837&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.6939776,100.4037837"
     },
     {
       "id": 65,
@@ -943,7 +1007,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.521864,100.9144146"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.521864,100.9144146&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.521864,100.9144146"
     },
     {
       "id": 66,
@@ -958,7 +1023,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=20.2719193,100.414252"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=20.2719193,100.414252&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=20.2719193,100.414252"
     },
     {
       "id": 67,
@@ -972,7 +1038,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7210572,103.0538368"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7210572,103.0538368&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.7210572,103.0538368"
     },
     {
       "id": 68,
@@ -988,7 +1055,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.4754603,99.0818923"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.4754603,99.0818923&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.4754603,99.0818923"
     },
     {
       "id": 69,
@@ -1004,7 +1072,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8726903,98.3442418"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8726903,98.3442418&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.8726903,98.3442418"
     },
     {
       "id": 70,
@@ -1019,7 +1088,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.719039,100.5852164"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.719039,100.5852164&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.719039,100.5852164"
     },
     {
       "id": 71,
@@ -1033,7 +1103,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6587905,100.6332439"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6587905,100.6332439&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6587905,100.6332439"
     },
     {
       "id": 72,
@@ -1047,7 +1118,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.774649,100.6112193"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.774649,100.6112193&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.774649,100.6112193"
     },
     {
       "id": 73,
@@ -1063,7 +1135,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.9033848,102.0183628"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.9033848,102.0183628&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.9033848,102.0183628"
     },
     {
       "id": 74,
@@ -1080,7 +1153,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9494231,103.0336355"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9494231,103.0336355&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9494231,103.0336355"
     },
     {
       "id": 75,
@@ -1094,7 +1168,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.8336619,98.9975623"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.8336619,98.9975623&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.8336619,98.9975623"
     },
     {
       "id": 76,
@@ -1108,7 +1183,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.1677057,103.1881356"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.1677057,103.1881356&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.1677057,103.1881356"
     },
     {
       "id": 77,
@@ -1122,7 +1198,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.8101441,99.0129284"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.8101441,99.0129284&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.8101441,99.0129284"
     },
     {
       "id": 78,
@@ -1135,7 +1212,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.5570545,104.7449073"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.5570545,104.7449073&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.5570545,104.7449073"
     },
     {
       "id": 79,
@@ -1151,7 +1229,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.965063,100.4705367"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.965063,100.4705367&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.965063,100.4705367"
     },
     {
       "id": 80,
@@ -1165,7 +1244,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6377711,102.7941176"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6377711,102.7941176&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.6377711,102.7941176"
     },
     {
       "id": 81,
@@ -1176,7 +1256,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6377439,102.7940366"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6377439,102.7940366&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.6377439,102.7940366"
     },
     {
       "id": 82,
@@ -1190,7 +1271,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.35144,100.1220225"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.35144,100.1220225&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.35144,100.1220225"
     },
     {
       "id": 83,
@@ -1205,7 +1287,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=17.8828575,101.6394861"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=17.8828575,101.6394861&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=17.8828575,101.6394861"
     },
     {
       "id": 84,
@@ -1216,7 +1299,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.7327783,99.0599445"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.7327783,99.0599445&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.7327783,99.0599445"
     },
     {
       "id": 85,
@@ -1232,7 +1316,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8197666,100.0540927"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8197666,100.0540927&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8197666,100.0540927"
     },
     {
       "id": 86,
@@ -1247,7 +1332,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8836603,103.5034739"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8836603,103.5034739&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8836603,103.5034739"
     },
     {
       "id": 87,
@@ -1264,7 +1350,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.5543538,102.9628607"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.5543538,102.9628607&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.5543538,102.9628607"
     },
     {
       "id": 88,
@@ -1279,7 +1366,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=20.2718963,99.8559077"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=20.2718963,99.8559077&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=20.2718963,99.8559077"
     },
     {
       "id": 89,
@@ -1294,7 +1382,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9806795,102.0593425"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9806795,102.0593425&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9806795,102.0593425"
     },
     {
       "id": 90,
@@ -1309,7 +1398,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.8573868,100.3501332"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.8573868,100.3501332&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.8573868,100.3501332"
     },
     {
       "id": 91,
@@ -1326,7 +1416,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8114031,99.1663259"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8114031,99.1663259&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8114031,99.1663259"
     },
     {
       "id": 92,
@@ -1341,7 +1432,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8295774,100.0520009"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8295774,100.0520009&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8295774,100.0520009"
     },
     {
       "id": 93,
@@ -1352,7 +1444,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8039999,99.9957259"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8039999,99.9957259&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8039999,99.9957259"
     },
     {
       "id": 94,
@@ -1366,7 +1459,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1462714,99.3254729"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1462714,99.3254729&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.1462714,99.3254729"
     },
     {
       "id": 95,
@@ -1381,7 +1475,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6804079,100.5436086"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6804079,100.5436086&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6804079,100.5436086"
     },
     {
       "id": 96,
@@ -1395,7 +1490,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.354088,100.5521085"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.354088,100.5521085&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.354088,100.5521085"
     },
     {
       "id": 97,
@@ -1408,7 +1504,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6448383,100.0114287"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6448383,100.0114287&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6448383,100.0114287"
     },
     {
       "id": 98,
@@ -1422,7 +1519,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.017835,100.6884896"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.017835,100.6884896&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.017835,100.6884896"
     },
     {
       "id": 99,
@@ -1437,7 +1535,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.9827866,98.3654728"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.9827866,98.3654728&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.9827866,98.3654728"
     },
     {
       "id": 100,
@@ -1448,7 +1547,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8447235,98.4690251"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8447235,98.4690251&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.8447235,98.4690251"
     },
     {
       "id": 101,
@@ -1465,7 +1565,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6392826,100.4162705"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6392826,100.4162705&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6392826,100.4162705"
     },
     {
       "id": 102,
@@ -1479,7 +1580,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.8654086,101.2465261"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.8654086,101.2465261&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.8654086,101.2465261"
     },
     {
       "id": 103,
@@ -1493,7 +1595,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8470145,100.528275"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8470145,100.528275&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8470145,100.528275"
     },
     {
       "id": 104,
@@ -1508,7 +1611,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.5615663,101.0492943"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.5615663,101.0492943&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.5615663,101.0492943"
     },
     {
       "id": 105,
@@ -1522,7 +1626,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7517079,100.4414152"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7517079,100.4414152&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7517079,100.4414152"
     },
     {
       "id": 106,
@@ -1536,7 +1641,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9934905,103.0955582"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9934905,103.0955582&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9934905,103.0955582"
     },
     {
       "id": 107,
@@ -1551,7 +1657,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8130391,100.0464112"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8130391,100.0464112&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8130391,100.0464112"
     },
     {
       "id": 108,
@@ -1565,7 +1672,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8606547,100.6469921"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8606547,100.6469921&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8606547,100.6469921"
     },
     {
       "id": 109,
@@ -1580,7 +1688,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.732878,99.0598512"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.732878,99.0598512&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.732878,99.0598512"
     },
     {
       "id": 110,
@@ -1595,7 +1704,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9558481,100.5498031"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9558481,100.5498031&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9558481,100.5498031"
     },
     {
       "id": 111,
@@ -1609,7 +1719,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7387812,100.5088685"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7387812,100.5088685&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7387812,100.5088685"
     },
     {
       "id": 112,
@@ -1624,7 +1735,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.5898645,99.9174081"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.5898645,99.9174081&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.5898645,99.9174081"
     },
     {
       "id": 113,
@@ -1640,7 +1752,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.6880636,98.5103743"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.6880636,98.5103743&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.6880636,98.5103743"
     },
     {
       "id": 114,
@@ -1654,7 +1767,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.6216308,98.5758218"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.6216308,98.5758218&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.6216308,98.5758218"
     },
     {
       "id": 115,
@@ -1671,7 +1785,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7499339,100.5396914"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7499339,100.5396914&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7499339,100.5396914"
     },
     {
       "id": 116,
@@ -1686,7 +1801,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.681739,100.4949386"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.681739,100.4949386&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.681739,100.4949386"
     },
     {
       "id": 117,
@@ -1699,7 +1815,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7061192,100.5305534"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7061192,100.5305534&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7061192,100.5305534"
     },
     {
       "id": 118,
@@ -1714,7 +1831,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3708228,100.9924144"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3708228,100.9924144&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.3708228,100.9924144"
     },
     {
       "id": 119,
@@ -1730,7 +1848,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8457414,99.9230398"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8457414,99.9230398&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8457414,99.9230398"
     },
     {
       "id": 120,
@@ -1741,7 +1860,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.9830751,98.3658007"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.9830751,98.3658007&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.9830751,98.3658007"
     },
     {
       "id": 121,
@@ -1759,7 +1879,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.604907,102.1257827"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.604907,102.1257827&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.604907,102.1257827"
     },
     {
       "id": 122,
@@ -1773,7 +1894,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.3257239,102.753627"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.3257239,102.753627&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.3257239,102.753627"
     },
     {
       "id": 123,
@@ -1790,7 +1912,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.8598437,104.6257804"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.8598437,104.6257804&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.8598437,104.6257804"
     },
     {
       "id": 124,
@@ -1805,7 +1928,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8153559,100.0371532"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8153559,100.0371532&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8153559,100.0371532"
     },
     {
       "id": 125,
@@ -1821,7 +1945,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.95706,98.6395474"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.95706,98.6395474&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.95706,98.6395474"
     },
     {
       "id": 126,
@@ -1836,7 +1961,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3356281,100.9245574"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3356281,100.9245574&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.3356281,100.9245574"
     },
     {
       "id": 127,
@@ -1852,7 +1978,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.3079946,104.0776976"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.3079946,104.0776976&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.3079946,104.0776976"
     },
     {
       "id": 128,
@@ -1867,7 +1994,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8444501,100.5420618"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8444501,100.5420618&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8444501,100.5420618"
     },
     {
       "id": 129,
@@ -1884,7 +2012,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7864266,100.4880829"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7864266,100.4880829&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7864266,100.4880829"
     },
     {
       "id": 130,
@@ -1897,7 +2026,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1209707,99.3187167"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1209707,99.3187167&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.1209707,99.3187167"
     },
     {
       "id": 131,
@@ -1910,7 +2040,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.8051665,101.301338"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.8051665,101.301338&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.8051665,101.301338"
     },
     {
       "id": 132,
@@ -1926,7 +2057,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7056684,100.4680192"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7056684,100.4680192&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7056684,100.4680192"
     },
     {
       "id": 133,
@@ -1940,7 +2072,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=19.1577394,98.9784823"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=19.1577394,98.9784823&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=19.1577394,98.9784823"
     },
     {
       "id": 134,
@@ -1953,7 +2086,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9925069,103.0956364"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9925069,103.0956364&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9925069,103.0956364"
     },
     {
       "id": 135,
@@ -1968,7 +2102,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8512848,103.4744887"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8512848,103.4744887&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8512848,103.4744887"
     },
     {
       "id": 136,
@@ -1981,7 +2116,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.607693,102.9261235"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.607693,102.9261235&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.607693,102.9261235"
     },
     {
       "id": 137,
@@ -1995,7 +2131,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9005516,100.5385787"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9005516,100.5385787&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9005516,100.5385787"
     },
     {
       "id": 138,
@@ -2008,7 +2145,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6694891,101.0866435"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6694891,101.0866435&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6694891,101.0866435"
     },
     {
       "id": 139,
@@ -2021,7 +2159,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.7344876,101.315426"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.7344876,101.315426&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.7344876,101.315426"
     },
     {
       "id": 140,
@@ -2034,7 +2173,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6238532,100.340843"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6238532,100.340843&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6238532,100.340843"
     },
     {
       "id": 141,
@@ -2047,7 +2187,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9718585,100.684848"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9718585,100.684848&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9718585,100.684848"
     },
     {
       "id": 142,
@@ -2060,7 +2201,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7159501,100.4627162"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7159501,100.4627162&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7159501,100.4627162"
     },
     {
       "id": 143,
@@ -2074,7 +2216,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7309137,100.4631921"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7309137,100.4631921&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7309137,100.4631921"
     },
     {
       "id": 144,
@@ -2087,7 +2230,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=10.5134587,99.1870366"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=10.5134587,99.1870366&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=10.5134587,99.1870366"
     },
     {
       "id": 145,
@@ -2100,7 +2244,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.7378613,98.7735699"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=7.7378613,98.7735699&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=7.7378613,98.7735699"
     },
     {
       "id": 146,
@@ -2116,7 +2261,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.586226,100.3819445"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.586226,100.3819445&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.586226,100.3819445"
     },
     {
       "id": 147,
@@ -2131,7 +2277,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6526342,100.4939495"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6526342,100.4939495&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6526342,100.4939495"
     },
     {
       "id": 148,
@@ -2144,7 +2291,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9285906,100.5993849"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9285906,100.5993849&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9285906,100.5993849"
     },
     {
       "id": 149,
@@ -2157,7 +2305,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8360826,100.5736671"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8360826,100.5736671&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8360826,100.5736671"
     },
     {
       "id": 150,
@@ -2170,7 +2319,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8311665,100.5918998"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8311665,100.5918998&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8311665,100.5918998"
     },
     {
       "id": 151,
@@ -2183,7 +2333,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8296434,100.0563062"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8296434,100.0563062&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8296434,100.0563062"
     },
     {
       "id": 152,
@@ -2199,7 +2350,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9213189,100.4514879"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9213189,100.4514879&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9213189,100.4514879"
     },
     {
       "id": 153,
@@ -2212,7 +2364,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0007892,103.1057318"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0007892,103.1057318&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0007892,103.1057318"
     },
     {
       "id": 154,
@@ -2225,7 +2378,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7386566,102.7940693"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7386566,102.7940693&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.7386566,102.7940693"
     },
     {
       "id": 155,
@@ -2238,7 +2392,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4311315,100.101167"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4311315,100.101167&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.4311315,100.101167"
     },
     {
       "id": 156,
@@ -2251,7 +2406,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9112629,99.9854757"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9112629,99.9854757&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9112629,99.9854757"
     },
     {
       "id": 157,
@@ -2264,7 +2420,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8088452,100.6087007"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8088452,100.6087007&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8088452,100.6087007"
     },
     {
       "id": 158,
@@ -2277,7 +2434,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8121626,99.3665762"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.8121626,99.3665762&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.8121626,99.3665762"
     },
     {
       "id": 159,
@@ -2290,7 +2448,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.4185827,100.3672345"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.4185827,100.3672345&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.4185827,100.3672345"
     },
     {
       "id": 160,
@@ -2303,7 +2462,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=10.4975769,99.1832709"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=10.4975769,99.1832709&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=10.4975769,99.1832709"
     },
     {
       "id": 161,
@@ -2314,7 +2474,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=19.9716177,99.8551694"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=19.9716177,99.8551694&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=19.9716177,99.8551694"
     },
     {
       "id": 162,
@@ -2330,7 +2491,8 @@
       "internal_tags": [
         "จอง"
       ],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3855949,99.9882032"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3855949,99.9882032&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.3855949,99.9882032"
     },
     {
       "id": 163,
@@ -2341,7 +2503,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8434446,100.0694962"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8434446,100.0694962&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8434446,100.0694962"
     },
     {
       "id": 164,
@@ -2355,7 +2518,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4006515,100.9168687"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4006515,100.9168687&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.4006515,100.9168687"
     },
     {
       "id": 165,
@@ -2368,7 +2532,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.844311,100.4082296"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.844311,100.4082296&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.844311,100.4082296"
     },
     {
       "id": 166,
@@ -2381,7 +2546,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7380001,100.078974"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7380001,100.078974&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7380001,100.078974"
     },
     {
       "id": 167,
@@ -2394,7 +2560,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.811753,99.9903626"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.811753,99.9903626&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.811753,99.9903626"
     },
     {
       "id": 168,
@@ -2407,7 +2574,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8625601,100.6185831"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8625601,100.6185831&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8625601,100.6185831"
     },
     {
       "id": 169,
@@ -2420,7 +2588,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.455716,99.5752804"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.455716,99.5752804&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.455716,99.5752804"
     },
     {
       "id": 170,
@@ -2433,7 +2602,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8341114,100.1110281"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8341114,100.1110281&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8341114,100.1110281"
     },
     {
       "id": 171,
@@ -2447,7 +2617,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.0051834,99.2419607"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.0051834,99.2419607&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.0051834,99.2419607"
     },
     {
       "id": 172,
@@ -2460,7 +2631,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.0840728,98.9006826"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.0840728,98.9006826&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.0840728,98.9006826"
     },
     {
       "id": 173,
@@ -2473,7 +2645,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7853841,100.5364256"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7853841,100.5364256&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7853841,100.5364256"
     },
     {
       "id": 174,
@@ -2486,7 +2659,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7824324,100.3912063"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7824324,100.3912063&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7824324,100.3912063"
     },
     {
       "id": 175,
@@ -2499,7 +2673,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1053371,99.3121531"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=9.1053371,99.3121531&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=9.1053371,99.3121531"
     },
     {
       "id": 176,
@@ -2512,7 +2687,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7802155,100.4595128"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7802155,100.4595128&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7802155,100.4595128"
     },
     {
       "id": 177,
@@ -2525,7 +2701,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5210064,99.9656825"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5210064,99.9656825&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5210064,99.9656825"
     },
     {
       "id": 178,
@@ -2538,7 +2715,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.0215284,100.1736936"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.0215284,100.1736936&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.0215284,100.1736936"
     },
     {
       "id": 179,
@@ -2551,7 +2729,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.1657854,100.9300002"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.1657854,100.9300002&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.1657854,100.9300002"
     },
     {
       "id": 180,
@@ -2564,7 +2743,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5456922,100.260491"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5456922,100.260491&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5456922,100.260491"
     },
     {
       "id": 181,
@@ -2577,7 +2757,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=17.2754207,100.6010771"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=17.2754207,100.6010771&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=17.2754207,100.6010771"
     },
     {
       "id": 182,
@@ -2590,7 +2771,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9340348,99.9656437"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9340348,99.9656437&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9340348,99.9656437"
     },
     {
       "id": 183,
@@ -2603,7 +2785,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5779694,100.8575159"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5779694,100.8575159&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5779694,100.8575159"
     },
     {
       "id": 184,
@@ -2618,7 +2801,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.2237632,101.2328774"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.2237632,101.2328774&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.2237632,101.2328774"
     },
     {
       "id": 185,
@@ -2631,7 +2815,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7044899,100.4471959"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7044899,100.4471959&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7044899,100.4471959"
     },
     {
       "id": 186,
@@ -2644,7 +2829,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7217671,100.4807614"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7217671,100.4807614&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7217671,100.4807614"
     },
     {
       "id": 187,
@@ -2657,7 +2843,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7091075,100.4206887"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7091075,100.4206887&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7091075,100.4206887"
     },
     {
       "id": 188,
@@ -2670,7 +2857,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7062127,100.4682972"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7062127,100.4682972&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7062127,100.4682972"
     },
     {
       "id": 189,
@@ -2681,7 +2869,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8061627,100.5245251"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8061627,100.5245251&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8061627,100.5245251"
     },
     {
       "id": 190,
@@ -2692,7 +2881,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8459303,100.5652576"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8459303,100.5652576&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8459303,100.5652576"
     },
     {
       "id": 191,
@@ -2703,7 +2893,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.0535369,99.989968"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.0535369,99.989968&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.0535369,99.989968"
     },
     {
       "id": 192,
@@ -2716,7 +2907,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.80218,98.9849094"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.80218,98.9849094&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.80218,98.9849094"
     },
     {
       "id": 193,
@@ -2729,7 +2921,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.8725524,99.0159905"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.8725524,99.0159905&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.8725524,99.0159905"
     },
     {
       "id": 194,
@@ -2742,7 +2935,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9855624,103.0944899"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9855624,103.0944899&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9855624,103.0944899"
     },
     {
       "id": 195,
@@ -2753,7 +2947,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9900178,103.0899985"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9900178,103.0899985&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9900178,103.0899985"
     },
     {
       "id": 196,
@@ -2764,7 +2959,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0035873,103.1270412"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0035873,103.1270412&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0035873,103.1270412"
     },
     {
       "id": 197,
@@ -2777,7 +2973,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9174129,103.0788659"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9174129,103.0788659&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9174129,103.0788659"
     },
     {
       "id": 198,
@@ -2790,7 +2987,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9721879,103.1044211"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9721879,103.1044211&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9721879,103.1044211"
     },
     {
       "id": 199,
@@ -2801,7 +2999,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.986818,102.9795347"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.986818,102.9795347&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.986818,102.9795347"
     },
     {
       "id": 200,
@@ -2814,7 +3013,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6345897,102.784047"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6345897,102.784047&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.6345897,102.784047"
     },
     {
       "id": 201,
@@ -2825,7 +3025,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4035912,103.104817"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.4035912,103.104817&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.4035912,103.104817"
     },
     {
       "id": 202,
@@ -2836,7 +3037,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8507388,103.4761632"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8507388,103.4761632&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8507388,103.4761632"
     },
     {
       "id": 203,
@@ -2849,7 +3051,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8743755,103.4951427"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8743755,103.4951427&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8743755,103.4951427"
     },
     {
       "id": 204,
@@ -2862,7 +3065,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.87042,103.4919143"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.87042,103.4919143&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.87042,103.4919143"
     },
     {
       "id": 205,
@@ -2875,7 +3079,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8854103,103.4989181"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8854103,103.4989181&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8854103,103.4989181"
     },
     {
       "id": 206,
@@ -2888,7 +3093,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8788493,103.530878"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8788493,103.530878&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8788493,103.530878"
     },
     {
       "id": 207,
@@ -2899,7 +3105,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.880709,103.4765932"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.880709,103.4765932&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.880709,103.4765932"
     },
     {
       "id": 208,
@@ -2912,7 +3119,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8864327,103.4995882"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8864327,103.4995882&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8864327,103.4995882"
     },
     {
       "id": 209,
@@ -2925,7 +3133,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8961931,103.5028601"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8961931,103.5028601&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8961931,103.5028601"
     },
     {
       "id": 210,
@@ -2938,7 +3147,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8100647,103.4786251"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8100647,103.4786251&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8100647,103.4786251"
     },
     {
       "id": 211,
@@ -2951,7 +3161,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.2022746,104.5450306"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.2022746,104.5450306&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.2022746,104.5450306"
     },
     {
       "id": 212,
@@ -2964,7 +3175,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.8503911,101.1882679"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.8503911,101.1882679&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.8503911,101.1882679"
     },
     {
       "id": 213,
@@ -2975,7 +3187,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7209798,103.0587916"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7209798,103.0587916&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.7209798,103.0587916"
     },
     {
       "id": 214,
@@ -2986,7 +3199,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0748375,103.385467"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0748375,103.385467&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0748375,103.385467"
     },
     {
       "id": 215,
@@ -2997,7 +3211,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.000353,103.1053316"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.000353,103.1053316&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.000353,103.1053316"
     },
     {
       "id": 216,
@@ -3010,7 +3225,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8345674,100.0366518"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8345674,100.0366518&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8345674,100.0366518"
     },
     {
       "id": 217,
@@ -3023,7 +3239,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.4745568,99.5471936"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.4745568,99.5471936&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.4745568,99.5471936"
     },
     {
       "id": 218,
@@ -3036,7 +3253,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7874251,99.8349205"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7874251,99.8349205&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7874251,99.8349205"
     },
     {
       "id": 219,
@@ -3047,7 +3265,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6558251,100.6433841"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6558251,100.6433841&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6558251,100.6433841"
     },
     {
       "id": 220,
@@ -3058,7 +3277,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8026821,100.0079012"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8026821,100.0079012&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8026821,100.0079012"
     },
     {
       "id": 221,
@@ -3071,7 +3291,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8274663,100.413311"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8274663,100.413311&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8274663,100.413311"
     },
     {
       "id": 222,
@@ -3082,7 +3303,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9512919,103.0814726"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9512919,103.0814726&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9512919,103.0814726"
     },
     {
       "id": 223,
@@ -3093,7 +3315,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9273422,100.4726418"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9273422,100.4726418&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9273422,100.4726418"
     },
     {
       "id": 224,
@@ -3104,7 +3327,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0077983,103.1107336"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.0077983,103.1107336&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.0077983,103.1107336"
     },
     {
       "id": 225,
@@ -3115,7 +3339,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8783512,103.5377583"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8783512,103.5377583&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8783512,103.5377583"
     },
     {
       "id": 226,
@@ -3128,7 +3353,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6586718,101.4548441"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.6586718,101.4548441&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.6586718,101.4548441"
     },
     {
       "id": 227,
@@ -3139,7 +3365,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.1019505,103.5949391"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.1019505,103.5949391&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.1019505,103.5949391"
     },
     {
       "id": 228,
@@ -3152,7 +3379,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7365633,100.5617087"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7365633,100.5617087&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7365633,100.5617087"
     },
     {
       "id": 229,
@@ -3165,7 +3393,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8332993,100.550563"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8332993,100.550563&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8332993,100.550563"
     },
     {
       "id": 230,
@@ -3178,7 +3407,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.4076091,102.5386852"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.4076091,102.5386852&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.4076091,102.5386852"
     },
     {
       "id": 231,
@@ -3189,7 +3419,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8876025,103.4948201"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.8876025,103.4948201&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.8876025,103.4948201"
     },
     {
       "id": 232,
@@ -3202,7 +3433,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.5460272,99.9586844"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=12.5460272,99.9586844&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=12.5460272,99.9586844"
     },
     {
       "id": 233,
@@ -3215,7 +3447,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.6544964,99.9198223"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.6544964,99.9198223&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.6544964,99.9198223"
     },
     {
       "id": 234,
@@ -3226,7 +3459,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8012276,100.6069464"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8012276,100.6069464&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8012276,100.6069464"
     },
     {
       "id": 235,
@@ -3239,7 +3473,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.6392913,98.2497339"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.6392913,98.2497339&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.6392913,98.2497339"
     },
     {
       "id": 236,
@@ -3250,7 +3485,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6629916,100.5027384"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6629916,100.5027384&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6629916,100.5027384"
     },
     {
       "id": 237,
@@ -3261,7 +3497,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.705464,100.5303494"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.705464,100.5303494&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.705464,100.5303494"
     },
     {
       "id": 238,
@@ -3274,7 +3511,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7448443,100.5299301"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7448443,100.5299301&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7448443,100.5299301"
     },
     {
       "id": 239,
@@ -3287,7 +3525,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6909058,99.8231871"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6909058,99.8231871&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6909058,99.8231871"
     },
     {
       "id": 240,
@@ -3298,7 +3537,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.6482596,98.2524931"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=8.6482596,98.2524931&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=8.6482596,98.2524931"
     },
     {
       "id": 241,
@@ -3311,7 +3551,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7961577,100.3239074"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7961577,100.3239074&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7961577,100.3239074"
     },
     {
       "id": 242,
@@ -3324,7 +3565,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6780795,100.6346814"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6780795,100.6346814&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6780795,100.6346814"
     },
     {
       "id": 243,
@@ -3335,7 +3577,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8559447,100.0208564"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8559447,100.0208564&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8559447,100.0208564"
     },
     {
       "id": 244,
@@ -3348,7 +3591,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.3819185,100.0225557"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.3819185,100.0225557&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.3819185,100.0225557"
     },
     {
       "id": 245,
@@ -3361,7 +3605,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5926689,100.7140532"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5926689,100.7140532&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5926689,100.7140532"
     },
     {
       "id": 246,
@@ -3374,7 +3619,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7510393,100.5002189"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7510393,100.5002189&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7510393,100.5002189"
     },
     {
       "id": 247,
@@ -3387,7 +3633,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.4360919,103.5093859"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=16.4360919,103.5093859&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=16.4360919,103.5093859"
     },
     {
       "id": 248,
@@ -3398,7 +3645,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.8613488,101.2570749"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=6.8613488,101.2570749&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=6.8613488,101.2570749"
     },
     {
       "id": 249,
@@ -3411,7 +3659,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9580404,102.0654186"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.9580404,102.0654186&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.9580404,102.0654186"
     },
     {
       "id": 250,
@@ -3424,7 +3673,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6788661,100.5276371"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6788661,100.5276371&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6788661,100.5276371"
     },
     {
       "id": 251,
@@ -3435,7 +3685,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.7676652,98.9498479"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=18.7676652,98.9498479&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=18.7676652,98.9498479"
     },
     {
       "id": 252,
@@ -3448,7 +3699,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7550958,100.4740673"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7550958,100.4740673&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7550958,100.4740673"
     },
     {
       "id": 253,
@@ -3461,7 +3713,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8182846,100.5855595"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8182846,100.5855595&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8182846,100.5855595"
     },
     {
       "id": 254,
@@ -3474,7 +3727,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7132382,100.4678163"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7132382,100.4678163&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7132382,100.4678163"
     },
     {
       "id": 255,
@@ -3487,7 +3741,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=19.1711828,99.8988249"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=19.1711828,99.8988249&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=19.1711828,99.8988249"
     },
     {
       "id": 256,
@@ -3500,7 +3755,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5490942,100.2720871"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5490942,100.2720871&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5490942,100.2720871"
     },
     {
       "id": 257,
@@ -3513,7 +3769,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5420511,99.8013571"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.5420511,99.8013571&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.5420511,99.8013571"
     },
     {
       "id": 258,
@@ -3526,7 +3783,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.4617635,99.8928825"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.4617635,99.8928825&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.4617635,99.8928825"
     },
     {
       "id": 259,
@@ -3539,7 +3797,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6219949,100.5400334"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6219949,100.5400334&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6219949,100.5400334"
     },
     {
       "id": 260,
@@ -3552,7 +3811,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9161942,99.9582699"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9161942,99.9582699&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9161942,99.9582699"
     },
     {
       "id": 261,
@@ -3565,7 +3825,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9717686,100.6319349"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.9717686,100.6319349&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.9717686,100.6319349"
     },
     {
       "id": 262,
@@ -3578,7 +3839,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8376952,100.4490542"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8376952,100.4490542&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8376952,100.4490542"
     },
     {
       "id": 263,
@@ -3591,7 +3853,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3053719,99.8253917"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.3053719,99.8253917&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.3053719,99.8253917"
     },
     {
       "id": 264,
@@ -3604,7 +3867,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6873271,100.4847132"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6873271,100.4847132&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6873271,100.4847132"
     },
     {
       "id": 265,
@@ -3617,7 +3881,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=17.2171216,102.4437486"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=17.2171216,102.4437486&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=17.2171216,102.4437486"
     },
     {
       "id": 266,
@@ -3630,7 +3895,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8739893,100.5796905"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8739893,100.5796905&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8739893,100.5796905"
     },
     {
       "id": 267,
@@ -3643,7 +3909,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7374902,98.6370779"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=14.7374902,98.6370779&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=14.7374902,98.6370779"
     },
     {
       "id": 268,
@@ -3656,7 +3923,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8142826,100.0049051"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8142826,100.0049051&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8142826,100.0049051"
     },
     {
       "id": 269,
@@ -3669,7 +3937,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8436682,100.4621624"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8436682,100.4621624&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8436682,100.4621624"
     },
     {
       "id": 270,
@@ -3682,7 +3951,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6851039,100.422575"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6851039,100.422575&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6851039,100.422575"
     },
     {
       "id": 271,
@@ -3695,7 +3965,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.3956353,99.8482348"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.3956353,99.8482348&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.3956353,99.8482348"
     },
     {
       "id": 272,
@@ -3708,7 +3979,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6809647,100.7465804"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.6809647,100.7465804&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.6809647,100.7465804"
     },
     {
       "id": 273,
@@ -3721,7 +3993,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7973048,100.327656"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7973048,100.327656&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7973048,100.327656"
     },
     {
       "id": 274,
@@ -3734,7 +4007,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7260816,100.5873853"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.7260816,100.5873853&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.7260816,100.5873853"
     },
     {
       "id": 275,
@@ -3747,7 +4021,8 @@
       ],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8521815,100.0166298"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8521815,100.0166298&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8521815,100.0166298"
     },
     {
       "id": 276,
@@ -3758,7 +4033,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8080519,100.1455434"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=13.8080519,100.1455434&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=13.8080519,100.1455434"
     },
     {
       "id": 277,
@@ -3769,7 +4045,8 @@
       "phones": [],
       "is_internal": false,
       "internal_tags": [],
-      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.7064427,100.1412555"
+      "nav_url": "https://www.google.com/maps/dir/?api=1&destination=15.7064427,100.1412555&travelmode=driving",
+      "search_url": "https://www.google.com/maps/search/?api=1&query=15.7064427,100.1412555"
     }
   ]
 }

@@ -1343,7 +1343,8 @@ def parse_kml_bytes(raw_bytes: bytes) -> list[dict]:
 
         internal_flag, matched_kw = is_internal_pin(name, clean_desc)
         phones = extract_phone_numbers(f"{name}\n{clean_desc}")
-        nav_url = f"https://www.google.com/maps/dir/?api=1&destination={lat},{lon}"
+        nav_url = f"https://www.google.com/maps/dir/?api=1&destination={lat},{lon}&travelmode=driving"
+        search_url = f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
 
         branches.append(
             {
@@ -1356,8 +1357,26 @@ def parse_kml_bytes(raw_bytes: bytes) -> list[dict]:
                 "is_internal": internal_flag,
                 "internal_tags": matched_kw,
                 "nav_url": nav_url,
+                "search_url": search_url,
             }
         )
+    return branches
+
+
+def _normalize_branches_maps_urls(branches: list[dict]) -> list[dict]:
+    """บังคับให้ทุกสาขาใช้ Google Maps Universal Cross-Platform Link มาตรฐาน 100%"""
+    for b in branches:
+        try:
+            lat = float(b["lat"])
+            lon = float(b["lon"])
+            b["nav_url"] = (
+                f"https://www.google.com/maps/dir/?api=1&destination={lat},{lon}&travelmode=driving"
+            )
+            b["search_url"] = (
+                f"https://www.google.com/maps/search/?api=1&query={lat},{lon}"
+            )
+        except Exception:
+            pass
     return branches
 
 
@@ -1367,7 +1386,7 @@ def load_branches_live(force_refresh: bool = False) -> tuple[list[dict], str]:
     if not force_refresh and BRANCHES_CACHE_PATH.exists():
         try:
             cached = json.loads(BRANCHES_CACHE_PATH.read_text(encoding="utf-8"))
-            cached_branches = cached.get("branches", [])
+            cached_branches = _normalize_branches_maps_urls(cached.get("branches", []))
             if cached_branches:
                 return (
                     cached_branches,
@@ -1383,7 +1402,7 @@ def load_branches_live(force_refresh: bool = False) -> tuple[list[dict], str]:
         )
         with urllib.request.urlopen(req, timeout=10) as resp:
             raw_bytes = resp.read()
-        branches = parse_kml_bytes(raw_bytes)
+        branches = _normalize_branches_maps_urls(parse_kml_bytes(raw_bytes))
         if branches:
             BRANCHES_CACHE_PATH.write_text(
                 json.dumps(
@@ -1404,7 +1423,7 @@ def load_branches_live(force_refresh: bool = False) -> tuple[list[dict], str]:
         try:
             cached = json.loads(BRANCHES_CACHE_PATH.read_text(encoding="utf-8"))
             return (
-                cached.get("branches", []),
+                _normalize_branches_maps_urls(cached.get("branches", [])),
                 f"ข้อมูลล่าสุด ({cached.get('synced_at', '-')})",
             )
         except Exception:
@@ -1431,9 +1450,14 @@ def detect_approx_location_ip() -> tuple[float, float, str]:
             "http://ip-api.com/json/?fields=status,country,regionName,city,lat,lon",
             headers={"User-Agent": "Mozilla/5.0"},
         )
-        with urllib.request.urlopen(req, timeout=4) as resp:
+        with urllib.request.urlopen(req, timeout=3) as resp:
             data = json.loads(resp.read().decode("utf-8"))
-        if data.get("status") == "success" and data.get("lat") and data.get("lon"):
+        if (
+            data.get("status") == "success"
+            and data.get("country") in ("Thailand", "TH")
+            and data.get("lat")
+            and data.get("lon")
+        ):
             city = data.get("city") or ""
             region = data.get("regionName") or ""
             return (
@@ -1487,6 +1511,10 @@ def build_thailand_branch_map(
 
     for b in branches:
         is_int = b.get("is_internal", False)
+        b_lat = b["lat"]
+        b_lon = b["lon"]
+        b_nav_url = f"https://www.google.com/maps/dir/?api=1&destination={b_lat},{b_lon}&travelmode=driving"
+        b_search_url = f"https://www.google.com/maps/search/?api=1&query={b_lat},{b_lon}"
         status_badge = (
             f'<span style="background:#d32f2f;color:#fff;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;">'
             f'สถานะภายใน: {", ".join(b.get("internal_tags", []))}</span>'
@@ -1518,10 +1546,15 @@ def build_thailand_branch_map(
             {dist_html}
             {phones_html}
             <div style="margin-top:6px;font-size:12px;color:#5C4033;line-height:1.45;">{desc_text}</div>
-            <a href="{b['nav_url']}" target="_blank" rel="noopener noreferrer"
+            <a href="{b_nav_url}" target="_blank" rel="noopener noreferrer"
                style="display:block;margin-top:10px;text-align:center;background:linear-gradient(135deg,#d32f2f,#ff5252);color:#ffffff;
-                      font-weight:700;padding:8px 12px;border-radius:10px;text-decoration:none;font-size:13px;box-shadow:0 4px 10px rgba(211,47,47,0.25);">
+                      font-weight:800;padding:9px 12px;border-radius:10px;text-decoration:none;font-size:13.5px;box-shadow:0 4px 10px rgba(211,47,47,0.25);">
                🚗 กดนำทางด้วย Google Maps
+            </a>
+            <a href="{b_search_url}" target="_blank" rel="noopener noreferrer"
+               style="display:block;margin-top:6px;text-align:center;background:#fff1f2;color:#b71c1c;border:1.5px solid #fca5a5;
+                      font-weight:700;padding:6px 10px;border-radius:8px;text-decoration:none;font-size:12px;">
+               📍 ดูหมุดพิกัดบน Google Maps
             </a>
         </div>
         """
@@ -1542,7 +1575,7 @@ def build_thailand_branch_map(
             marker_icon = folium.Icon(color="red", icon="ice-cream", prefix="fa")
 
         folium.Marker(
-            location=[b["lat"], b["lon"]],
+            location=[b_lat, b_lon],
             tooltip=f"🍦 {b['name']} ({b.get('distance_km', 0):.1f} กม.)",
             popup=folium.Popup(popup_html, max_width=330),
             icon=marker_icon,
@@ -1555,7 +1588,8 @@ def build_thailand_branch_map(
                 "lat": b["lat"],
                 "lon": b["lon"],
                 "phones": b.get("phones", []),
-                "nav_url": b["nav_url"],
+                "nav_url": f"https://www.google.com/maps/dir/?api=1&destination={b['lat']},{b['lon']}&travelmode=driving",
+                "search_url": f"https://www.google.com/maps/search/?api=1&query={b['lat']},{b['lon']}",
             }
             for b in branches
         ],
@@ -1607,6 +1641,10 @@ def build_thailand_branch_map(
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
         }}
         .day-gps-btn:hover {{
             transform: translateY(-1px) scale(1.02);
@@ -1648,9 +1686,16 @@ def build_thailand_branch_map(
                 (คลิกที่โลโก้เดย์ไอศครีมบนแผนที่เพื่อดูชื่อร้าน เบอร์โทร และกดนำทาง)
             </span>
         </div>
-        <button class="day-gps-btn" onclick="locateCustomerGPS()">
-            📍 กดค้นหาสาขาใกล้ตำแหน่งฉันตอนนี้ (GPS)
-        </button>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+            <button type="button" class="day-gps-btn" onclick="locateCustomerGPS()">
+                📍 กดค้นหาสาขาใกล้ตำแหน่งฉันตอนนี้ (GPS)
+            </button>
+            <a href="https://www.google.com/maps/dir/?api=1&destination={branches[0]['lat'] if branches else ref_lat},{branches[0]['lon'] if branches else ref_lon}&travelmode=driving"
+               target="_blank" rel="noopener noreferrer"
+               class="day-gps-btn" style="background:#fef08a;color:#991b1b;border-color:#ffffff;">
+                🚗 เปิดนำทาง Google Maps ทันที ↗
+            </a>
+        </div>
     </div>
     <div id="gps-results-bar">
         <div id="gps-results-header" style="font-weight:800;color:#d32f2f;font-size:14.5px;"></div>
@@ -1685,6 +1730,7 @@ def build_thailand_branch_map(
                 if (lineLayer) map.removeLayer(lineLayer);
                 if (nearestCircleLayer) map.removeLayer(nearestCircleLayer);
 
+                const searchPinUrl = `https://www.google.com/maps/search/?api=1&query=${{lat}},${{lon}}`;
                 userMarkerLayer = L.circleMarker([lat, lon], {{
                     radius: 10,
                     color: '#ffffff',
@@ -1692,7 +1738,7 @@ def build_thailand_branch_map(
                     fillColor: '#2563eb',
                     fillOpacity: 1.0
                 }}).addTo(map).bindPopup(
-                    `<div style="font-family:'Prompt',sans-serif;font-weight:700;color:#1e40af;">📍 ${{labelText}}<br><span style="font-size:12px;color:#475569;">(${{lat.toFixed(5)}}, ${{lon.toFixed(5)}})</span></div>`
+                    `<div style="font-family:'Prompt',sans-serif;font-weight:700;color:#1e40af;">📍 ${{labelText}}<br><span style="font-size:12px;color:#475569;">(${{lat.toFixed(5)}}, ${{lon.toFixed(5)}})</span><br><a href="${{searchPinUrl}}" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:6px;background:#2563eb;color:#fff;padding:4px 10px;border-radius:6px;text-decoration:none;font-size:11.5px;">🗺️ เปิดพิกัดนี้ใน Google Maps</a></div>`
                 ).openPopup();
 
                 if (!ALL_BRANCHES_JS.length) return;
@@ -1732,8 +1778,8 @@ def build_thailand_branch_map(
                             <span style="color:#15803d;font-weight:800;font-size:13px;">📏 ${{b.live_km.toFixed(2)}} กม.</span>
                         </div>
                         <div style="font-weight:700;font-size:13px;color:#2B1810;line-height:1.35;margin:5px 0;">${{b.name}}</div>
-                        <a href="${{b.nav_url}}" target="_blank" rel="noopener noreferrer"
-                           style="display:block;text-align:center;background:linear-gradient(135deg,#d32f2f,#ff5252);color:#fff;font-weight:700;padding:6px 10px;border-radius:8px;text-decoration:none;font-size:12px;margin-top:5px;">
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=${{b.lat}},${{b.lon}}&travelmode=driving" target="_blank" rel="noopener noreferrer"
+                           style="display:block;text-align:center;background:linear-gradient(135deg,#d32f2f,#ff5252);color:#fff;font-weight:800;padding:7px 10px;border-radius:8px;text-decoration:none;font-size:12.5px;margin-top:5px;">
                             🚗 กดนำทางด้วย Google Maps
                         </a>
                     </div>
@@ -1742,30 +1788,40 @@ def build_thailand_branch_map(
 
             window.locateCustomerGPS = function() {{
                 const statusEl = document.getElementById('gps-status-text');
-                statusEl.innerHTML = '<span style="color:#fef08a;">⏳ กำลังค้นหาตำแหน่งปัจจุบันของคุณ...</span>';
-                if (navigator.geolocation) {{
-                    navigator.geolocation.getCurrentPosition(
+                statusEl.innerHTML = '<span style="color:#fef08a;">⏳ กำลังค้นหาพิกัด GPS ของคุณ...</span>';
+                try {{
+                    if (window.parent && typeof window.parent.triggerDayTopGPS === 'function') {{
+                        window.parent.triggerDayTopGPS();
+                        return;
+                    }}
+                }} catch (e) {{}}
+                const geoObj = (window.parent && window.parent.navigator && window.parent.navigator.geolocation)
+                    ? window.parent.navigator.geolocation
+                    : navigator.geolocation;
+                if (geoObj) {{
+                    geoObj.getCurrentPosition(
                         (pos) => {{
                             const lat = pos.coords.latitude;
                             const lon = pos.coords.longitude;
-                            statusEl.innerHTML = `<span style="color:#dcfce7;">✅ พบตำแหน่งของคุณแล้ว!</span>`;
-                            window.highlightNearestFrom(lat, lon, "ตำแหน่งปัจจุบันของคุณ");
+                            statusEl.innerHTML = `<span style="color:#dcfce7;">✅ พบพิกัด GPS ของคุณแล้ว!</span>`;
+                            window.highlightNearestFrom(lat, lon, "พิกัด GPS ปัจจุบันของคุณ");
                         }},
                         (err) => {{
-                            statusEl.innerHTML = `<span style="color:#fef08a;">📍 แสดงสาขาใกล้จุดอ้างอิงปัจจุบัน</span>`;
-                            window.highlightNearestFrom(refLat, refLon, "จุดอ้างอิงปัจจุบัน");
+                            statusEl.innerHTML = `<span style="color:#fef08a;">📍 แสดงสาขาใกล้จุดอ้างอิงที่เลือกไว้ (กดนำทางได้ทันที)</span>`;
+                            window.highlightNearestFrom(refLat, refLon, "{loc_label}");
                         }},
-                        {{ enableHighAccuracy: true, timeout: 7000 }}
+                        {{ enableHighAccuracy: true, timeout: 4500, maximumAge: 60000 }}
                     );
                 }} else {{
-                    window.highlightNearestFrom(refLat, refLon, "จุดอ้างอิงปัจจุบัน");
+                    statusEl.innerHTML = `<span style="color:#fef08a;">📍 แสดงสาขาใกล้จุดอ้างอิงที่เลือกไว้ (กดนำทางได้ทันที)</span>`;
+                    window.highlightNearestFrom(refLat, refLon, "{loc_label}");
                 }}
             }};
 
             if (gpsActiveInit) {{
                 setTimeout(() => {{
                     window.highlightNearestFrom(refLat, refLon, "{loc_label}");
-                }}, 300);
+                }}, 250);
             }}
         }});
     </script>
@@ -5098,6 +5154,8 @@ with st.container(border=True):
         use_container_width=True,
     ):
         st.session_state["active_page"] = "branches"
+        st.session_state["gps_active"] = True
+        st.session_state["gps_req_id"] = int(st.session_state.get("gps_req_id", 0)) + 1
         st.rerun()
 
     # 2) ปุ่มที่ 2 (สีส้ม-ชมพูสตรอว์เบอร์รี): กราฟิกถ้วยไอศกรีมพรีเมียม
@@ -5485,7 +5543,7 @@ if current_page == "branches":
 """
     )
 
-    ctrl_col1, ctrl_col2 = st.columns([2.6, 1.4])
+    ctrl_col1, ctrl_col2 = st.columns([2.5, 1.5])
     with ctrl_col1:
         search_query = st.text_input(
             "🔍 ค้นหาจังหวัด / อำเภอ / เขต / ย่าน / ชื่อร้านใกล้บ้านคุณ",
@@ -5495,35 +5553,41 @@ if current_page == "branches":
     with ctrl_col2:
         gps_btn_clicked = st.button(
             "📍 ค้นหาสาขาใกล้ฉันที่สุด (GPS)",
+            key="btn_streamlit_gps_trigger",
             type="primary",
             use_container_width=True,
         )
         if gps_btn_clicked:
             ip_lat, ip_lon, ip_label = detect_approx_location_ip()
             st.session_state["gps_active"] = True
-            st.session_state["user_lat"] = ip_lat
-            st.session_state["user_lon"] = ip_lon
-            st.session_state["user_loc_label"] = ip_label
-            st.toast(f"📍 ค้นหาสาขาใกล้ตำแหน่งของคุณแล้ว ({ip_label})", icon="📍")
+            st.session_state["gps_req_id"] = int(st.session_state.get("gps_req_id", 0)) + 1
+            if st.session_state.get("user_loc_label") == "สำนักงานใหญ่ เดย์ไอศครีม (จ.นครปฐม)":
+                st.session_state["user_lat"] = ip_lat
+                st.session_state["user_lon"] = ip_lon
+                st.session_state["user_loc_label"] = ip_label
+            st.toast("📍 กำลังดึงพิกัด GPS มือถือของคุณและแสดงสาขาใกล้ที่สุดทันที!", icon="📍")
 
     with st.expander(
-        "🧭 เลือกจังหวัดหรือโซนพื้นที่ของคุณ (เพื่อคำนวณระยะทางสาขาที่ใกล้ที่สุด)",
-        expanded=st.session_state["gps_active"],
+        "🧭 เลือกจังหวัดหรือโซนพื้นที่ของคุณ (กรณีไม่ได้เปิด GPS หรือเปิดใน TikTok กดเลือกโซนที่นี่ได้ทันที)",
+        expanded=True,
     ):
         preset_locations = {
-            "📍 ตำแหน่งปัจจุบันของคุณ": None,
+            "📍 ตำแหน่งปัจจุบันของคุณ (หรือสำนักงานใหญ่ จ.นครปฐม)": None,
             "🏭 นครปฐม (สำนักงานใหญ่ เดย์ไอศครีม อ.เมือง)": (13.8246901, 100.0570871),
             "🏙️ กรุงเทพมหานคร (สยาม / ประตูน้ำ / ใจกลางเมือง)": (13.7500, 100.5390),
             "🛍️ ศาลายา / ม.มหิดล (นครปฐม - กรุงเทพฯ ฝั่งธน)": (13.7944, 100.3256),
-            "🏖️ พัทยา / ชลบุรี (ภาคตะวันออก)": (12.9236, 100.8825),
-            "⛰️ เชียงใหม่ (อ.เมือง / แม่ริม ภาคเหนือ)": (18.7883, 98.9853),
+            "🌆 นนทบุรี / ปทุมธานี / รังสิต (ปริมณฑลโซนเหนือ)": (13.9130, 100.5500),
+            "🏖️ พัทยา / ชลบุรี / ระยอง (ภาคตะวันออก)": (12.9236, 100.8825),
+            "🏛️ อยุธยา / สระบุรี / ลพบุรี (ภาคกลาง)": (14.3532, 100.5684),
+            "⛰️ เชียงใหม่ / ลำพูน / เชียงราย (ภาคเหนือ)": (18.7883, 98.9853),
             "🏰 นครราชสีมา / โคราช (ภาคอีสาน)": (14.9799, 102.0978),
-            "⚡ บุรีรัมย์ / สุรินทร์ (ภาคอีสานตอนล่าง)": (14.9930, 103.1029),
+            "⚡ บุรีรัมย์ / สุรินทร์ / ศรีสะเกษ (อีสานใต้)": (14.9930, 103.1029),
+            "🌾 ขอนแก่น / อุดรธานี / มหาสารคาม (อีสานเหนือ)": (16.4419, 102.8360),
             "🌴 สุราษฎร์ธานี / พังงา / ภูเก็ต (ภาคใต้ตอนบน-อันดามัน)": (9.1382, 99.3217),
-            "🌊 หาดใหญ่ / สงขลา (ภาคใต้ตอนล่าง)": (7.0086, 100.4747),
+            "🌊 หาดใหญ่ / สงขลา / นครศรีธรรมราช (ภาคใต้ตอนล่าง)": (7.0086, 100.4747),
         }
         selected_preset = st.selectbox(
-            "เลือกพื้นที่เพื่อจัดเรียงสาขาที่ใกล้คุณที่สุด:",
+            "เลือกพื้นที่เพื่อจัดเรียงสาขาที่ใกล้คุณที่สุดทันที:",
             list(preset_locations.keys()),
         )
         if preset_locations[selected_preset] is not None:
@@ -5546,9 +5610,460 @@ if current_page == "branches":
     ref_lat = float(st.session_state["user_lat"])
     ref_lon = float(st.session_state["user_lon"])
     for b in filtered_branches:
-        b["distance_km"] = round(haversine_km(ref_lat, ref_lon, b["lat"], b["lon"]), 2)
+        b_lat = float(b["lat"])
+        b_lon = float(b["lon"])
+        b["distance_km"] = round(haversine_km(ref_lat, ref_lon, b_lat, b_lon), 2)
+        b["nav_url"] = (
+            f"https://www.google.com/maps/dir/?api=1&destination={b_lat},{b_lon}&travelmode=driving"
+        )
+        b["search_url"] = f"https://www.google.com/maps/search/?api=1&query={b_lat},{b_lon}"
 
     filtered_branches.sort(key=lambda x: x["distance_km"])
+
+    top_nearest_branch = filtered_branches[0] if filtered_branches else None
+    top_nearest_nav_url = (
+        top_nearest_branch["nav_url"]
+        if top_nearest_branch
+        else f"https://www.google.com/maps/dir/?api=1&destination={DEFAULT_HQ_LAT},{DEFAULT_HQ_LON}&travelmode=driving"
+    )
+    top_nearest_search_url = (
+        top_nearest_branch["search_url"]
+        if top_nearest_branch
+        else f"https://www.google.com/maps/search/?api=1&query={DEFAULT_HQ_LAT},{DEFAULT_HQ_LON}"
+    )
+
+    # ==============================================================================
+    # 🚀 TOP-LEVEL LIVE GPS & UNIVERSAL GOOGLE MAPS NAVIGATOR (Renders in Parent DOM via st.html)
+    # - ปลดล็อก Iframe Sandbox ของแผนที่ Folium ให้กดลิงก์ทะลุออกไปยังแอป Google Maps ได้ 100%
+    # - เรียกขอพิกัด GPS มือถือจริง (navigator.geolocation.getCurrentPosition) ทันทีเมื่อกดปุ่ม
+    # - หากเปิดใน TikTok WebView ที่ปิดสิทธิ์ GPS จะไม่ค้างเด็ดขาด! มีปุ่มเลือกจังหวัด/โซนด่วน + ปุ่มเปิดแอป Google Maps ทันที
+    # ==============================================================================
+    live_gps_branches_json = json.dumps(
+        [
+            {
+                "name": b["name"],
+                "lat": b["lat"],
+                "lon": b["lon"],
+                "phones": b.get("phones", []),
+                "nav_url": b["nav_url"],
+                "search_url": b["search_url"],
+            }
+            for b in filtered_branches
+        ],
+        ensure_ascii=False,
+    )
+    gps_req_id_val = int(st.session_state.get("gps_req_id", 0))
+    gps_auto_start_str = "true" if st.session_state.get("gps_active") else "false"
+    current_loc_label_js = json.dumps(st.session_state.get("user_loc_label", "จุดอ้างอิงปัจจุบัน"), ensure_ascii=False)
+
+    top_gps_navigator_html = f"""
+    <style>
+        .day-live-gps-box {{
+            font-family: 'Prompt', 'Kanit', sans-serif;
+            background: linear-gradient(145deg, #fffdf9 0%, #fff1f2 100%);
+            border: 2.5px solid #ef4444;
+            border-radius: 20px;
+            padding: 14px 16px;
+            margin: 6px 0 12px 0;
+            box-shadow: 0 8px 24px rgba(211, 47, 47, 0.14);
+        }}
+        .day-live-gps-btn-row {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }}
+        .day-live-btn-primary {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            background: linear-gradient(135deg, #b91c1c 0%, #dc2626 55%, #ef4444 100%);
+            color: #ffffff !important;
+            border: 2px solid #fde047;
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-family: 'Prompt', 'Kanit', sans-serif;
+            font-size: 14.5px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none !important;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(211, 47, 47, 0.28);
+            transition: transform 0.15s ease;
+            box-sizing: border-box;
+        }}
+        .day-live-btn-primary:hover {{
+            transform: translateY(-1px);
+        }}
+        .day-live-btn-gmaps {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            background: linear-gradient(135deg, #15803d 0%, #16a34a 100%);
+            color: #ffffff !important;
+            border: 2px solid #bbf7d0;
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-family: 'Prompt', 'Kanit', sans-serif;
+            font-size: 14.5px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none !important;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(22, 163, 74, 0.25);
+            box-sizing: border-box;
+        }}
+        .day-live-btn-mapall {{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+            color: #ffffff !important;
+            border: 2px solid #bfdbfe;
+            border-radius: 14px;
+            padding: 12px 14px;
+            font-family: 'Prompt', 'Kanit', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            text-decoration: none !important;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.24);
+            box-sizing: border-box;
+        }}
+        .day-zone-pills-wrap {{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1.5px dashed #fca5a5;
+        }}
+        .day-zone-pill {{
+            background: #ffffff;
+            color: #b91c1c;
+            border: 1.5px solid #fca5a5;
+            border-radius: 999px;
+            padding: 5px 11px;
+            font-family: 'Prompt', 'Kanit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }}
+        .day-zone-pill:hover, .day-zone-pill.active {{
+            background: #dc2626;
+            color: #ffffff;
+            border-color: #dc2626;
+        }}
+        .day-live-cards-grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }}
+        .day-live-branch-card {{
+            background: #ffffff;
+            border: 2px solid #fecaca;
+            border-radius: 14px;
+            padding: 12px;
+            box-shadow: 0 4px 12px rgba(211, 47, 47, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }}
+    </style>
+
+    <div class="day-live-gps-box" id="day-live-gps-panel">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div style="font-size:16.5px;font-weight:800;color:#b91c1c;">
+                📍 ระบบค้นหาพิกัดร้านใกล้คุณ & นำทางด้วย Google Maps ทันที
+            </div>
+            <div id="day-top-gps-status" style="font-size:13px;font-weight:700;color:#15803d;background:#dcfce7;padding:4px 12px;border-radius:999px;border:1px solid #86efac;">
+                ✅ พร้อมนำทางไปยังสาขาที่ใกล้คุณที่สุด
+            </div>
+        </div>
+
+        <div class="day-live-gps-btn-row">
+            <button type="button" id="day-trigger-gps-now-btn" class="day-live-btn-primary">
+                📍 กดค้นหาพิกัด GPS มือถือของฉันตอนนี้
+            </button>
+            <a id="day-top-nearest-nav-btn"
+               href="{top_nearest_nav_url}"
+               target="_blank" rel="noopener noreferrer"
+               class="day-live-btn-gmaps">
+                🚗 กดนำทางไปสาขาใกล้สุดทันที (Google Maps) ↗
+            </a>
+            <a id="day-top-search-map-btn"
+               href="{top_nearest_search_url}"
+               target="_blank" rel="noopener noreferrer"
+               class="day-live-btn-mapall">
+                🗺️ เปิดดูหมุดพิกัดร้านบนแอป Google Maps ↗
+            </a>
+        </div>
+
+        <div class="day-zone-pills-wrap">
+            <span style="font-size:12.5px;font-weight:800;color:#7f1d1d;align-self:center;margin-right:4px;">
+                🧭 หรือจิ้มเลือกโซนใกล้คุณทันที (ไม่ต้องเปิด GPS):
+            </span>
+            <button type="button" class="day-zone-pill" data-lat="13.8246901" data-lon="100.0570871" data-label="จ.นครปฐม (สำนักงานใหญ่)">🏭 นครปฐม</button>
+            <button type="button" class="day-zone-pill" data-lat="13.7500" data-lon="100.5390" data-label="กรุงเทพมหานคร (ใจกลางเมือง)">🏙️ กรุงเทพฯ</button>
+            <button type="button" class="day-zone-pill" data-lat="13.7944" data-lon="100.3256" data-label="ศาลายา / ฝั่งธนฯ">🛍️ ศาลายา/ฝั่งธนฯ</button>
+            <button type="button" class="day-zone-pill" data-lat="13.9130" data-lon="100.5500" data-label="นนทบุรี / ปทุมธานี">🌆 นนทบุรี/ปทุมฯ</button>
+            <button type="button" class="day-zone-pill" data-lat="12.9236" data-lon="100.8825" data-label="พัทยา / ชลบุรี / ระยอง">🏖️ ชลบุรี/พัทยา</button>
+            <button type="button" class="day-zone-pill" data-lat="14.3532" data-lon="100.5684" data-label="อยุธยา / สระบุรี">🏛️ อยุธยา/สระบุรี</button>
+            <button type="button" class="day-zone-pill" data-lat="18.7883" data-lon="98.9853" data-label="เชียงใหม่ / ภาคเหนือ">⛰️ เชียงใหม่</button>
+            <button type="button" class="day-zone-pill" data-lat="14.9799" data-lon="102.0978" data-label="นครราชสีมา / โคราช">🏰 โคราช</button>
+            <button type="button" class="day-zone-pill" data-lat="14.9930" data-lon="103.1029" data-label="บุรีรัมย์ / สุรินทร์">⚡ บุรีรัมย์/สุรินทร์</button>
+            <button type="button" class="day-zone-pill" data-lat="16.4419" data-lon="102.8360" data-label="ขอนแก่น / อุดรธานี">🌾 ขอนแก่น/อุดรฯ</button>
+            <button type="button" class="day-zone-pill" data-lat="9.1382" data-lon="99.3217" data-label="สุราษฎร์ธานี / ภูเก็ต">🌴 สุราษฎร์ฯ/ภูเก็ต</button>
+            <button type="button" class="day-zone-pill" data-lat="7.0086" data-lon="100.4747" data-label="หาดใหญ่ / สงขลา">🌊 หาดใหญ่/สงขลา</button>
+        </div>
+
+        <div id="day-live-gps-results-wrap" style="margin-top:10px;">
+            <div id="day-live-gps-results-title" style="font-size:14.5px;font-weight:800;color:#b91c1c;"></div>
+            <div id="day-live-gps-cards" class="day-live-cards-grid"></div>
+        </div>
+    </div>
+
+    <script>
+        (function() {{
+            const BRANCHES_LIST = {live_gps_branches_json};
+            const INIT_LAT = {ref_lat};
+            const INIT_LON = {ref_lon};
+            const INIT_LABEL = {current_loc_label_js};
+            const GPS_REQ_ID = {gps_req_id_val};
+            const GPS_AUTO = {gps_auto_start_str};
+
+            function unlockMapIframes() {{
+                const iframes = document.querySelectorAll('iframe');
+                for (let i = 0; i < iframes.length; i++) {{
+                    const ifr = iframes[i];
+                    try {{
+                        ifr.setAttribute('allow', 'geolocation *; clipboard-write *');
+                        if (ifr.hasAttribute('sandbox')) {{
+                            const sb = ifr.getAttribute('sandbox') || '';
+                            const needed = [
+                                'allow-scripts',
+                                'allow-same-origin',
+                                'allow-popups',
+                                'allow-popups-to-escape-sandbox',
+                                'allow-top-navigation',
+                                'allow-top-navigation-by-user-activation'
+                            ];
+                            let updated = sb;
+                            for (let k = 0; k < needed.length; k++) {{
+                                if (updated.indexOf(needed[k]) === -1) {{
+                                    updated += ' ' + needed[k];
+                                }}
+                            }}
+                            ifr.setAttribute('sandbox', updated.trim());
+                        }}
+                    }} catch (e) {{}}
+                }}
+            }}
+            unlockMapIframes();
+            setTimeout(unlockMapIframes, 600);
+            setTimeout(unlockMapIframes, 1800);
+
+            function haversineKm(lat1, lon1, lat2, lon2) {{
+                const R = 6371.0;
+                const dLat = (lat2 - lat1) * Math.PI / 180;
+                const dLon = (lon2 - lon1) * Math.PI / 180;
+                const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                return 2 * R * Math.asin(Math.sqrt(a));
+            }}
+
+            function syncFoliumMap(lat, lon, labelText) {{
+                unlockMapIframes();
+                const iframes = document.querySelectorAll('iframe');
+                for (let i = 0; i < iframes.length; i++) {{
+                    try {{
+                        const cw = iframes[i].contentWindow;
+                        if (cw && typeof cw.highlightNearestFrom === 'function') {{
+                            cw.highlightNearestFrom(lat, lon, labelText);
+                        }}
+                    }} catch (e) {{}}
+                }}
+            }}
+
+            function renderNearestBranchesTop(lat, lon, labelText) {{
+                if (!BRANCHES_LIST || !BRANCHES_LIST.length) return;
+                const ranked = BRANCHES_LIST.map(function(b) {{
+                    return {{
+                        name: b.name,
+                        lat: b.lat,
+                        lon: b.lon,
+                        phones: b.phones || [],
+                        nav_url: 'https://www.google.com/maps/dir/?api=1&destination=' + b.lat + ',' + b.lon + '&travelmode=driving',
+                        search_url: 'https://www.google.com/maps/search/?api=1&query=' + b.lat + ',' + b.lon,
+                        km: haversineKm(lat, lon, b.lat, b.lon)
+                    }};
+                }}).sort(function(a, b) {{ return a.km - b.km; }});
+
+                const nearest = ranked[0];
+                const topNavBtn = document.getElementById('day-top-nearest-nav-btn');
+                const topSearchBtn = document.getElementById('day-top-search-map-btn');
+                if (topNavBtn && nearest) {{
+                    topNavBtn.href = nearest.nav_url;
+                    topNavBtn.innerHTML = '🚗 นำทางไปสาขาใกล้สุด (' + nearest.km.toFixed(1) + ' กม.) Google Maps ↗';
+                }}
+                if (topSearchBtn && nearest) {{
+                    topSearchBtn.href = nearest.search_url;
+                }}
+
+                const titleEl = document.getElementById('day-live-gps-results-title');
+                const cardsEl = document.getElementById('day-live-gps-cards');
+                if (titleEl) {{
+                    titleEl.innerHTML = '🎯 4 อันดับสาขาที่ใกล้ที่สุดจาก: <span style="color:#15803d;">' + labelText + '</span> (กดปุ่มสีแดงเพื่อเปิดแอป Google Maps นำทางทันที)';
+                }}
+                if (cardsEl) {{
+                    cardsEl.innerHTML = ranked.slice(0, 4).map(function(b, idx) {{
+                        const rawPhone = (b.phones && b.phones.length) ? b.phones[0].replace(/[^0-9+]/g, '') : '0863328091';
+                        const phoneLabel = (b.phones && b.phones.length) ? b.phones[0] : '086-3328091';
+                        return '<div class="day-live-branch-card">' +
+                            '<div>' +
+                                '<div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:6px;">' +
+                                    '<span style="background:#dc2626;color:#fff;font-size:11.5px;font-weight:800;padding:2px 9px;border-radius:999px;">อันดับ #' + (idx + 1) + ' ใกล้คุณ</span>' +
+                                    '<span style="background:#f0fdf4;color:#15803d;border:1px solid #86efac;font-size:12px;font-weight:800;padding:2px 8px;border-radius:999px;">📏 ' + b.km.toFixed(2) + ' กม.</span>' +
+                                '</div>' +
+                                '<div style="font-size:14.5px;font-weight:800;color:#2B1810;line-height:1.35;margin-bottom:4px;">📍 ' + b.name + '</div>' +
+                                '<div style="font-size:12.5px;font-weight:700;color:#b91c1c;margin-bottom:8px;">📞 โทร: ' + phoneLabel + '</div>' +
+                            '</div>' +
+                            '<div style="display:grid;grid-template-columns:1fr;gap:6px;">' +
+                                '<a href="' + b.nav_url + '" target="_blank" rel="noopener noreferrer" ' +
+                                   'style="display:block;text-align:center;background:linear-gradient(135deg,#d32f2f,#ff5252);color:#ffffff;font-weight:800;font-size:13px;padding:9px 10px;border-radius:10px;text-decoration:none;box-shadow:0 4px 10px rgba(211,47,47,0.22);">' +
+                                   '📍 กดนำทางไปสาขานี้ (Google Maps)' +
+                                '</a>' +
+                                '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">' +
+                                    '<a href="tel:' + rawPhone + '" style="display:block;text-align:center;background:#059669;color:#ffffff;font-weight:700;font-size:12px;padding:6px 8px;border-radius:8px;text-decoration:none;">📞 โทรติดต่อ</a>' +
+                                    '<a href="' + b.search_url + '" target="_blank" rel="noopener noreferrer" style="display:block;text-align:center;background:#eff6ff;color:#1d4ed8;border:1px solid #93c5fd;font-weight:700;font-size:12px;padding:6px 8px;border-radius:8px;text-decoration:none;">🗺️ ดูหมุดแผนที่</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    }}).join('');
+                }}
+                syncFoliumMap(lat, lon, labelText);
+            }}
+
+            window.triggerDayTopGPS = function() {{
+                const statusEl = document.getElementById('day-top-gps-status');
+                if (statusEl) {{
+                    statusEl.style.background = '#fef9c3';
+                    statusEl.style.color = '#854d0e';
+                    statusEl.style.borderColor = '#fde047';
+                    statusEl.innerHTML = '⏳ กำลังดึงพิกัด GPS มือถือของคุณ...';
+                }}
+                if (navigator.geolocation) {{
+                    navigator.geolocation.getCurrentPosition(
+                        function(pos) {{
+                            const lat = pos.coords.latitude;
+                            const lon = pos.coords.longitude;
+                            try {{
+                                sessionStorage.setItem('day_gps_lat', String(lat));
+                                sessionStorage.setItem('day_gps_lon', String(lon));
+                            }} catch (e) {{}}
+                            if (statusEl) {{
+                                statusEl.style.background = '#dcfce7';
+                                statusEl.style.color = '#15803d';
+                                statusEl.style.borderColor = '#86efac';
+                                statusEl.innerHTML = '✅ พบพิกัด GPS ของคุณแล้ว! กดปุ่มนำทางได้ทันที';
+                            }}
+                            renderNearestBranchesTop(lat, lon, 'พิกัด GPS ปัจจุบันของคุณ');
+                        }},
+                        function(err) {{
+                            if (statusEl) {{
+                                statusEl.style.background = '#fff1f2';
+                                statusEl.style.color = '#b91c1c';
+                                statusEl.style.borderColor = '#fca5a5';
+                                statusEl.innerHTML = '🧭 เลือกโซนจังหวัดด้านล่าง หรือกดปุ่มนำทาง Google Maps ได้ทันที';
+                            }}
+                            renderNearestBranchesTop(INIT_LAT, INIT_LON, INIT_LABEL);
+                        }},
+                        {{ enableHighAccuracy: true, timeout: 4000, maximumAge: 60000 }}
+                    );
+                }} else {{
+                    if (statusEl) {{
+                        statusEl.innerHTML = '🧭 เลือกโซนจังหวัดด้านล่าง หรือกดปุ่มนำทาง Google Maps ได้ทันที';
+                    }}
+                    renderNearestBranchesTop(INIT_LAT, INIT_LON, INIT_LABEL);
+                }}
+            }};
+
+            const gpsBtn = document.getElementById('day-trigger-gps-now-btn');
+            if (gpsBtn) {{
+                gpsBtn.addEventListener('click', function() {{
+                    window.triggerDayTopGPS();
+                }});
+            }}
+
+            const topMenuBtn1 = document.querySelector('.st-key-nav_btn_branches button');
+            if (topMenuBtn1 && !topMenuBtn1.dataset.dayGpsBound) {{
+                topMenuBtn1.dataset.dayGpsBound = '1';
+                topMenuBtn1.addEventListener('click', function() {{
+                    window.triggerDayTopGPS();
+                }});
+            }}
+
+            const stGpsBtn = document.querySelector('.st-key-btn_streamlit_gps_trigger button');
+            if (stGpsBtn && !stGpsBtn.dataset.dayGpsBound) {{
+                stGpsBtn.dataset.dayGpsBound = '1';
+                stGpsBtn.addEventListener('click', function() {{
+                    window.triggerDayTopGPS();
+                }});
+            }}
+
+            const pills = document.querySelectorAll('.day-zone-pill');
+            for (let i = 0; i < pills.length; i++) {{
+                pills[i].addEventListener('click', function() {{
+                    for (let j = 0; j < pills.length; j++) pills[j].classList.remove('active');
+                    this.classList.add('active');
+                    const zLat = parseFloat(this.getAttribute('data-lat'));
+                    const zLon = parseFloat(this.getAttribute('data-lon'));
+                    const zLabel = this.getAttribute('data-label') || 'โซนที่เลือก';
+                    const statusEl = document.getElementById('day-top-gps-status');
+                    if (statusEl) {{
+                        statusEl.style.background = '#dcfce7';
+                        statusEl.style.color = '#15803d';
+                        statusEl.style.borderColor = '#86efac';
+                        statusEl.innerHTML = '📍 แสดงสาขาใกล้: ' + zLabel;
+                    }}
+                    renderNearestBranchesTop(zLat, zLon, zLabel);
+                }});
+            }}
+
+            // แสดงการ์ดสาขาใกล้สุดทันทีโดยไม่ค้าง และหากเคยได้พิกัด GPS หรือกดปุ่มค้นหา GPS ให้เรียกพิกัดทันที
+            let savedLat = null;
+            let savedLon = null;
+            try {{
+                savedLat = parseFloat(sessionStorage.getItem('day_gps_lat'));
+                savedLon = parseFloat(sessionStorage.getItem('day_gps_lon'));
+            }} catch (e) {{}}
+
+            if (savedLat && savedLon && !isNaN(savedLat) && !isNaN(savedLon)) {{
+                renderNearestBranchesTop(savedLat, savedLon, 'พิกัด GPS มือถือของคุณ');
+            }} else {{
+                renderNearestBranchesTop(INIT_LAT, INIT_LON, INIT_LABEL);
+            }}
+
+            if (GPS_REQ_ID > 0 && window._lastDayGpsReqId !== GPS_REQ_ID) {{
+                window._lastDayGpsReqId = GPS_REQ_ID;
+                setTimeout(function() {{
+                    window.triggerDayTopGPS();
+                }}, 120);
+            }}
+        }})();
+    </script>
+    """
+    st.html(top_gps_navigator_html, unsafe_allow_javascript=True)
 
     thailand_map_html = build_thailand_branch_map(
         branches=filtered_branches,
@@ -5625,10 +6140,18 @@ if current_page == "branches":
                 if not desc_short:
                     desc_short = "จุดจำหน่ายไอศกรีมกะทิสดและไอศกรีมโฮมเมดหลากรสชาติ เดย์ไอศครีม (Day Ice Cream)"
 
-                # ดีไซน์การ์ดสาขา 3 แถวคลีนๆ (ป้ายอันดับ + ระยะทาง + ชื่อร้าน + รายละเอียด + เบอร์โทร + ปุ่มโทร/นำทาง ห้ามมี <img> เด็ดขาด 100%!)
+                maps_url = f"https://www.google.com/maps/dir/?api=1&destination={branch['lat']},{branch['lon']}&travelmode=driving"
+
+                # ดีไซน์การ์ดสาขา 3 แถวคลีนๆ + ปุ่ม st.link_button มาตรฐาน Streamlit เด้งเปิดแอป Google Maps ทันที 100%
                 with cols[col_idx]:
                     render_html(
-                        f'<div class="{card_cls}" style="margin-bottom:14px;"><div><div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:10px;">{status_html}<span style="background:#fff1f2;border:1.5px solid #fca5a5;color:#d32f2f;font-weight:800;font-size:12.5px;padding:4px 11px;border-radius:99px;">📏 ห่าง {branch.get("distance_km", 0):.2f} กม.</span></div><div><div style="color:#2B1810;font-weight:800;font-size:16.5px;line-height:1.35;">📍 {branch.get("name")}</div><div style="color:#5C4033;font-size:13px;line-height:1.45;margin-top:5px;">{desc_short}</div>{phone_str}</div></div><div class="branch-actions-row"><a class="branch-call-btn" href="tel:{dial_phone}">📞 โทรติดต่อสาขา</a><a class="branch-nav-btn" href="{branch.get("nav_url")}" target="_blank" rel="noopener noreferrer">🚗 กดนำทางด้วย Google Maps</a></div></div>'
+                        f'<div class="{card_cls}" style="margin-bottom:6px;"><div><div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:10px;">{status_html}<span style="background:#fff1f2;border:1.5px solid #fca5a5;color:#d32f2f;font-weight:800;font-size:12.5px;padding:4px 11px;border-radius:99px;">📏 ห่าง {branch.get("distance_km", 0):.2f} กม.</span></div><div><div style="color:#2B1810;font-weight:800;font-size:16.5px;line-height:1.35;">📍 {branch.get("name")}</div><div style="color:#5C4033;font-size:13px;line-height:1.45;margin-top:5px;">{desc_short}</div>{phone_str}</div></div><div class="branch-actions-row"><a class="branch-call-btn" href="tel:{dial_phone}">📞 โทรติดต่อสาขา</a><a class="branch-nav-btn" href="{maps_url}" target="_blank" rel="noopener noreferrer">🚗 กดนำทางด้วย Google Maps</a></div></div>'
+                    )
+                    st.link_button(
+                        "📍 กดนำทางไปสาขานี้ (Google Maps)",
+                        url=maps_url,
+                        use_container_width=True,
+                        type="primary",
                     )
 
     st.markdown("---")
