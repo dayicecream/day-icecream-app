@@ -2216,24 +2216,20 @@ def inject_pwa_head_metadata(pwa_assets: dict[str, str]) -> None:
 
 def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> None:
     """
-    ระบบติดตั้งแอป PWA ฉบับเสถียร 100% ตามกฎเหล็ก 4 ข้อของพี่เดย์:
-    1) ไม่มี Server Hook ที่ทำให้เกิด Error 502 และไม่มี Popup จำลองการติดตั้งปลอม
-    2) ปุ่มสีเหลืองเป็นลิงก์ <a href="intent://app.dayicecream.com/?install=true#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=https%3A%2F%2Fapp.dayicecream.com%2F%3Finstall%3Dtrue;end" target="_top">
-       ควบคู่กับการเปิด Modal + กล่องคู่มือในกรอบตัวเองทันทีที่คลิก โดยทุกการเข้าถึง window.top/parent หุ้มด้วย try...catch 100%
-    3) ลูกค้าจาก TikTok กดปุ่มสีเหลืองปุ๊บ หน้าต่างคู่มือ '📲 วิธีติดตั้งแอปจาก TikTok ใน 2 คลิก' เด้งขึ้นทันที 100% พร้อมลูกศรชี้มุมขวาบน (⋯)
-    4) รองรับทั้ง Google Chrome (⋮ มุมขวาบน), Samsung Internet (☰ มุมขวาล่าง -> + เพิ่มหน้าไปยัง -> หน้าจอหลัก) และ iPhone Safari (ปุ่มแชร์ ⬆️ -> เพิ่มไปยังหน้าจอโฮม)
+    ระบบติดตั้งแอป PWA ฉบับเสถียร 100% ตามกฎเหล็ก 3 ข้อของพี่เดย์:
+    1) ถอด intent:// และ href ที่ทำให้หน้าเว็บรีเฟรชวนลูปใน TikTok / In-App Browser ออกทั้งหมด 100%!
+       เปิดหน้าต่าง Modal / Overlay ขนาดใหญ่กลางหน้าจอทันทีภายในหน้าเดิมโดยไม่กระพริบหรือรีเฟรชหน้าเว็บเด็ดขาด
+    2) คลิกได้ทั้งกรอบใหญ่ทั้งหมด (Full Banner Clickable):
+       ผูกทั้ง 'รูปภาพแบนเนอร์สีแดงอันใหญ่' และ 'ปุ่มแถบสีเหลืองด้านล่าง' ให้เป็นปุ่มเดียวกันทั้งหมด จิ้มตรงไหนก็ทำงานทันที
+       (ยกเว้นปุ่มกากบาท X มุมขวาบนของรูป)
+    3) หน้าต่าง Modal ชัดเจนพร้อมลูกศรชี้มุมขวาบน (⋯) + ปุ่ม '📋 คัดลอกลิงก์ไปเปิดใน Chrome'
+       และหากเปิดในเบราว์เซอร์จริง (Chrome / Samsung Internet) จะเรียก deferredPrompt.prompt() ทันที หรือแสดงวิธี 'เพิ่มลงในหน้าจอหลัก'
     """
     _ = pwa_assets
     safe_key = re.sub(r"[^a-zA-Z0-9_]", "_", location_key)
     hero_banner_b64 = get_real_qr_banner_web_b64("011")
 
-    intent_full_url = (
-        "intent://app.dayicecream.com/?install=true"
-        "#Intent;scheme=https;package=com.android.chrome;"
-        "S.browser_fallback_url=https%3A%2F%2Fapp.dayicecream.com%2F%3Finstall%3Dtrue;end"
-    )
-
-    # ภาพกราฟิกที่ 1: สำหรับ TikTok / LINE / Facebook ชี้ไปที่ปุ่ม ⋯ มุมขวาบนสุด -> เปิดในเบราว์เซอร์ (Open in Browser)
+    # ภาพกราฟิกที่ 1: สำหรับผู้เข้าผ่าน TikTok / LINE / Facebook ชี้ไปที่ปุ่ม ⋯ มุมขวาบนสุดของจอ
     inapp_guide_svg_raw = """
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 410" width="100%" height="auto">
       <defs>
@@ -2256,7 +2252,7 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
       </defs>
       <rect x="4" y="4" width="672" height="402" rx="24" fill="url(#bgInApp)" stroke="#f59e0b" stroke-width="5"/>
 
-      <!-- แถบจำลองหัวหน้าจอ TikTok + ปุ่มจุด 3 จุด (⋯) มุมขวาบน -->
+      <!-- แถบจำลองหัวหน้าจอ TikTok + ปุ่มจุด 3 จุด (⋯) มุมขวาบนสุด -->
       <rect x="24" y="18" width="632" height="62" rx="14" fill="url(#topBarInApp)"/>
       <text x="44" y="56" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="21" font-weight="800">📱 แถบด้านบนของหน้าจอ TikTok / LINE / Facebook</text>
 
@@ -2267,29 +2263,29 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
       <circle cx="625" cy="49" r="3.5" fill="#ffffff"/>
 
       <!-- ลูกศรชี้ไปที่ปุ่ม ⋯ มุมขวาบนสุด -->
-      <rect x="250" y="92" width="402" height="58" rx="14" fill="url(#stepRedInApp)" stroke="#fde047" stroke-width="3"/>
+      <rect x="236" y="92" width="418" height="58" rx="14" fill="url(#stepRedInApp)" stroke="#fde047" stroke-width="3"/>
       <path d="M598 92 L614 74 L628 92 Z" fill="#dc2626"/>
-      <text x="451" y="128" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="20.5" font-weight="900">1. แตะปุ่มจุด 3 จุด (⋯) มุมขวาบนสุด ↗</text>
+      <text x="445" y="128" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="20" font-weight="900">ขั้นที่ 1: แตะปุ่มจุด 3 จุด (⋯) มุมขวาบนสุด ↗</text>
 
-      <!-- ขั้นตอนที่ 2: เลือก เปิดในเบราว์เซอร์ (Open in Browser) -->
+      <!-- ขั้นที่ 2: แตะเลือก เปิดในเบราว์เซอร์ (Open in Browser) -->
       <rect x="28" y="164" width="624" height="96" rx="18" fill="#ffffff" stroke="#16a34a" stroke-width="4"/>
       <rect x="44" y="182" width="52" height="58" rx="12" fill="url(#stepGreenInApp)"/>
       <text x="70" y="220" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="28" font-weight="900">2</text>
-      <text x="114" y="209" fill="#15803d" font-family="Kanit, Prompt, sans-serif" font-size="22.5" font-weight="900">เลือก “เปิดในเบราว์เซอร์ (Open in Browser)”</text>
-      <text x="114" y="241" fill="#374151" font-family="Kanit, Prompt, sans-serif" font-size="18.5" font-weight="700">(ระบบจะเปิดใน Chrome, Samsung Internet หรือ Safari)</text>
+      <text x="114" y="209" fill="#15803d" font-family="Kanit, Prompt, sans-serif" font-size="22" font-weight="900">ขั้นที่ 2: แตะเลือก “เปิดในเบราว์เซอร์”</text>
+      <text x="114" y="241" fill="#374151" font-family="Kanit, Prompt, sans-serif" font-size="18.5" font-weight="700">(Open in Browser — เพื่อเปิดใน Chrome / Samsung / Safari)</text>
 
-      <!-- ขั้นตอนที่ 3: เพิ่มลงในหน้าจอหลัก (รองรับทั้ง Chrome ⋮, Samsung ☰, Safari ⬆️) -->
+      <!-- ขั้นที่ 3: กดปุ่มติดตั้งแอปลงหน้าจอมือถือได้เลย -->
       <rect x="28" y="274" width="624" height="114" rx="18" fill="#ffffff" stroke="#d97706" stroke-width="3.5"/>
       <rect x="44" y="302" width="52" height="58" rx="12" fill="#d97706"/>
       <text x="70" y="340" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="28" font-weight="900">3</text>
-      <text x="114" y="306" fill="#b45309" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="900">• Chrome: แตะ (⋮) มุมขวาบน &gt; “เพิ่มลงในหน้าจอหลัก / ติดตั้งแอป”</text>
-      <text x="114" y="336" fill="#1d4ed8" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="900">• Samsung: แตะ (☰) มุมขวาล่าง &gt; “+ เพิ่มหน้าไปยัง” &gt; “หน้าจอหลัก”</text>
-      <text x="114" y="366" fill="#7f1d1d" font-family="Kanit, Prompt, sans-serif" font-size="19" font-weight="800">• iPhone (Safari): แตะแชร์ (⬆️) ด้านล่าง &gt; “เพิ่มไปยังหน้าจอโฮม”</text>
+      <text x="114" y="306" fill="#b45309" font-family="Kanit, Prompt, sans-serif" font-size="20" font-weight="900">ขั้นที่ 3: กดปุ่มติดตั้งแอปลงหน้าจอมือถือได้เลยครับ!</text>
+      <text x="114" y="336" fill="#1d4ed8" font-family="Kanit, Prompt, sans-serif" font-size="18.5" font-weight="900">• Chrome แตะ (⋮) มุมขวาบน / Samsung แตะ (☰) มุมขวาล่าง</text>
+      <text x="114" y="366" fill="#7f1d1d" font-family="Kanit, Prompt, sans-serif" font-size="18.5" font-weight="800">• iPhone (Safari): แตะปุ่มแชร์ (⬆️) &gt; เลือก “เพิ่มไปยังหน้าจอโฮม”</text>
     </svg>
     """
     inapp_guide_svg_b64 = base64.b64encode(inapp_guide_svg_raw.strip().encode("utf-8")).decode("ascii")
 
-    # ภาพกราฟิกที่ 2: สำหรับ Chrome (⋮ มุมขวาบน), Samsung Internet (☰ มุมขวาล่าง) และ iPhone Safari (แชร์ ⬆️)
+    # ภาพกราฟิกที่ 2: สำหรับเมื่อเปิดในเบราว์เซอร์จริง (Chrome / Samsung Internet / Safari)
     browser_guide_svg_raw = """
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 410" width="100%" height="auto">
       <defs>
@@ -2304,7 +2300,7 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
       <rect x="24" y="20" width="632" height="114" rx="18" fill="#ffffff" stroke="#16a34a" stroke-width="4"/>
       <rect x="40" y="38" width="54" height="78" rx="12" fill="#16a34a"/>
       <text x="67" y="86" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="26" font-weight="900">⋮</text>
-      <text x="110" y="56" fill="#15803d" font-family="Kanit, Prompt, sans-serif" font-size="21.5" font-weight="900">1) มือถือ Android ที่ใช้ Google Chrome:</text>
+      <text x="110" y="56" fill="#15803d" font-family="Kanit, Prompt, sans-serif" font-size="21.5" font-weight="900">1) สำหรับ Google Chrome (Android):</text>
       <text x="110" y="86" fill="#1f2937" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="800">แตะปุ่มจุด 3 จุด (⋮) มุมขวาบนสุดของจอ</text>
       <text x="110" y="114" fill="#b91c1c" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="900">&gt; เลือก “ติดตั้งแอป (Install app)” หรือ “เพิ่มลงในหน้าจอหลัก”</text>
 
@@ -2312,7 +2308,7 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
       <rect x="24" y="148" width="632" height="114" rx="18" fill="#ffffff" stroke="#2563eb" stroke-width="4"/>
       <rect x="40" y="166" width="54" height="78" rx="12" fill="#2563eb"/>
       <text x="67" y="214" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="26" font-weight="900">☰</text>
-      <text x="110" y="184" fill="#1d4ed8" font-family="Kanit, Prompt, sans-serif" font-size="21.5" font-weight="900">2) มือถือ Samsung (แอป Samsung Internet):</text>
+      <text x="110" y="184" fill="#1d4ed8" font-family="Kanit, Prompt, sans-serif" font-size="21.5" font-weight="900">2) สำหรับมือถือ Samsung (Samsung Internet):</text>
       <text x="110" y="214" fill="#1f2937" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="800">แตะปุ่มขีด 3 ขีด (☰) ที่มุมขวาล่างของจอ</text>
       <text x="110" y="242" fill="#b91c1c" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="900">&gt; กด “+ เพิ่มหน้าไปยัง (Add page to)” &gt; เลือก “หน้าจอหลัก”</text>
 
@@ -2320,7 +2316,7 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
       <rect x="24" y="276" width="632" height="112" rx="18" fill="#ffffff" stroke="#d97706" stroke-width="4"/>
       <rect x="40" y="294" width="54" height="76" rx="12" fill="#d97706"/>
       <text x="67" y="341" text-anchor="middle" fill="#ffffff" font-family="Kanit, Prompt, sans-serif" font-size="24" font-weight="900">⬆️</text>
-      <text x="110" y="312" fill="#b45309" font-family="Kanit, Prompt, sans-serif" font-size="21.5" font-weight="900">3) สำหรับ iPhone / iPad (แอป Safari):</text>
+      <text x="110" y="312" fill="#b45309" font-family="Kanit, Prompt, sans-serif" font-size="21.5" font-weight="900">3) สำหรับ iPhone / iPad (Safari):</text>
       <text x="110" y="342" fill="#1f2937" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="800">แตะปุ่มแชร์ (Share ⬆️) แถบด้านล่างของจอ</text>
       <text x="110" y="369" fill="#b91c1c" font-family="Kanit, Prompt, sans-serif" font-size="19.5" font-weight="900">&gt; เลื่อนลงมาเลือก “เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)”</text>
     </svg>
@@ -2329,6 +2325,9 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
 
     banner_html = f"""
     <style>
+        .day-pwa-toggle-chk {{
+            display: none !important;
+        }}
         .day-pizza-banner-wrap {{
             display: block !important;
             width: 100% !important;
@@ -2353,38 +2352,42 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             cursor: pointer !important;
             text-align: left !important;
             box-shadow: 0 12px 30px rgba(185, 28, 28, 0.34) !important;
-            transition: transform 0.16s ease, box-shadow 0.16s ease !important;
+            transition: transform 0.14s ease, box-shadow 0.14s ease !important;
             box-sizing: border-box !important;
             position: relative !important;
             overflow: hidden !important;
             text-decoration: none !important;
             margin: 0 !important;
             user-select: none !important;
+            -webkit-tap-highlight-color: transparent !important;
         }}
         .day-pwa-direct-card:hover {{
             transform: translateY(-1px) !important;
             box-shadow: 0 14px 34px rgba(185, 28, 28, 0.45), 0 0 20px rgba(255, 215, 0, 0.5) !important;
         }}
+        .day-pwa-direct-card:active {{
+            transform: scale(0.99) !important;
+        }}
         .day-pizza-close-x {{
             position: absolute !important;
             top: 12px !important;
             right: 12px !important;
-            width: 32px !important;
-            height: 32px !important;
+            width: 34px !important;
+            height: 34px !important;
             border-radius: 50% !important;
-            background: rgba(0, 0, 0, 0.62) !important;
+            background: rgba(0, 0, 0, 0.68) !important;
             color: #ffffff !important;
             border: 2px solid #fde047 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
-            font-size: 15px !important;
+            font-size: 16px !important;
             font-weight: 900 !important;
             line-height: 1 !important;
             cursor: pointer !important;
-            z-index: 15 !important;
+            z-index: 30 !important;
             transition: all 0.15s ease !important;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.4) !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.45) !important;
         }}
         .day-4k-img-container {{
             width: 100% !important;
@@ -2392,12 +2395,16 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             display: block !important;
             line-height: 0 !important;
             background: #450a0a !important;
+            cursor: pointer !important;
+            pointer-events: none !important;
         }}
         .day-4k-realqr-hero-img {{
             width: 100% !important;
             height: auto !important;
             display: block !important;
             object-fit: contain !important;
+            cursor: pointer !important;
+            pointer-events: none !important;
         }}
         .day-4k-bottom-cta-strip {{
             width: 100% !important;
@@ -2408,13 +2415,10 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             align-items: center !important;
             justify-content: center !important;
             box-sizing: border-box !important;
+            cursor: pointer !important;
+            pointer-events: none !important;
         }}
-        .day-pizza-install-btn,
-        a.day-pizza-install-btn,
-        a.day-pizza-install-btn:link,
-        a.day-pizza-install-btn:visited,
-        a.day-pizza-install-btn:hover,
-        a.day-pizza-install-btn:active {{
+        .day-pizza-install-btn {{
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -2432,29 +2436,14 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             text-align: center !important;
             text-decoration: none !important;
             box-sizing: border-box !important;
+            pointer-events: none !important;
         }}
-        .day-pizza-install-btn:active {{
-            transform: scale(0.98) !important;
-        }}
-        /* กล่องคู่มือแบบฝังในกรอบเดียวกัน (การันตีแสดงผล 100% บนทุก WebView แม้โดนจำกัด fixed overlay) */
-        .day-pwa-inline-guide {{
-            display: none;
-            margin-top: 12px !important;
-            background: linear-gradient(160deg, #7f1017 0%, #b91c1c 55%, #991b1b 100%) !important;
-            color: #ffffff !important;
-            border: 3.5px solid #FFD700 !important;
-            border-radius: 22px !important;
-            padding: 16px 14px !important;
-            box-shadow: 0 16px 40px rgba(0,0,0,0.45) !important;
-            text-align: center !important;
-            box-sizing: border-box !important;
-        }}
-        /* หน้าต่าง Modal เต็มจอพร้อมลูกศรชี้มุมขวาบน */
+        /* หน้าต่าง Modal เต็มจอ + เปิดได้ทันทีทั้งด้วย CSS :checked และ JavaScript โดยไม่รีเฟรชหน้าเว็บ 100% */
         .day-pwa-guide-overlay {{
             display: none;
             position: fixed !important;
             inset: 0 !important;
-            background: rgba(0, 0, 0, 0.85) !important;
+            background: rgba(0, 0, 0, 0.86) !important;
             z-index: 2147483646 !important;
             align-items: center !important;
             justify-content: center !important;
@@ -2463,6 +2452,9 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             backdrop-filter: blur(6px) !important;
             font-family: 'Kanit', 'Prompt', sans-serif !important;
             overflow-y: auto !important;
+        }}
+        #day-pwa-toggle-{safe_key}:checked ~ .day-pwa-guide-overlay {{
+            display: flex !important;
         }}
         .day-pwa-topright-pointer {{
             position: fixed !important;
@@ -2475,13 +2467,13 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             padding: 8px 14px !important;
             font-size: 14.5px !important;
             font-weight: 900 !important;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.7) !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.75) !important;
             z-index: 2147483647 !important;
-            animation: dayBounceArrow 1s infinite alternate !important;
+            animation: dayBounceArrow 0.9s infinite alternate !important;
         }}
         @keyframes dayBounceArrow {{
             0% {{ transform: translateY(0px); }}
-            100% {{ transform: translateY(6px); }}
+            100% {{ transform: translateY(7px); }}
         }}
         .day-pwa-guide-card {{
             background: linear-gradient(160deg, #7f1017 0%, #b91c1c 55%, #991b1b 100%) !important;
@@ -2491,11 +2483,11 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             padding: 18px 15px !important;
             max-width: 480px !important;
             width: 100% !important;
-            box-shadow: 0 24px 60px rgba(0,0,0,0.85) !important;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.88) !important;
             text-align: center !important;
             position: relative !important;
             box-sizing: border-box !important;
-            margin-top: 36px !important;
+            margin-top: 38px !important;
         }}
         .day-pwa-guide-img {{
             width: 100% !important;
@@ -2506,33 +2498,35 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             box-shadow: 0 8px 20px rgba(0,0,0,0.35) !important;
         }}
         .day-pwa-step-box {{
-            background: rgba(0, 0, 0, 0.38) !important;
+            background: rgba(0, 0, 0, 0.40) !important;
             border: 2px solid #fde047 !important;
             border-radius: 16px !important;
             padding: 12px 14px !important;
             margin-bottom: 10px !important;
-            font-size: 14px !important;
-            line-height: 1.6 !important;
+            font-size: 14.2px !important;
+            line-height: 1.62 !important;
             text-align: left !important;
             color: #ffffff !important;
         }}
-        .day-pwa-chrome-launch-btn,
-        a.day-pwa-chrome-launch-btn {{
+        .day-pwa-copy-link-btn {{
             display: block !important;
             width: 100% !important;
             text-align: center !important;
             background: linear-gradient(135deg, #fef08a 0%, #facc15 100%) !important;
             color: #7f1d1d !important;
             font-weight: 900 !important;
-            font-size: 15px !important;
-            padding: 12px 14px !important;
+            font-size: 15.5px !important;
+            padding: 13px 14px !important;
             border-radius: 999px !important;
             border: 2.5px solid #ffffff !important;
-            text-decoration: none !important;
             box-shadow: 0 6px 18px rgba(0,0,0,0.38) !important;
             margin-bottom: 10px !important;
             box-sizing: border-box !important;
             cursor: pointer !important;
+            font-family: 'Kanit', 'Prompt', sans-serif !important;
+        }}
+        .day-pwa-copy-link-btn:active {{
+            transform: scale(0.98) !important;
         }}
         .day-pwa-native-prompt-btn {{
             display: none;
@@ -2549,6 +2543,7 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             margin-bottom: 12px !important;
             box-sizing: border-box !important;
             cursor: pointer !important;
+            font-family: 'Kanit', 'Prompt', sans-serif !important;
         }}
         .day-pwa-guide-close-btn {{
             display: block !important;
@@ -2557,99 +2552,80 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             background: rgba(255,255,255,0.20) !important;
             color: #fef08a !important;
             font-weight: 800 !important;
-            font-size: 14px !important;
-            padding: 10px 14px !important;
+            font-size: 14.5px !important;
+            padding: 11px 14px !important;
             border-radius: 999px !important;
             border: 1.5px solid #fde047 !important;
             cursor: pointer !important;
             margin-top: 6px !important;
             box-sizing: border-box !important;
+            font-family: 'Kanit', 'Prompt', sans-serif !important;
         }}
         @media (max-width: 768px) {{
             .day-pizza-banner-wrap {{ margin-top: 6px !important; margin-bottom: 18px !important; height: auto !important; }}
             .day-4k-bottom-cta-strip {{ padding: 8px 10px !important; }}
-            .day-pizza-install-btn, a.day-pizza-install-btn {{ font-size: 12.5px !important; padding: 8px 12px !important; width: 100% !important; }}
+            .day-pizza-install-btn {{ font-size: 12.5px !important; padding: 8px 12px !important; width: 100% !important; }}
         }}
     </style>
 
+    <input type="checkbox" id="day-pwa-toggle-{safe_key}" class="day-pwa-toggle-chk" />
+
     <div class="day-pizza-banner-wrap" id="day-pizza-wrap-{safe_key}">
         <button type="button" class="day-pizza-close-x" id="day-pwa-hide-btn-{safe_key}" title="ปิดแถบแบนเนอร์นี้">✕</button>
-        <div class="day-pwa-direct-card" id="day-pwa-card-{safe_key}">
+        <!-- คลิกได้ทั้งกรอบใหญ่ทั้งหมด: ทั้งรูปภาพแบนเนอร์สีแดงอันใหญ่ และปุ่มแถบสีเหลืองด้านล่าง -->
+        <label for="day-pwa-toggle-{safe_key}" class="day-pwa-direct-card" id="day-pwa-card-{safe_key}">
             <div class="day-4k-img-container">
-                <img class="day-4k-realqr-hero-img" src="data:image/jpeg;base64,{hero_banner_b64}" alt="Day Ice Cream App Banner" />
+                <img class="day-4k-realqr-hero-img" src="data:image/jpeg;base64,{hero_banner_b64}" alt="โหลด App Day Ice Cream" />
             </div>
             <div class="day-4k-bottom-cta-strip">
-                <a href="https://app.dayicecream.com/?install=true" target="_top" class="day-pizza-install-btn" id="day-pwa-btn-{safe_key}">📲 กดปุ่มนี้เพื่อติดตั้งแอป Day Ice Cream ลงมือถือของคุณลูกค้า (คลิกที่นี่ ❯)</a>
+                <span class="day-pizza-install-btn" id="day-pwa-btn-{safe_key}">📲 กดปุ่มนี้เพื่อติดตั้งแอป Day Ice Cream ลงมือถือของคุณลูกค้า (คลิกที่นี่ ❯)</span>
             </div>
-        </div>
-
-        <!-- กล่องคู่มือในกรอบตัวเอง (แสดงทันทีที่กดปุ่มสีเหลือง 100% แม้เปิดใน TikTok WebView) -->
-        <div class="day-pwa-inline-guide" id="day-pwa-inline-guide-{safe_key}">
-            <div style="font-size:17.5px;font-weight:900;color:#fef08a;margin-bottom:8px;">
-                📲 วิธีติดตั้งแอปจาก TikTok ใน 2 คลิก (และทุกเบราว์เซอร์)
-            </div>
-            <div class="day-pwa-step-box">
-                <b style="color:#fde047;font-size:15px;">📲 วิธีติดตั้งแอปจาก TikTok ใน 2 คลิก:</b><br/>
-                <b>1.</b> แตะปุ่มจุด 3 จุด <b>(⋯)</b> ที่มุมขวาบนสุดของหน้าจอนี้ ↗<br/>
-                <b>2.</b> เลือก <b>&ldquo;เปิดในเบราว์เซอร์ (Open in Browser)&rdquo;</b><br/>
-                <b>3.</b> เมื่อเปิดในเบราว์เซอร์แล้ว แตะปุ่มเมนู <b>(⋮ หรือ ☰)</b> เลือก <b>&ldquo;เพิ่มลงในหน้าจอหลัก (Add to Home screen)&rdquo;</b> ได้เลยครับ!
-            </div>
-            <img class="day-pwa-guide-img" id="day-pwa-inline-img-{safe_key}" src="data:image/svg+xml;base64,{inapp_guide_svg_b64}" alt="วิธีติดตั้งแอป Day Ice Cream" />
-            <div class="day-pwa-step-box" style="border-color:#93c5fd !important;">
-                <b style="color:#fef08a;">🌐 เมื่อเปิดในเบราว์เซอร์แล้ว (Chrome / Samsung / Safari):</b><br/>
-                • <b>Google Chrome:</b> แตะจุด 3 จุด <b>(⋮) มุมขวาบน</b> &gt; เลือก <b>&ldquo;ติดตั้งแอป (Install app)&rdquo;</b> หรือ <b>&ldquo;เพิ่มลงในหน้าจอหลัก&rdquo;</b><br/>
-                • <b>Samsung Internet:</b> แตะขีด 3 ขีด <b>(☰) มุมขวาล่าง</b> &gt; กด <b>&ldquo;+ เพิ่มหน้าไปยัง&rdquo;</b> &gt; เลือก <b>&ldquo;หน้าจอหลัก&rdquo;</b><br/>
-                • <b>iPhone (Safari):</b> แตะปุ่มแชร์ <b>(⬆️) ด้านล่าง</b> &gt; เลือก <b>&ldquo;เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)&rdquo;</b>
-            </div>
-            <button type="button" class="day-pwa-guide-close-btn" id="day-pwa-close-inline-{safe_key}">✕ ปิดคำแนะนำนี้</button>
-        </div>
+        </label>
     </div>
 
-    <!-- หน้าต่าง Modal เต็มจอพร้อมลูกศรชี้มุมขวาบน -->
+    <!-- หน้าต่าง Modal เต็มจอพร้อมลูกศรชี้มุมขวาบน และปุ่มคัดลอกลิงก์ (ไม่มีการรีเฟรชหน้าเว็บ 100%) -->
     <div class="day-pwa-guide-overlay" id="day-pwa-modal-{safe_key}">
         <div class="day-pwa-topright-pointer" id="day-pwa-pointer-{safe_key}">
-            ↗ แตะปุ่มจุด 3 จุด (⋯) มุมขวาบนสุดตรงนี้!
+            ↗ แตะปุ่มจุด 3 จุด (⋯) ที่มุมขวาบนสุดของหน้าจอนี้!
         </div>
         <div class="day-pwa-guide-card" id="day-pwa-modal-card-{safe_key}">
             <div id="day-pwa-modal-title-{safe_key}" style="font-size:18px;font-weight:900;color:#fef08a;margin-bottom:8px;line-height:1.35;">
-                📲 วิธีติดตั้งแอปจาก TikTok ใน 2 คลิก:
+                📲 วิธีติดตั้งแอปลงมือถือ (สำหรับผู้เข้าผ่าน TikTok):
             </div>
             <button type="button" class="day-pwa-native-prompt-btn" id="day-pwa-native-btn-{safe_key}">
                 📲 กดปุ่มนี้เพื่อยืนยันติดตั้งแอป Day Ice Cream ลงมือถือทันที ❯
             </button>
             <div class="day-pwa-step-box" id="day-pwa-tiktok-box-{safe_key}">
-                <div style="font-weight:900;color:#fde047;font-size:15px;margin-bottom:4px;">📲 วิธีติดตั้งแอปจาก TikTok ใน 2 คลิก:</div>
-                <b>1.</b> แตะปุ่มจุด 3 จุด <b>(⋯)</b> ที่มุมขวาบนสุดของหน้าจอนี้ ↗<br/>
-                <b>2.</b> เลือก <b>&ldquo;เปิดในเบราว์เซอร์ (Open in Browser)&rdquo;</b><br/>
-                <b>3.</b> เมื่อเปิดในเบราว์เซอร์แล้ว แตะปุ่มเมนู <b>(⋮ หรือ ☰)</b> เลือก <b>&ldquo;เพิ่มลงในหน้าจอหลัก (Add to Home screen)&rdquo;</b> ได้เลยครับ!
+                <div style="font-weight:900;color:#fde047;font-size:15px;margin-bottom:4px;">📲 วิธีติดตั้งแอปลงมือถือ (สำหรับผู้เข้าผ่าน TikTok):</div>
+                <b>ขั้นที่ 1:</b> แตะปุ่มจุด 3 จุด <b>(⋯)</b> ที่มุมขวาบนสุดของหน้าจอนี้ ↗<br/>
+                <b>ขั้นที่ 2:</b> แตะเลือก <b>&ldquo;เปิดในเบราว์เซอร์ (Open in Browser)&rdquo;</b><br/>
+                <b>ขั้นที่ 3:</b> กดปุ่มติดตั้งแอปลงหน้าจอมือถือได้เลยครับ!
             </div>
             <img class="day-pwa-guide-img" id="day-pwa-guide-img-{safe_key}" src="data:image/svg+xml;base64,{inapp_guide_svg_b64}" alt="ขั้นตอนการติดตั้งแอป Day Ice Cream ลงมือถือ" />
-            <a href="https://app.dayicecream.com/?install=true" target="_top" id="day-pwa-chrome-link-{safe_key}" class="day-pwa-chrome-launch-btn">
-                🚀 กดปุ่มนี้เพื่อเปิดใน Google Chrome อัตโนมัติ (Android) ❯
-            </a>
+            <button type="button" id="day-pwa-copy-btn-{safe_key}" class="day-pwa-copy-link-btn">
+                📋 คัดลอกลิงก์ไปเปิดใน Chrome
+            </button>
             <div class="day-pwa-step-box" id="day-pwa-modal-desc-{safe_key}" style="margin-bottom:8px;">
-                <b style="color:#fde047;">📌 รองรับทุกเบราว์เซอร์ (Chrome / Samsung / Safari):</b><br/>
+                <b style="color:#fde047;">🌐 เมื่อเปิดในเบราว์เซอร์แล้ว (Chrome / Samsung / Safari):</b><br/>
                 • <b>Google Chrome:</b> แตะจุด 3 จุด <b>(⋮) มุมขวาบน</b> &gt; เลือก <b>&ldquo;เพิ่มลงในหน้าจอหลัก (Add to Home screen)&rdquo;</b> หรือ <b>&ldquo;ติดตั้งแอป (Install app)&rdquo;</b><br/>
                 • <b>Samsung Internet:</b> แตะขีด 3 ขีด <b>(☰) มุมขวาล่าง</b> &gt; กด <b>&ldquo;+ เพิ่มหน้าไปยัง&rdquo;</b> &gt; เลือก <b>&ldquo;หน้าจอหลัก (Home screen)&rdquo;</b><br/>
                 • <b>iPhone / iPad (Safari):</b> แตะปุ่มแชร์ <b>(⬆️) ด้านล่าง</b> &gt; เลือก <b>&ldquo;เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)&rdquo;</b>
             </div>
-            <button type="button" class="day-pwa-guide-close-btn" id="day-pwa-close-modal-{safe_key}">✕ ปิดหน้าต่างคำแนะนำนี้</button>
+            <label for="day-pwa-toggle-{safe_key}" class="day-pwa-guide-close-btn" id="day-pwa-close-modal-{safe_key}">✕ ปิดหน้าต่างคำแนะนำนี้</label>
         </div>
     </div>
 
     <script>
         (function() {{
-            var intentHref = "{intent_full_url}";
+            var appUrlToCopy = "https://app.dayicecream.com";
             var inappSvgSrc = "data:image/svg+xml;base64,{inapp_guide_svg_b64}";
             var browserSvgSrc = "data:image/svg+xml;base64,{browser_guide_svg_b64}";
 
+            var chkEl = document.getElementById("day-pwa-toggle-{safe_key}");
             var wrapEl = document.getElementById("day-pizza-wrap-{safe_key}");
             var cardEl = document.getElementById("day-pwa-card-{safe_key}");
             var btnEl = document.getElementById("day-pwa-btn-{safe_key}");
             var hideBtnEl = document.getElementById("day-pwa-hide-btn-{safe_key}");
-            var inlineGuideEl = document.getElementById("day-pwa-inline-guide-{safe_key}");
-            var inlineImgEl = document.getElementById("day-pwa-inline-img-{safe_key}");
-            var closeInlineBtnEl = document.getElementById("day-pwa-close-inline-{safe_key}");
 
             var modalEl = document.getElementById("day-pwa-modal-{safe_key}");
             var pointerEl = document.getElementById("day-pwa-pointer-{safe_key}");
@@ -2658,22 +2634,9 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
             var tiktokBoxEl = document.getElementById("day-pwa-tiktok-box-{safe_key}");
             var nativeBtnEl = document.getElementById("day-pwa-native-btn-{safe_key}");
             var guideImgEl = document.getElementById("day-pwa-guide-img-{safe_key}");
-            var chromeLinkEl = document.getElementById("day-pwa-chrome-link-{safe_key}");
+            var copyBtnEl = document.getElementById("day-pwa-copy-btn-{safe_key}");
             var closeModalBtnEl = document.getElementById("day-pwa-close-modal-{safe_key}");
 
-            // ตั้งค่าลิงก์ Intent และ target="_top" หลัง DOMPurify ทำงานเสร็จ (กฎข้อที่ 2)
-            try {{
-                if (btnEl) {{
-                    btnEl.setAttribute("href", intentHref);
-                    btnEl.setAttribute("target", "_top");
-                }}
-                if (chromeLinkEl) {{
-                    chromeLinkEl.setAttribute("href", intentHref);
-                    chromeLinkEl.setAttribute("target", "_top");
-                }}
-            }} catch (e) {{}}
-
-            // ดักจับ beforeinstallprompt อย่างปลอดภัย
             function captureBeforeInstallPrompt(e) {{
                 try {{ e.preventDefault(); }} catch (err) {{}}
                 window.deferredPrompt = e;
@@ -2703,11 +2666,11 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                     if (btnEl) {{
                         btnEl.innerHTML = "✅ ติดตั้งแอป Day Ice Cream ลงเครื่องเรียบร้อยแล้ว";
                     }}
+                    if (chkEl) {{
+                        chkEl.checked = false;
+                    }}
                     if (modalEl) {{
                         modalEl.style.display = "none";
-                    }}
-                    if (inlineGuideEl) {{
-                        inlineGuideEl.style.display = "none";
                     }}
                 }});
             }} catch (e) {{}}
@@ -2750,11 +2713,11 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                                     if (btnEl) {{
                                         btnEl.innerHTML = "✅ ติดตั้งแอป Day Ice Cream ลงเครื่องเรียบร้อยแล้ว";
                                     }}
+                                    if (chkEl) {{
+                                        chkEl.checked = false;
+                                    }}
                                     if (modalEl) {{
                                         modalEl.style.display = "none";
-                                    }}
-                                    if (inlineGuideEl) {{
-                                        inlineGuideEl.style.display = "none";
                                     }}
                                 }}
                             }});
@@ -2772,7 +2735,7 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                 }} catch (e) {{}}
                 var isAndroid = (new RegExp("Android", "i")).test(ua);
                 var isIOS = (new RegExp("iPhone|iPad|iPod", "i")).test(ua);
-                var isTikTok = (new RegExp("TikTok|musical_ly|BytedanceWebview|Bytedance|ByteLocale", "i")).test(ua);
+                var isTikTok = (new RegExp("TikTok|musical_ly|BytedanceWebview|Bytedance|ByteLocale|Trill|aweme", "i")).test(ua);
                 var isSamsung = (new RegExp("SamsungBrowser", "i")).test(ua);
                 var isKnownInApp = isTikTok || (new RegExp("FBAN|FBAV|FB_IAB|FBIOS|Line/|LIFF|Messenger|Orca-Android|Instagram|MicroMessenger|Twitter|wv\\\\)", "i")).test(ua);
                 var isWebViewIOS = isIOS && !(new RegExp("Safari/", "i")).test(ua);
@@ -2786,17 +2749,16 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                 }};
             }}
 
-            function showGuideImmediately(mode) {{
+            function configureModalContent() {{
                 var env = detectBrowserEnv();
                 var dp = getDeferredPrompt();
-                var isInAppMode = (mode === "inapp") || env.isInAppBrowser;
-
-                if (isInAppMode) {{
+                if (env.isInAppBrowser) {{
                     if (modalTitleEl) {{
-                        modalTitleEl.innerHTML = "📲 วิธีติดตั้งแอปจาก TikTok ใน 2 คลิก:";
+                        modalTitleEl.innerHTML = "📲 วิธีติดตั้งแอปลงมือถือ (สำหรับผู้เข้าผ่าน TikTok):";
                     }}
                     if (pointerEl) {{
                         pointerEl.style.display = "block";
+                        pointerEl.innerHTML = "↗ แตะปุ่มจุด 3 จุด (⋯) ที่มุมขวาบนสุดของหน้าจอนี้!";
                     }}
                     if (tiktokBoxEl) {{
                         tiktokBoxEl.style.display = "block";
@@ -2807,19 +2769,15 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                     if (guideImgEl) {{
                         guideImgEl.src = inappSvgSrc;
                     }}
-                    if (inlineImgEl) {{
-                        inlineImgEl.src = inappSvgSrc;
-                    }}
-                    if (chromeLinkEl) {{
-                        chromeLinkEl.style.display = env.isAndroid ? "block" : "none";
-                    }}
                 }} else {{
                     if (modalTitleEl) {{
-                        modalTitleEl.innerHTML = "📲 วิธีเพิ่มแอป Day Ice Cream ลงหน้าจอหลัก";
+                        modalTitleEl.innerHTML = "📲 วิธีติดตั้งแอป Day Ice Cream ลงหน้าจอมือถือ";
                     }}
                     if (pointerEl) {{
-                        pointerEl.style.display = env.isSamsung ? "none" : "block";
-                        pointerEl.innerHTML = "↗ แตะปุ่มเมนู (⋮) มุมขวาบนเพื่อติดตั้งแอป!";
+                        pointerEl.style.display = "block";
+                        pointerEl.innerHTML = env.isSamsung
+                            ? "↘ แตะปุ่มขีด 3 ขีด (☰) มุมขวาล่าง หรือ (⋯) มุมขวาบน!"
+                            : "↗ แตะปุ่มจุด 3 จุด (⋮ หรือ ⋯) มุมขวาบนสุดของจอ!";
                     }}
                     if (tiktokBoxEl) {{
                         tiktokBoxEl.style.display = "block";
@@ -2830,21 +2788,61 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                     if (guideImgEl) {{
                         guideImgEl.src = browserSvgSrc;
                     }}
-                    if (inlineImgEl) {{
-                        inlineImgEl.src = browserSvgSrc;
-                    }}
-                    if (chromeLinkEl) {{
-                        chromeLinkEl.style.display = "none";
-                    }}
                 }}
+            }}
 
-                // เปิดทั้ง Modal เต็มจอ และกล่องคู่มือใต้ปุ่มสีเหลืองทันที (0ms ไม่มีการหน่วงเวลา!)
-                if (inlineGuideEl) {{
-                    inlineGuideEl.style.display = "block";
+            function openModalNow() {{
+                configureModalContent();
+                if (chkEl) {{
+                    chkEl.checked = true;
                 }}
                 if (modalEl) {{
                     modalEl.style.display = "flex";
                 }}
+            }}
+
+            function closeModalNow() {{
+                if (chkEl) {{
+                    chkEl.checked = false;
+                }}
+                if (modalEl) {{
+                    modalEl.style.display = "none";
+                }}
+            }}
+
+            // ปุ่มคัดลอกลิงก์ไปเปิดใน Chrome (ทำงานได้ในทุก WebView โดยไม่รีเฟรชหน้าเว็บ)
+            if (copyBtnEl) {{
+                copyBtnEl.addEventListener("click", function(ev) {{
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    var copiedOk = false;
+                    try {{
+                        var ta = document.createElement("textarea");
+                        ta.value = appUrlToCopy;
+                        ta.setAttribute("readonly", "");
+                        ta.style.position = "fixed";
+                        ta.style.left = "-9999px";
+                        document.body.appendChild(ta);
+                        ta.focus();
+                        ta.select();
+                        copiedOk = document.execCommand("copy");
+                        document.body.removeChild(ta);
+                    }} catch (e) {{}}
+                    try {{
+                        if (navigator.clipboard && navigator.clipboard.writeText) {{
+                            navigator.clipboard.writeText(appUrlToCopy).catch(function() {{}});
+                            copiedOk = true;
+                        }}
+                    }} catch (e) {{}}
+                    copyBtnEl.innerHTML = "✅ คัดลอกลิงก์ https://app.dayicecream.com แล้ว! นำไปวางใน Chrome ได้เลยครับ";
+                    copyBtnEl.style.background = "linear-gradient(135deg, #bbf7d0 0%, #4ade80 100%)";
+                    copyBtnEl.style.color = "#064e3b";
+                    setTimeout(function() {{
+                        if (copyBtnEl) {{
+                            copyBtnEl.innerHTML = "📋 คัดลอกลิงก์ไปเปิดใน Chrome (คัดลอกสำเร็จแล้ว ✅)";
+                        }}
+                    }}, 3500);
+                }});
             }}
 
             if (nativeBtnEl) {{
@@ -2867,26 +2865,16 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                 closeModalBtnEl.addEventListener("click", function(ev) {{
                     ev.preventDefault();
                     ev.stopPropagation();
-                    if (modalEl) {{
-                        modalEl.style.display = "none";
-                    }}
-                }});
-            }}
-
-            if (closeInlineBtnEl) {{
-                closeInlineBtnEl.addEventListener("click", function(ev) {{
-                    ev.preventDefault();
-                    ev.stopPropagation();
-                    if (inlineGuideEl) {{
-                        inlineGuideEl.style.display = "none";
-                    }}
+                    closeModalNow();
                 }});
             }}
 
             if (modalEl) {{
                 modalEl.addEventListener("click", function(ev) {{
                     if (ev.target === modalEl) {{
-                        modalEl.style.display = "none";
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        closeModalNow();
                     }}
                 }});
             }}
@@ -2897,73 +2885,25 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                 }});
             }}
 
-            function handleBannerInstallClick(ev) {{
-                var env = detectBrowserEnv();
-
-                // 1) ถ้าไม่ได้อยู่ใน In-App Browser และมี beforeinstallprompt ของจริง (Chrome / Samsung Internet)
-                //    ให้เรียกป๊อปอัปติดตั้งของระบบจริงทันที!
-                if (!env.isInAppBrowser && triggerRealBrowserInstallPrompt()) {{
-                    if (ev) {{
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                    }}
-                    return false;
-                }}
-
-                // 2) แสดงหน้าต่างคู่มือ + กล่องคำแนะนำขึ้นบนหน้าจอทันที 100% (ไม่มีการเงียบกริบเด็ดขาด!)
-                showGuideImmediately(env.isInAppBrowser ? "inapp" : "browser");
-
-                // 3) ถ้าเป็น iOS หรือ TikTok หรือเปิดในเบราว์เซอร์ปกติอยู่แล้ว หรือมี ?install=true อยู่แล้ว
-                //    ให้หยุดการเปลี่ยนหน้าซ้ำซ้อนเพื่อให้หน้าต่างคู่มือค้างอยู่บนหน้าจอทันที 100%
-                var currentSearch = "";
-                try {{
-                    currentSearch = window.location.search || "";
-                }} catch (e) {{}}
-
-                if (env.isIOS || !env.isAndroid || !env.isInAppBrowser || env.isTikTok || currentSearch.indexOf("install=true") !== -1) {{
-                    if (ev) {{
-                        ev.preventDefault();
-                        ev.stopPropagation();
-                    }}
-                    return false;
-                }}
-
-                // สำหรับ LINE / Facebook บน Android: ปล่อยให้ลิงก์ <a href="intent://..." target="_top"> เด้งเปิด Chrome อัตโนมัติควบคู่กับ Modal ที่เปิดไว้แล้ว
-                return true;
-            }}
-
-            if (btnEl) {{
-                btnEl.addEventListener("click", function(ev) {{
-                    handleBannerInstallClick(ev);
-                }});
-            }}
-
+            // คลิกที่ส่วนใดของแบนเนอร์ใหญ่ (ทั้งรูปสีแดงอันใหญ่ หรือปุ่มสีเหลืองด้านล่าง) ก็ทำงานทันทีโดยไม่รีเฟรชหน้าเว็บ!
             if (cardEl) {{
                 cardEl.addEventListener("click", function(ev) {{
-                    if (ev.target === btnEl || (btnEl && btnEl.contains(ev.target))) {{
+                    var env = detectBrowserEnv();
+
+                    // หากเปิดในเบราว์เซอร์จริง (Chrome / Samsung Internet) และมี beforeinstallprompt ของจริง
+                    if (!env.isInAppBrowser && triggerRealBrowserInstallPrompt()) {{
+                        ev.preventDefault();
+                        ev.stopPropagation();
+                        closeModalNow();
                         return;
                     }}
-                    handleBannerInstallClick(ev);
+
+                    // เปิดหน้าต่าง Modal คำแนะนำกลางหน้าจอทันทีในหน้าเดิม (ไม่มีการรีเฟรชหน้าเว็บ 100%)
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    openModalNow();
                 }});
             }}
-
-            // ถ้าเข้ามาด้วยพารามิเตอร์ ?install=true (ทั้งใน TikTok/In-App และใน Chrome/Samsung/Safari)
-            try {{
-                var searchStr = window.location.search || "";
-                if (searchStr.indexOf("install=true") !== -1 && !window.__dayInstallQueryShown) {{
-                    window.__dayInstallQueryShown = true;
-                    var envNow = detectBrowserEnv();
-                    if (envNow.isInAppBrowser) {{
-                        showGuideImmediately("inapp");
-                    }} else {{
-                        setTimeout(function() {{
-                            if (!triggerRealBrowserInstallPrompt()) {{
-                                showGuideImmediately("browser");
-                            }}
-                        }}, 500);
-                    }}
-                }}
-            }} catch (e) {{}}
         }})();
     </script>
     """
