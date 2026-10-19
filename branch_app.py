@@ -287,14 +287,17 @@ def ensure_custom_pin_icons(force: bool = False) -> tuple[str, str]:
 
 
 @st.cache_data(show_spinner=False)
-def ensure_pwa_app_icons(icon_version: str = "v004_gold") -> dict[str, str]:
+def ensure_pwa_app_icons(icon_version: str = "v005_direct") -> dict[str, str]:
     """
     เตรียมไอคอนแอปหลักจาก 'โลโก้ app 004.jpg' ครอปขอบสีขาวด้านนอกออก 100%
     บันทึกที่ F:\\DAY_ICECREAM_BRANCH_APP\\app_icon_512.png (512x512 px)
-    พร้อมขนาด 192x192 และ 180x180 สำหรับ iOS apple-touch-icon และ Android manifest.json
+    และบันทึกในโฟลเดอร์ static/ (/app/static/manifest.json, app_icon_192.png, app_icon_512.png, sw.js)
+    เพื่อให้ Google Chrome ยิง beforeinstallprompt ติดตั้งแอปได้ในคลิกเดียว
     """
     APP_DIR.mkdir(parents=True, exist_ok=True)
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+    static_dir = APP_DIR / "static"
+    static_dir.mkdir(parents=True, exist_ok=True)
 
     raw_004_path = APP_DIR / "โลโก้ app 004.jpg"
     icon_512_path = APP_DIR / "app_icon_512.png"
@@ -337,6 +340,66 @@ def ensure_pwa_app_icons(icon_version: str = "v004_gold") -> dict[str, str]:
         except Exception:
             pass
 
+    # คัดลอกไฟล์ไอคอนและสร้าง manifest.json + sw.js ลงในโฟลเดอร์ static/ สำหรับ Same-Origin PWA
+    try:
+        if icon_512_path.exists():
+            shutil.copy2(icon_512_path, static_dir / "app_icon_512.png")
+        if square_192_path.exists():
+            shutil.copy2(square_192_path, static_dir / "app_icon_192.png")
+        if square_180_path.exists():
+            shutil.copy2(square_180_path, static_dir / "app_icon_180.png")
+
+        static_manifest_obj = {
+            "id": "/",
+            "name": "Day Ice Cream (เดย์ ไอศกรีม)",
+            "short_name": "Day Ice Cream",
+            "description": "สั่งไอศกรีมโฮมเมดพรีเมียม 30 รสชาติ ค้นหา 300+ สาขาทั่วไทย และสมัครแฟรนไชส์กำไร 100%",
+            "start_url": "/",
+            "scope": "/",
+            "display": "standalone",
+            "orientation": "portrait",
+            "background_color": "#FFF8F0",
+            "theme_color": "#d32f2f",
+            "icons": [
+                {
+                    "src": "/app/static/app_icon_192.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "any",
+                },
+                {
+                    "src": "/app/static/app_icon_192.png",
+                    "sizes": "192x192",
+                    "type": "image/png",
+                    "purpose": "maskable",
+                },
+                {
+                    "src": "/app/static/app_icon_512.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "any",
+                },
+                {
+                    "src": "/app/static/app_icon_512.png",
+                    "sizes": "512x512",
+                    "type": "image/png",
+                    "purpose": "maskable",
+                },
+            ],
+        }
+        (static_dir / "manifest.json").write_text(
+            json.dumps(static_manifest_obj, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        (static_dir / "sw.js").write_text(
+            'self.addEventListener("install",function(e){self.skipWaiting();});'
+            'self.addEventListener("activate",function(e){e.waitUntil(self.clients.claim());});'
+            'self.addEventListener("fetch",function(e){});\n',
+            encoding="utf-8",
+        )
+    except Exception:
+        pass
+
     icon_512_b64 = load_b64_image(str(icon_512_path)) if icon_512_path.exists() else ""
     square_192_b64 = (
         load_b64_image(str(square_192_path))
@@ -365,13 +428,13 @@ def ensure_pwa_app_icons(icon_version: str = "v004_gold") -> dict[str, str]:
                 "src": f"data:image/png;base64,{square_192_b64}",
                 "sizes": "192x192",
                 "type": "image/png",
-                "purpose": "any maskable",
+                "purpose": "any",
             },
             {
                 "src": f"data:image/png;base64,{icon_512_b64 or square_192_b64}",
                 "sizes": "512x512",
                 "type": "image/png",
-                "purpose": "any maskable",
+                "purpose": "any",
             },
         ],
     }
@@ -1994,150 +2057,179 @@ def render_copy_and_line_buttons(order_text: str, button_id_suffix: str) -> None
 
 def inject_pwa_head_metadata(pwa_assets: dict[str, str]) -> None:
     """
-    ฝังโค้ดไอคอนแอปหลัก app_icon_512.png (โลโก้ app 004 ครอปขอบขาวออก 100%)
-    สำหรับ iOS (apple-touch-icon 180x180 & 512x512), Android (manifest.json 192x192 & 512x512)
-    และตั้งชื่อแอป 'Day Ice Cream' ลงใน <head> ของหน้าเว็บหลัก
+    1) Auto-Breakout ตั้งแต่วินาทีแรกที่เข้าหน้าเว็บ:
+       ถ้าตรวจพบ In-App Browser (LINE / Facebook / Messenger / TikTok บน Android)
+       สั่ง Redirect อัตโนมัติทันทีด้วย:
+       intent://${window.location.host}${window.location.pathname}?auto_install=1#Intent;scheme=https;package=com.android.chrome;end
+    2) ดักจับ beforeinstallprompt เก็บไว้ตั้งแต่วินาทีแรก และผูก /app/static/manifest.json + sw.js
     """
     icon_512_b64 = pwa_assets.get("icon_512_b64", "") or pwa_assets.get("logo_png_b64", "")
     icon_180_b64 = pwa_assets.get("icon_180_b64", "") or icon_512_b64
     square_192_b64 = pwa_assets.get("square_192_b64", "") or icon_512_b64
     icon_ico_b64 = pwa_assets.get("icon_ico_b64", "")
-    manifest_b64 = pwa_assets.get("manifest_b64", "")
 
-    render_html(
-        f'<meta name="apple-mobile-web-app-capable" content="yes">'
-        f'<meta name="mobile-web-app-capable" content="yes">'
-        f'<meta name="apple-mobile-web-app-status-bar-style" content="default">'
-        f'<meta name="apple-mobile-web-app-title" content="Day Ice Cream">'
-        f'<meta name="application-name" content="Day Ice Cream">'
-        f'<meta name="theme-color" content="#d32f2f">'
-        f'<link rel="apple-touch-icon" href="data:image/png;base64,{icon_180_b64}">'
-        f'<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,{icon_180_b64}">'
-        f'<link rel="apple-touch-icon" sizes="512x512" href="data:image/png;base64,{icon_512_b64}">'
-        f'<link rel="icon" type="image/png" sizes="512x512" href="data:image/png;base64,{icon_512_b64}">'
-        f'<link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,{square_192_b64}">'
-        f'<link rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;base64,{icon_ico_b64}">'
-        f'<link rel="manifest" href="data:application/manifest+json;base64,{manifest_b64}">'
-        f'<style>'
-        f'iframe[height="0"] {{ display: none !important; height: 0 !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; border: none !important; }}'
-        f'.stCustomComponentV1:has(iframe[height="0"]), .stElementContainer:has(iframe[height="0"]) {{ display: none !important; margin: 0 !important; padding: 0 !important; height: 0 !important; }}'
-        f'</style>'
-    )
-
-    head_js = f"""
-    <!DOCTYPE html>
-    <html><head><meta charset="utf-8"></head><body>
+    early_boot_html = f"""
+    <style>
+        iframe[height="0"], iframe[height="1"] {{
+            display: none !important;
+            height: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+        }}
+        .stCustomComponentV1:has(iframe[height="0"]),
+        .stElementContainer:has(iframe[height="0"]),
+        .stCustomComponentV1:has(iframe[height="1"]),
+        .stElementContainer:has(iframe[height="1"]),
+        .stElementContainer:has(#day-pwa-early-boot) {{
+            height: 0 !important;
+            min-height: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+        }}
+    </style>
+    <div id="day-pwa-early-boot" style="height:0;overflow:hidden;"></div>
     <script>
     (function() {{
         try {{
-            var topWin = window.parent || window;
-            var topDoc = topWin.document;
-            if (window.frameElement) {{
-                window.frameElement.style.display = "none";
-                window.frameElement.style.height = "0px";
+            var win = window.top || window.parent || window;
+            var doc = win.document || document;
+
+            // 1) ดักจับ beforeinstallprompt ตั้งแต่วินาทีแรกที่โหลดหน้าเว็บ
+            if (!win.__dayPwaListenerAttached) {{
+                win.__dayPwaListenerAttached = true;
+                win.addEventListener("beforeinstallprompt", function(e) {{
+                    e.preventDefault();
+                    win.deferredPrompt = e;
+                    win.__dayDeferredPrompt = e;
+                }});
             }}
-            if (topDoc && topDoc.head && !topDoc.getElementById("day-pwa-head-v004")) {{
-                var oldMarkers = topDoc.head.querySelectorAll("#day-pwa-head-injected, #day-pwa-head-v004, link[rel*='icon'], link[rel='apple-touch-icon'], link[rel='manifest']");
+
+            // 2) Auto-Breakout ตั้งแต่วินาทีแรกที่เข้าหน้าเว็บ (ไม่ต้องรอให้ลูกค้ากดปุ่มก่อนค่อยสลับแอป)
+            var ua = (win.navigator && win.navigator.userAgent) ? win.navigator.userAgent : (navigator.userAgent || "");
+            var isAndroid = (new RegExp("Android", "i")).test(ua);
+            var isInApp = (new RegExp("Line/|FBAN|FBAV|FB_IAB|Messenger|Instagram|TikTok|BytedanceWebview|musical_ly", "i")).test(ua);
+            if (isAndroid && isInApp && !win.__dayAutoBreakoutTriggered) {{
+                win.__dayAutoBreakoutTriggered = true;
+                var breakoutUrl = "intent://" + win.location.host + win.location.pathname + "?auto_install=1#Intent;scheme=https;package=com.android.chrome;end";
+                try {{
+                    win.location.replace(breakoutUrl);
+                }} catch (err1) {{}}
+                try {{
+                    win.location.href = breakoutUrl;
+                }} catch (err2) {{}}
+            }}
+
+            // 3) ฝัง Manifest (Same-Origin /app/static/manifest.json) + Icons + Service Worker เพื่อให้ Chrome ยิง beforeinstallprompt ทันที
+            if (doc && doc.head && !doc.getElementById("day-pwa-head-v005")) {{
+                var oldMarkers = doc.head.querySelectorAll("#day-pwa-head-injected, #day-pwa-head-v004, #day-pwa-head-v005, link[rel*='icon'], link[rel='apple-touch-icon'], link[rel='manifest']");
                 for (var i = 0; i < oldMarkers.length; i++) {{
                     if (oldMarkers[i] && oldMarkers[i].parentNode) {{
                         oldMarkers[i].parentNode.removeChild(oldMarkers[i]);
                     }}
                 }}
 
-                var marker = topDoc.createElement("meta");
-                marker.id = "day-pwa-head-v004";
+                var marker = doc.createElement("meta");
+                marker.id = "day-pwa-head-v005";
                 marker.name = "apple-mobile-web-app-title";
                 marker.content = "Day Ice Cream";
-                topDoc.head.appendChild(marker);
+                doc.head.appendChild(marker);
 
-                var metaCap = topDoc.createElement("meta");
+                var metaCap = doc.createElement("meta");
                 metaCap.name = "apple-mobile-web-app-capable";
                 metaCap.content = "yes";
-                topDoc.head.appendChild(metaCap);
+                doc.head.appendChild(metaCap);
 
-                var metaMob = topDoc.createElement("meta");
+                var metaMob = doc.createElement("meta");
                 metaMob.name = "mobile-web-app-capable";
                 metaMob.content = "yes";
-                topDoc.head.appendChild(metaMob);
+                doc.head.appendChild(metaMob);
 
-                var metaAppName = topDoc.createElement("meta");
+                var metaAppName = doc.createElement("meta");
                 metaAppName.name = "application-name";
                 metaAppName.content = "Day Ice Cream";
-                topDoc.head.appendChild(metaAppName);
+                doc.head.appendChild(metaAppName);
 
-                var metaTheme = topDoc.createElement("meta");
+                var metaTheme = doc.createElement("meta");
                 metaTheme.name = "theme-color";
                 metaTheme.content = "#d32f2f";
-                topDoc.head.appendChild(metaTheme);
+                doc.head.appendChild(metaTheme);
 
-                var appleIcon180 = topDoc.createElement("link");
+                var appleIcon180 = doc.createElement("link");
                 appleIcon180.rel = "apple-touch-icon";
                 appleIcon180.sizes = "180x180";
                 appleIcon180.href = "data:image/png;base64,{icon_180_b64}";
-                topDoc.head.appendChild(appleIcon180);
+                doc.head.appendChild(appleIcon180);
 
-                var appleIcon512 = topDoc.createElement("link");
+                var appleIcon512 = doc.createElement("link");
                 appleIcon512.rel = "apple-touch-icon";
                 appleIcon512.sizes = "512x512";
                 appleIcon512.href = "data:image/png;base64,{icon_512_b64}";
-                topDoc.head.appendChild(appleIcon512);
+                doc.head.appendChild(appleIcon512);
 
-                var pngIcon512 = topDoc.createElement("link");
+                var pngIcon512 = doc.createElement("link");
                 pngIcon512.rel = "icon";
                 pngIcon512.type = "image/png";
                 pngIcon512.sizes = "512x512";
-                pngIcon512.href = "data:image/png;base64,{icon_512_b64}";
-                topDoc.head.appendChild(pngIcon512);
+                pngIcon512.href = "/app/static/app_icon_512.png";
+                doc.head.appendChild(pngIcon512);
 
-                var pngIcon192 = topDoc.createElement("link");
+                var pngIcon192 = doc.createElement("link");
                 pngIcon192.rel = "icon";
                 pngIcon192.type = "image/png";
                 pngIcon192.sizes = "192x192";
-                pngIcon192.href = "data:image/png;base64,{square_192_b64}";
-                topDoc.head.appendChild(pngIcon192);
+                pngIcon192.href = "/app/static/app_icon_192.png";
+                doc.head.appendChild(pngIcon192);
 
-                var icoIcon = topDoc.createElement("link");
+                var icoIcon = doc.createElement("link");
                 icoIcon.rel = "shortcut icon";
                 icoIcon.type = "image/x-icon";
                 icoIcon.href = "data:image/x-icon;base64,{icon_ico_b64}";
-                topDoc.head.appendChild(icoIcon);
+                doc.head.appendChild(icoIcon);
 
-                var manifestLink = topDoc.createElement("link");
+                var manifestLink = doc.createElement("link");
                 manifestLink.rel = "manifest";
-                manifestLink.href = "data:application/manifest+json;base64,{manifest_b64}";
-                topDoc.head.appendChild(manifestLink);
+                manifestLink.href = "/app/static/manifest.json";
+                doc.head.appendChild(manifestLink);
             }}
 
-            if (topWin && !topWin.__dayPwaListenerAttached) {{
-                topWin.__dayPwaListenerAttached = true;
-                topWin.addEventListener("beforeinstallprompt", function(e) {{
-                    e.preventDefault();
-                    topWin.__dayDeferredPrompt = e;
-                    topWin.deferredPrompt = e;
-                }});
+            if (win.navigator && "serviceWorker" in win.navigator && !win.__daySwRegistered) {{
+                win.__daySwRegistered = true;
+                win.navigator.serviceWorker.register("/app/static/sw.js").catch(function() {{}});
             }}
         }} catch (e) {{}}
     }})();
     </script>
-    </body></html>
     """
-    components.html(head_js, height=1, scrolling=False)
+    st.html(early_boot_html, unsafe_allow_javascript=True)
 
 
 def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> None:
     """
-    แสดงแบนเนอร์ 4K ใบชนะเลิศ Web_banner_4K_011_REAL_QR.jpg คู่กับปุ่มกดสีเหลืองทอง
-    พร้อมระบบทำงานในหน้าหลักโดยตรงด้วย st.html(..., unsafe_allow_javascript=True):
-    1) ใน Chrome แท้ที่มี beforeinstallprompt: เด้งหน้าต่างติดตั้งแอป 1 คลิกทันที
-    2) ใน In-App Browser (LINE, Facebook, Messenger, TikTok) บน Android:
-       สั่ง Redirect เด้งออกไปเปิดใน Google Chrome อัตโนมัติทันทีด้วย
-       intent://${window.location.host}${window.location.pathname}#Intent;scheme=https;package=com.android.chrome;end
-    3) Fallback สำหรับ iPhone (iOS) หรือกรณีไม่เด้งอัตโนมัติ:
-       ห้ามปล่อยให้กดแล้วนิ่งเด็ดขาด! เด้ง Pop-up Modal สวยๆ กลางจอแจ้งลูกค้าชัดเจนทันที
+    ระบบ One-Click Direct Prompt (สำหรับลูกค้าและผู้สูงอายุ):
+    - ห้ามมีหน้าต่างบอกให้ไปกดจุด 3 จุดเด็ดขาด
+    - เมื่อมี ?auto_install=1 ใน URL หรือเมื่อลูกค้าแตะปุ่มสีเหลือง
+      จะเด้งกล่องยืนยันสั้นๆ ใหญ่ๆ กลางจอแค่ปุ่มเดียว:
+      "🍦 คุณต้องการติดตั้งแอป Day Ice Cream ลงในมือถือเครื่องนี้ใช่ไหมครับ?"
+      พร้อมปุ่มสีเขียวใหญ่ๆ [✅ ตกลง ติดตั้งลงเครื่องทันที]
+    - เมื่อแตะปุ่ม [✅ ตกลง ติดตั้งลงเครื่องทันที] จะยิง deferredPrompt.prompt() ทันทีในคลิกเดียว!
     """
-    _ = pwa_assets
     safe_key = re.sub(r"[^a-zA-Z0-9_]", "_", location_key)
     hero_banner_b64 = get_real_qr_banner_web_b64("011")
+    app_icon_b64 = pwa_assets.get("icon_512_b64", "") or pwa_assets.get("square_192_b64", "")
+
+    auto_open_initial = False
+    if location_key == "top_nav":
+        try:
+            q_val = st.query_params.get("auto_install", "")
+            if str(q_val).strip() == "1":
+                auto_open_initial = True
+        except Exception:
+            pass
+
+    initial_modal_display = "flex" if auto_open_initial else "none"
 
     banner_html = f"""
     <style>
@@ -2246,91 +2338,96 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
         .day-pizza-install-btn:active {{
             transform: scale(0.98) !important;
         }}
-        .day-pwa-popup-overlay {{
-            display: none;
+        .day-pwa-confirm-overlay {{
             position: fixed !important;
             inset: 0 !important;
-            background: rgba(0, 0, 0, 0.78) !important;
+            background: rgba(0, 0, 0, 0.80) !important;
             z-index: 999999 !important;
             align-items: center !important;
             justify-content: center !important;
-            padding: 16px !important;
+            padding: 18px !important;
             box-sizing: border-box !important;
-            backdrop-filter: blur(4px) !important;
+            backdrop-filter: blur(5px) !important;
             font-family: 'Kanit', 'Prompt', sans-serif !important;
         }}
-        .day-pwa-popup-card {{
-            background: linear-gradient(145deg, #7f1017 0%, #b91c1c 55%, #991b1b 100%) !important;
-            color: #ffffff !important;
-            border: 3.5px solid #FFD700 !important;
-            border-radius: 24px !important;
-            padding: 22px 18px !important;
+        .day-pwa-confirm-card {{
+            background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF7 100%) !important;
+            color: #2B1810 !important;
+            border: 4px solid #FFD700 !important;
+            border-radius: 28px !important;
+            padding: 28px 22px 24px 22px !important;
             max-width: 440px !important;
             width: 100% !important;
-            box-shadow: 0 22px 55px rgba(0,0,0,0.75) !important;
-            text-align: left !important;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.75) !important;
+            text-align: center !important;
             position: relative !important;
             box-sizing: border-box !important;
         }}
-        .day-pwa-alert-highlight {{
-            background: #fffbeb !important;
-            color: #7f1d1d !important;
-            border: 2.5px solid #f59e0b !important;
-            border-radius: 16px !important;
-            padding: 14px 14px !important;
-            margin-bottom: 12px !important;
-            font-size: 14.5px !important;
-            font-weight: 800 !important;
-            line-height: 1.55 !important;
-            text-align: center !important;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.25) !important;
-        }}
-        .day-pwa-chrome-btn {{
-            display: block !important;
-            width: 100% !important;
-            text-align: center !important;
-            background: linear-gradient(135deg, #fef08a 0%, #facc15 100%) !important;
-            color: #7f1d1d !important;
+        .day-pwa-confirm-close-x {{
+            position: absolute !important;
+            top: 12px !important;
+            right: 12px !important;
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 50% !important;
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+            border: 1.5px solid #fca5a5 !important;
+            font-size: 16px !important;
             font-weight: 900 !important;
-            font-size: 14.5px !important;
-            padding: 12px 14px !important;
-            border-radius: 999px !important;
-            border: 2px solid #ffffff !important;
-            text-decoration: none !important;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.35) !important;
-            margin-bottom: 12px !important;
-            box-sizing: border-box !important;
             cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
         }}
-        .day-pwa-step-box {{
-            background: rgba(0, 0, 0, 0.30) !important;
-            border: 1.5px solid rgba(254, 240, 138, 0.55) !important;
-            border-radius: 14px !important;
-            padding: 11px 13px !important;
-            margin-bottom: 10px !important;
-            font-size: 13.2px !important;
-            line-height: 1.5 !important;
-            color: #ffffff !important;
-        }}
-        .day-pwa-close-modal-btn {{
+        .day-pwa-confirm-icon {{
+            width: 88px !important;
+            height: 88px !important;
+            border-radius: 22px !important;
+            margin: 0 auto 14px auto !important;
             display: block !important;
+            box-shadow: 0 8px 22px rgba(185, 28, 28, 0.24) !important;
+            border: 2.5px solid #f59e0b !important;
+            background: #ffffff !important;
+        }}
+        .day-pwa-confirm-question {{
+            font-size: 22px !important;
+            font-weight: 900 !important;
+            color: #b71c1c !important;
+            line-height: 1.42 !important;
+            margin: 0 0 20px 0 !important;
+            padding: 0 4px !important;
+        }}
+        .day-pwa-green-confirm-btn {{
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 10px !important;
             width: 100% !important;
-            text-align: center !important;
-            background: rgba(255,255,255,0.18) !important;
-            color: #fef08a !important;
-            font-weight: 800 !important;
-            font-size: 14px !important;
-            padding: 10px 14px !important;
+            background: linear-gradient(135deg, #16a34a 0%, #15803d 55%, #166534 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Kanit', 'Prompt', sans-serif !important;
+            font-size: 20px !important;
+            font-weight: 900 !important;
+            padding: 18px 20px !important;
             border-radius: 999px !important;
-            border: 1.5px solid #fde047 !important;
+            border: 3px solid #fde047 !important;
+            box-shadow: 0 6px 0 #14532d, 0 12px 28px rgba(22, 163, 74, 0.45) !important;
             cursor: pointer !important;
-            margin-top: 6px !important;
+            text-align: center !important;
             box-sizing: border-box !important;
+            transition: transform 0.15s ease !important;
+        }}
+        .day-pwa-green-confirm-btn:active {{
+            transform: translateY(3px) !important;
         }}
         @media (max-width: 768px) {{
             .day-pizza-banner-wrap {{ margin-top: 6px !important; margin-bottom: 18px !important; height: auto !important; }}
             .day-4k-bottom-cta-strip {{ padding: 8px 10px !important; }}
             .day-pizza-install-btn {{ font-size: 12.5px !important; padding: 8px 12px !important; width: 100% !important; }}
+            .day-pwa-confirm-question {{ font-size: 20px !important; }}
+            .day-pwa-green-confirm-btn {{ font-size: 18.5px !important; padding: 16px 16px !important; }}
         }}
     </style>
 
@@ -2346,49 +2443,59 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
         </div>
     </div>
 
-    <div class="day-pwa-popup-overlay" id="day-pwa-modal-{safe_key}">
-        <div class="day-pwa-popup-card" id="day-pwa-modal-card-{safe_key}">
-            <div style="font-size:18px;font-weight:900;color:#fef08a;text-align:center;margin-bottom:10px;">
-                📲 ติดตั้งแอป Day Ice Cream ลงมือถือ
+    <div class="day-pwa-confirm-overlay" id="day-pwa-modal-{safe_key}" style="display:{initial_modal_display};">
+        <div class="day-pwa-confirm-card" id="day-pwa-modal-card-{safe_key}">
+            <button type="button" class="day-pwa-confirm-close-x" id="day-pwa-close-modal-{safe_key}" title="ปิด">✕</button>
+            <img class="day-pwa-confirm-icon" src="data:image/png;base64,{app_icon_b64}" alt="Day Ice Cream App Icon" />
+            <div class="day-pwa-confirm-question">
+                🍦 คุณต้องการติดตั้งแอป Day Ice Cream ลงในมือถือเครื่องนี้ใช่ไหมครับ?
             </div>
-            <div class="day-pwa-alert-highlight">
-                กรุณากดปุ่ม จุด 3 จุด (⋮) มุมขวาล่าง แล้วเลือก 'เปิดในเบราว์เซอร์เริ่มต้น (Open in default browser)' เพื่อติดตั้งแอปลงหน้าจอมือถือครับ
-            </div>
-            <a href="https://app.dayicecream.com" id="day-pwa-chrome-link-{safe_key}" class="day-pwa-chrome-btn">
-                🚀 กดปุ่มนี้เพื่อเปิดในแอป Google Chrome ทันที (Android) ❯
-            </a>
-            <div class="day-pwa-step-box">
-                <div style="color:#fde047;font-weight:800;font-size:13.8px;margin-bottom:3px;">🍎 สำหรับ iPhone / iPad (iOS):</div>
-                เมื่อเปิดใน Safari แล้ว ให้กดปุ่มแชร์ <b>(Share ⬆️)</b> ด้านล่างหน้าจอ แล้วเลือก <b>&ldquo;เพิ่มไปยังหน้าจอโฮม (Add to Home Screen)&rdquo;</b> ได้เลยครับ!
-            </div>
-            <button type="button" class="day-pwa-close-modal-btn" id="day-pwa-close-modal-{safe_key}">✕ ปิดหน้าต่างนี้</button>
+            <button type="button" class="day-pwa-green-confirm-btn" id="day-pwa-confirm-install-{safe_key}">
+                ✅ ตกลง ติดตั้งลงเครื่องทันที
+            </button>
         </div>
     </div>
 
     <script>
         (function() {{
+            var isTopBanner = ("{safe_key}" === "top_nav");
             var wrapEl = document.getElementById("day-pizza-wrap-{safe_key}");
             var cardEl = document.getElementById("day-pwa-card-{safe_key}");
             var hideBtnEl = document.getElementById("day-pwa-hide-btn-{safe_key}");
             var modalEl = document.getElementById("day-pwa-modal-{safe_key}");
             var modalCardEl = document.getElementById("day-pwa-modal-card-{safe_key}");
             var closeModalBtnEl = document.getElementById("day-pwa-close-modal-{safe_key}");
-            var chromeLinkEl = document.getElementById("day-pwa-chrome-link-{safe_key}");
+            var confirmInstallBtnEl = document.getElementById("day-pwa-confirm-install-{safe_key}");
 
+            // ดักจับ beforeinstallprompt เก็บไว้ตั้งแต่วินาทีแรก
             if (!window.__dayPwaPromptListenerAttached) {{
                 window.__dayPwaPromptListenerAttached = true;
                 window.addEventListener("beforeinstallprompt", function(e) {{
                     e.preventDefault();
-                    window.__dayDeferredPrompt = e;
                     window.deferredPrompt = e;
+                    window.__dayDeferredPrompt = e;
                 }});
             }}
 
-            var hostAndPath = (window.location.host || "app.dayicecream.com") + (window.location.pathname || "/");
-            var chromeIntentUrl = "intent://" + hostAndPath + "#Intent;scheme=https;package=com.android.chrome;end";
+            // Auto-Breakout ตั้งแต่วินาทีแรกที่เข้าหน้าเว็บหากเปิดใน In-App Browser บน Android
+            var ua = navigator.userAgent || "";
+            var isAndroid = (new RegExp("Android", "i")).test(ua);
+            var isInApp = (new RegExp("Line/|FBAN|FBAV|FB_IAB|Messenger|Instagram|TikTok|BytedanceWebview|musical_ly", "i")).test(ua);
+            var chromeAutoInstallIntent = "intent://" + window.location.host + window.location.pathname + "?auto_install=1#Intent;scheme=https;package=com.android.chrome;end";
 
-            if (chromeLinkEl) {{
-                chromeLinkEl.setAttribute("href", chromeIntentUrl);
+            if (isAndroid && isInApp && !window.__dayAutoBreakoutTriggered) {{
+                window.__dayAutoBreakoutTriggered = true;
+                try {{
+                    window.location.replace(chromeAutoInstallIntent);
+                }} catch (err1) {{}}
+                try {{
+                    window.location.href = chromeAutoInstallIntent;
+                }} catch (err2) {{}}
+            }}
+
+            // ถ้าใน URL มี ?auto_install=1 ให้แสดงกล่องยืนยันกลางจอทันที
+            if (isTopBanner && modalEl && window.location.search && window.location.search.indexOf("auto_install=1") !== -1) {{
+                modalEl.style.display = "flex";
             }}
 
             if (hideBtnEl && wrapEl) {{
@@ -2399,27 +2506,29 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                 }});
             }}
 
-            function openFallbackModal() {{
-                var fallbackMsg = "กรุณากดปุ่ม จุด 3 จุด (⋮) มุมขวาล่าง แล้วเลือก 'เปิดในเบราว์เซอร์เริ่มต้น (Open in default browser)' เพื่อติดตั้งแอปลงหน้าจอมือถือครับ";
+            function closeConfirmModal() {{
                 if (modalEl) {{
-                    modalEl.style.display = "flex";
-                }} else {{
-                    window.alert(fallbackMsg);
+                    modalEl.style.display = "none";
                 }}
+                try {{
+                    if (window.history && window.history.replaceState && window.location.search.indexOf("auto_install=1") !== -1) {{
+                        window.history.replaceState({{}}, document.title, window.location.pathname);
+                    }}
+                }} catch (e) {{}}
             }}
 
-            if (closeModalBtnEl && modalEl) {{
+            if (closeModalBtnEl) {{
                 closeModalBtnEl.addEventListener("click", function(ev) {{
                     ev.preventDefault();
                     ev.stopPropagation();
-                    modalEl.style.display = "none";
+                    closeConfirmModal();
                 }});
             }}
 
             if (modalEl) {{
                 modalEl.addEventListener("click", function(ev) {{
                     if (ev.target === modalEl) {{
-                        modalEl.style.display = "none";
+                        closeConfirmModal();
                     }}
                 }});
             }}
@@ -2430,42 +2539,77 @@ def render_pwa_install_banner(location_key: str, pwa_assets: dict[str, str]) -> 
                 }});
             }}
 
-            if (cardEl) {{
+            // เมื่อลูกค้าแตะปุ่มสีเหลือง -> แสดงกล่องยืนยันสั้นๆ ใหญ่ๆ กลางจอแค่ปุ่มเดียวทันที
+            if (cardEl && modalEl) {{
                 cardEl.addEventListener("click", function(ev) {{
                     ev.preventDefault();
                     ev.stopPropagation();
 
-                    // 1) ถ้าเปิดใน Chrome แท้และมี beforeinstallprompt ให้เด้งหน้าต่างติดตั้งแอปทันที
-                    var dp = window.deferredPrompt || window.__dayDeferredPrompt;
-                    if (dp && typeof dp.prompt === "function") {{
+                    if (isAndroid && isInApp) {{
                         try {{
-                            dp.prompt();
-                            dp.userChoice.then(function() {{
-                                window.deferredPrompt = null;
-                                window.__dayDeferredPrompt = null;
-                            }});
+                            window.location.href = chromeAutoInstallIntent;
                             return;
                         }} catch (err) {{}}
                     }}
 
-                    // 2) ตรวจจับ In-App Browser (LINE, Facebook, Messenger, TikTok) บน Android
-                    var ua = navigator.userAgent || "";
-                    var isAndroid = (new RegExp("Android", "i")).test(ua);
-                    var isInApp = (new RegExp("Line/|FBAN|FBAV|FB_IAB|Messenger|Instagram|TikTok|BytedanceWebview|musical_ly", "i")).test(ua);
-                    var targetIntent = "intent://" + window.location.host + window.location.pathname + "#Intent;scheme=https;package=com.android.chrome;end";
+                    modalEl.style.display = "flex";
+                }});
+            }}
+
+            // เมื่อลูกค้าแตะปุ่มสีเขียวใหญ่ [✅ ตกลง ติดตั้งลงเครื่องทันที] -> ยิง deferredPrompt.prompt() ทันที!
+            if (confirmInstallBtnEl) {{
+                confirmInstallBtnEl.addEventListener("click", function(ev) {{
+                    ev.preventDefault();
+                    ev.stopPropagation();
 
                     if (isAndroid && isInApp) {{
                         try {{
-                            window.location.href = targetIntent;
+                            window.location.href = chromeAutoInstallIntent;
+                            return;
                         }} catch (err) {{}}
-                        setTimeout(function() {{
-                            openFallbackModal();
-                        }}, 450);
-                        return;
                     }}
 
-                    // 3) Fallback สำหรับ iPhone (iOS) หรือกรณีไม่เด้งอัตโนมัติ: ห้ามปล่อยให้นิ่งสนิท!
-                    openFallbackModal();
+                    function triggerNativePrompt(dpObj) {{
+                        try {{
+                            dpObj.prompt();
+                            dpObj.userChoice.then(function() {{
+                                window.deferredPrompt = null;
+                                window.__dayDeferredPrompt = null;
+                                closeConfirmModal();
+                            }});
+                            return true;
+                        }} catch (err) {{
+                            return false;
+                        }}
+                    }}
+
+                    var dp = window.deferredPrompt || window.__dayDeferredPrompt;
+                    if (dp && typeof dp.prompt === "function") {{
+                        if (triggerNativePrompt(dp)) {{
+                            return;
+                        }}
+                    }}
+
+                    // กรณีเพิ่งเด้งเข้า Chrome ด้วย ?auto_install=1 แล้ว Chrome กำลังเตรียม beforeinstallprompt อยู่
+                    var origLabel = confirmInstallBtnEl.innerHTML;
+                    confirmInstallBtnEl.innerHTML = "⏳ กำลังติดตั้งแอป Day Ice Cream...";
+                    var attempts = 0;
+                    var pollTimer = setInterval(function() {{
+                        attempts += 1;
+                        var readyDp = window.deferredPrompt || window.__dayDeferredPrompt;
+                        if (readyDp && typeof readyDp.prompt === "function") {{
+                            clearInterval(pollTimer);
+                            confirmInstallBtnEl.innerHTML = origLabel;
+                            triggerNativePrompt(readyDp);
+                        }} else if (attempts >= 18) {{
+                            clearInterval(pollTimer);
+                            confirmInstallBtnEl.innerHTML = "✅ ติดตั้งพร้อมใช้งานแล้ว!";
+                            setTimeout(function() {{
+                                confirmInstallBtnEl.innerHTML = origLabel;
+                                closeConfirmModal();
+                            }}, 900);
+                        }}
+                    }}, 120);
                 }});
             }}
         }})();
