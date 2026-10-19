@@ -1,7 +1,8 @@
 {
   "id": "/",
-  "name": "Day Ice Cream",
+  "name": "Day Ice Cream (เดย์ ไอศกรีม)",
   "short_name": "Day Ice Cream",
+  "description": "สั่งไอศกรีมโฮมเมดพรีเมียม 30 รสชาติ ค้นหา 300+ สาขาทั่วไทย และสมัครแฟรนไชส์กำไร 100%",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -13,6 +14,12 @@
       "src": "/app/static/app_icon_192.png",
       "sizes": "192x192",
       "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/app/static/app_icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any"
     },
     {
@@ -20,6 +27,12 @@
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
+    },
+    {
+      "src": "/app/static/app_icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/app/static/app_icon_512.png",
